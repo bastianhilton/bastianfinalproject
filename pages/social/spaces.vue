@@ -1,0 +1,78 @@
+<template>
+  <div class="contentPage">
+      <!--<profilebar />-->
+      <v-row>
+          <v-col cols="12">
+              <v-toolbar title="Spaces" color="primary">
+                  <v-dialog min-width="500">
+                      <template v-slot:activator="{ props: activatorProps }">
+                          <v-btn v-bind="activatorProps" prepend-icon="fas fa-plus" title="Create a Space"
+                              variant="flat">Create a Space
+                          </v-btn>
+                      </template>
+
+                      <template v-slot:default="{ isActive }">
+                          <createspace />
+                      </template>
+                  </v-dialog>
+              </v-toolbar>
+
+              <section class="features4 cid-sBXUicXM4E" id="features5-2g">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-12 col-lg-6" v-for="(spaces, index) in spaces" :key="index">
+                              <div class="card-wrapper">
+                                  <div class="row">
+                                      <div class="col-12 col-md-7">
+                                          <div class="text-wrapper">
+                                              <h5 class="card-title mbr-fonts-style display-5">
+                                                  <strong>{{ spaces?.name }}</strong></h5>
+                                              <h6 class="card-subtitle mbr-fonts-style mb-2 display-4">Created:
+                                                  {{ new Date(spaces?.date_created).toLocaleDateString() }}</h6>
+                                              <h6 class="card-subtitle mbr-fonts-style mb-2 display-4">Last Activity:
+                                                  {{ new Date(spaces?.date_updated).toLocaleDateString() }}</h6>
+                                              <p class="mbr-text mbr-fonts-style mb-5 display-4"># of Members:
+                                                  {{spaces?.totalMemberCount}}</p>
+                                              <p class="mbr-text mbr-fonts-style mb-5 display-4">Status:
+                                                  {{spaces?.status}}</p>
+                                              <p class="mbr-text mbr-fonts-style mb-5 display-4"
+                                                  v-html="spaces?.description"></p>
+                                              <div class="mbr-section-btn"><a :href="`/social/group/${spaces?.id}`"
+                                                      class="btn btn-warning display-4">Learn more</a></div>
+                                          </div>
+                                      </div>
+                                      <div class="col-12 col-md-5">
+                                          <div class="img-wrapper">
+                                              <img :src="`${url}${spaces?.image?.filename_disk}`" :alt="spaces?.name"
+                                                  cover />
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+          </v-col>
+      </v-row>
+  </div>
+</template>
+
+<script setup>
+//import profilebar from '../../components/menus/profilebar.vue'
+  const {
+    $directus,
+    $readItems,
+  } = useNuxtApp()
+  const route = useRoute()
+
+  const {
+    spaces
+  } = await useAsyncData('spaces', () => {
+    return $directus.request($readItems('Space'))
+  })
+
+    useHead({
+        title: 'Spaces',
+    })
+</script>
