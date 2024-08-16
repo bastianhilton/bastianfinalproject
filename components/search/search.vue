@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!--
-    <v-text-field id="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
-        hide-details @input="fetchSearchResults"></v-text-field>-->
+    <!--<v-text-field id="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
+        hide-details @input="onSearch" @click:append-inner="onClick"></v-text-field>-->
       <ais-instant-search
       id="mainSearch"
-      :search-client="client"
+      :search-client="searchClient"
       index-name="products"
     >
       <ais-search-box
@@ -18,28 +17,36 @@
   </div>
 </template>
 
+<script>
+  export default {
+    methods: {
+      onClick () {
+        this.loading = true
+
+        setTimeout(() => {
+          this.loading = false
+          this.loaded = true
+        }, 2000)
+      },
+    },
+  }
+</script>
+
 <script setup>
-import {
-  AisInstantSearch,
-  AisHits,
-  AisSearchBox,
-} from 'vue-instantsearch/vue3/es'
+import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
+import "instantsearch.css/themes/satellite-min.css";
+import Searchkit from "searchkit"
+import config from '~/composables/search/useElasticsearch'
+//import searchClient from '~/composables/search/useMeilisearch'
 
 const route = useRoute()
 const router = useRouter()
-const client = useInstantSearch()
+//const client = useInstantSearch()
 
-// Ref to store the search query
-const query = ref('')
-
-// Update the query when the route changes
-watchEffect(() => {
-  query.value = route.query.q || ''
-})
-
-// Function to update the query in the route when the user types in the search box
-const updateQuery = (newQuery) => {
-  query.value = newQuery
-  router.push({ path: '/results', query: { q: newQuery } })
+const onSearch = (query) => {
+  router.push({ path: '/results', query: { q: query } })
 }
+
+const searchkitClient = new Searchkit(config)
+const searchClient = Client(searchkitClient);
 </script>

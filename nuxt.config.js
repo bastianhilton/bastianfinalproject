@@ -103,14 +103,6 @@ export default defineNuxtConfig({
     },
   ],
 
-  components: {
-    dirs: [
-      '~/components/search/atoms',
-      '~/components/search/molecules',
-      '~/components/search/organisms'
-    ]
-  },
-
   // https://pinia.vuejs.org/ssr/nuxt.html
   pinia: {
     storesDirs: ['./stores/**'],

@@ -3,13 +3,9 @@ generator client {
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
-generator docs {
-  provider = "node node_modules/prisma-docs-generator"
-}
-
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("COMMERCE_URL")
 }
 
 model mgtn_admin_adobe_ims_webapi {

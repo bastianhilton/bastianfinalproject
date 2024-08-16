@@ -43,8 +43,7 @@
                                       </div>
                                       <div class="col-12 col-md-5">
                                           <div class="img-wrapper">
-                                              <img :src="`${url}${spaces?.image?.filename_disk}`" :alt="spaces?.name"
-                                                  cover />
+                                              <img :src="`${spaces?.image?.filename_disk}`" :alt="spaces?.name" cover />
                                           </div>
                                       </div>
                                   </div>

@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRuntimeConfig } from '#imports';
-import {useForm} from 'vee-validate';
+import { validateForm } from '@/utils/validation';
 import {object, string} from 'yup';
 
 const config = useRuntimeConfig();
@@ -44,7 +44,7 @@ const loading = ref(false);
 const error = ref();
 const success = ref(false);
 
-const {handleSubmit} = useForm({
+const {handleSubmit} = validateForm({
   validationSchema: object({
     email: string().required().label('Email'),
   }),
