@@ -7,16 +7,27 @@
           <div class="col-12 col-lg-6">
             <div class="title-wrapper">
               <h1 class="mbr-section-title mbr-fonts-style display-1">Welcome Back</h1>
+              <!-- Display success message -->
+              <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+
+              <!-- Display error message -->
+              <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+
               <div class="mbr-section-btn">
-                <v-form fast-fail @submit.prevent="loginCustomer" width="500">
+                <form width="500" @submit.prevent="login">
                   <v-text-field type="email" v-model="email" label="Email"></v-text-field>
-                  <v-text-field type="password" v-model="password" label="Password"></v-text-field>
-                  <v-btn class="mt-2 btn btn-primary display-4" type="submit" block @click="signIn('credentials')">Login</v-btn>
-                </v-form>
-                <!--<div v-for="provider in providers" :key="provider.id">
-                    <v-btn @click="signIn(provider.id)">Sign in with {{ provider.name }}</v-btn>
-                  </div>-->
-                <p>Forgot your password?. <a href="/account/user/auth/forgot-password">Reset It Here</a></p>
+                  <v-text-field type="password" v-model="password_hash" label="Password"></v-text-field>
+
+                  <v-list lines="one" style="background: transparent;">
+                    <v-list-item>
+                      <v-list-item-subtitle>Forgot your password?. <a href="/auth/forgot-password">Reset It Here</a>
+                      </v-list-item-subtitle>
+                    </v-list-item>
+                  </v-list>
+
+                  <v-btn class="mt-2 btn btn-primary display-4" type="submit">Login
+                  </v-btn>
+                </form>
               </div>
             </div>
           </div>
@@ -37,63 +48,70 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useRuntimeConfig } from '#imports';
 
 const router = useRouter();
 
 const email = ref('');
-const password = ref('');
+const password_hash = ref('');
+const errorMessage = ref('');
+const successMessage = ref('');
 
-const loginCustomer = async () => {
+const login = async () => {
   const loginData = {
-    username: email.value,
-    password: password.value,
+    email: email.value,
+    password_hash: password_hash.value,
   };
 
   try {
-    const config = useRuntimeConfig();
-    const response = await fetch(`${config.public.commerceUrl}/rest/V1/integration/customer/token`, {
+    const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.public.commerceApiToken}`
       },
       body: JSON.stringify(loginData),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response from server:', errorText);
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+
+    if (response.status === 200 || response.status === 201) {
+      successMessage.value = 'Login successful! Redirecting to Homepage...';
+      console.log('Login successful:', data);
+
+      // Optionally store the JWT token in localStorage or cookie
+      localStorage.setItem('token', data.token);
+
+     // Redirect after a short delay to allow the user to see the success message
+     setTimeout(() => {
+        router.push('/');
+      }, 1500); // 2-second delay
+    } else {
+      errorMessage.value = data.body || 'Login failed';
+      console.error('Login error:', data);
     }
-
-    const token = await response.json();
-    console.log('Customer token:', token);
-
-    // Store the token locally (e.g., in localStorage)
-    localStorage.setItem('customerToken', token);
-
-    // Redirect to a protected route or home page
-    router.push('/');
   } catch (error) {
-    console.error('Error logging in customer:', error);
+    errorMessage.value = 'An error occurred during login';
+    console.error('Login error:', error);
   }
 };
 
 
-useHead({
-  title: 'Customer Login',
-});
+  useHead({
+    title: 'Welcome Back',
+  });
 
-definePageMeta({
-  auth: false,
-  layout: false,
-});
+  definePageMeta({
+    auth: false,
+    layout: false,
+  });
 </script>
 
 <style scoped>
 .error-message {
   color: red;
+  margin-top: 10px;
+}
+.success-message {
+  color: green;
   margin-top: 10px;
 }
 </style>

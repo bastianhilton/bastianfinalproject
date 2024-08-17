@@ -7,12 +7,15 @@
           <div class="col-12 col-lg-6">
             <div class="title-wrapper">
               <h1 class="mbr-section-title mbr-fonts-style display-1">Reset Password</h1>
+
+              <p v-if="message" class="message">{{ message }}</p>
+              
               <div class="mbr-section-btn">
-                <v-form fast-fail @submit.prevent="resetPassword" width="500">
+                <form @submit.prevent="resetPassword" width="500">
                   <v-text-field type="password" v-model="password" label="Password" required></v-text-field>
                   <v-text-field type="password" v-model="confirmPassword" label="Confirm Password" required></v-text-field>
                   <v-btn class="mt-2 btn btn-primary display-4" type="submit" block>Reset Password</v-btn>
-                </v-form>
+                </form>
               </div>
             </div>
           </div>
@@ -27,56 +30,41 @@
         </div>
       </div>
     </section>
-
-    <!-- Passwords Do Not Match Dialog -->
-    <v-dialog v-model="dialog" max-width="400">
-      <v-card>
-        <v-card-title class="headline">Error</v-card-title>
-        <v-card-text>{{ errorMessage }}</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Password Reset Success Dialog -->
-    <v-dialog v-model="successDialog" max-width="400">
-      <v-card>
-        <v-card-title class="headline">Success</v-card-title>
-        <v-card-text>Password reset successfully.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="redirectToLogin">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useRuntimeConfig } from '#imports';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-const config = useRuntimeConfig();
-const newPassword = ref('')
-const router = useRouter()
+const route = useRoute();
+const newPassword = ref('');
+const message = ref('');
 
 const resetPassword = async () => {
+  const token = route.query.token;
+
   try {
-    await $fetch(`${config.public.commerceUrl}/rest/V1/customers/resetPassword`, {
+    const response = await fetch('/api/auth/reset-password', {
       method: 'POST',
-      body: {
-        newPassword: newPassword.value
-      }
-    })
-    console.log('Password reset successful')
-    router.push('/auth')
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token, newPassword: newPassword.value }),
+    });
+
+    const data = await response.json();
+
+    if (response.status === 200) {
+      message.value = 'Password reset successfully. You can now log in with your new password.';
+    } else {
+      message.value = data.body || 'Failed to reset password';
+    }
   } catch (error) {
-    console.error('Failed to reset password', error)
+    message.value = 'An error occurred';
+    console.error('Error resetting password:', error);
   }
-}
+};
 
 useHead({
   title: "Reset Password"

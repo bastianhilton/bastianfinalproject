@@ -27,7 +27,7 @@
           </v-col>
 
           <v-col cols="12">
-            <v-list-item  @click="signOut({ callbackUrl: '/' })" prepend-icon="fas fa-clock-rotate-left" title="Logoff"></v-list-item>
+            <logout />
           </v-col>
         </v-row>
       </v-list>
@@ -39,7 +39,8 @@
   import {
     ref
   } from 'vue'
-
+  import logout from '~/components/authentication/logout'
+  
 const location = ref('bottom')
 
 const { $directus, $readItem } = useNuxtApp()

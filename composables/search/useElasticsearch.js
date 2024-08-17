@@ -1,6 +1,6 @@
 import { Client } from '@elastic/elasticsearch';
 
-export const useElasticsearch = () => {
+const useElasticsearch = () => {
   const client = new Client({
     node: process.env.ELASTICSEARCH_URL,
     auth: {
@@ -37,3 +37,5 @@ export const useElasticsearch = () => {
     search,
   };
 };
+
+export default useElasticsearch;

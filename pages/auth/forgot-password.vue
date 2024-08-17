@@ -8,10 +8,10 @@
             <div class="title-wrapper">
               <h1 class="mbr-section-title mbr-fonts-style display-1">Forgot Password</h1>
               <div class="mbr-section-btn">
-                <v-form fast-fail @submit.prevent="onSubmit" width="500">
+                <form @submit.prevent="requestPasswordReset" width="500">
                   <v-text-field type="email" v-model="email" label="Enter Email for Password Reset" required></v-text-field>
-                  <v-btn class="mt-2 btn btn-primary display-4" type="submit" block>Send Reset Email</v-btn>
-                </v-form>
+                  <v-btn class="mt-2 btn btn-primary display-4" type="submit" block>Request Password Reset</v-btn>
+                </form>
               </div>
             </div>
           </div>
@@ -30,41 +30,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRuntimeConfig } from '#imports';
-import { validateForm } from '@/utils/validation';
-import {object, string} from 'yup';
+import { ref } from 'vue';
 
-const config = useRuntimeConfig();
-const email = ref('')
+const email = ref('');
+const message = ref('');
 
-const appConfig = useAppConfig();
-
-const loading = ref(false);
-const error = ref();
-const success = ref(false);
-
-const {handleSubmit} = validateForm({
-  validationSchema: object({
-    email: string().required().label('Email'),
-  }),
-});
-
-const onSubmit = handleSubmit(async (values) => {
-  loading.value = true;
-  error.value = '';
+const requestPasswordReset = async () => {
   try {
-    await $fetch('/api/auth/forgot-password', {
+    const response = await fetch('/api/auth/requestReset', {
       method: 'POST',
-      body: values,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.value }),
     });
-    success.value = true;
-  } catch (e: any) {
-    error.value = e.message;
-  } finally {
-    loading.value = false;
+
+    const data = await response.json();
+
+    if (response.status === 200 || response.status === 201) {
+      message.value = 'Password reset email sent. Please check your inbox.';
+    } else {
+      message.value = data.body || 'Failed to request password reset';
+    }
+  } catch (error) {
+    message.value = 'An error occurred';
+    console.error('Error requesting password reset:', error);
   }
-});
+};
 
 useHead({
   title: "Forgot Password"
@@ -76,3 +68,10 @@ definePageMeta({
         layout: false,
     });
 </script>
+
+<style scoped>
+.message {
+  margin-top: 10px;
+  color: green;
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!--<v-text-field id="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
-        hide-details @input="onSearch" @click:append-inner="onClick"></v-text-field>-->
-      <ais-instant-search
+    <v-text-field id="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
+        hide-details v-model="searchQuery" @keydown.enter="goToResultsPage"></v-text-field>
+      <!--<ais-instant-search
       id="mainSearch"
       :search-client="searchClient"
       index-name="products"
@@ -13,7 +13,7 @@
         :model-value="query" 
         @update:model-value="updateQuery"
       ></ais-search-box>
-    </ais-instant-search>
+    </ais-instant-search>-->
   </div>
 </template>
 
@@ -33,10 +33,22 @@
 </script>
 
 <script setup>
-import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
+import { ref } from 'vue'
+import { useRouter } from '#app'
+
+const searchQuery = ref('')
+const router = useRouter()
+
+const goToResultsPage = () => {
+  if (searchQuery.value) {
+    router.push({ path: '/results', query: { q: searchQuery.value } })
+  }
+}
+
+/*import { instantMeiliSearch } from "@meilisearch/instant-meilisearch";
 import "instantsearch.css/themes/satellite-min.css";
 import Searchkit from "searchkit"
-import config from '~/composables/search/useElasticsearch'
+import useElasticsearch from '~/composables/search/useElasticsearch'
 //import searchClient from '~/composables/search/useMeilisearch'
 
 const route = useRoute()
@@ -47,6 +59,6 @@ const onSearch = (query) => {
   router.push({ path: '/results', query: { q: query } })
 }
 
-const searchkitClient = new Searchkit(config)
-const searchClient = Client(searchkitClient);
+const searchkitClient = new Searchkit(useElasticsearch)
+const searchClient = Client(searchkitClient);*/
 </script>

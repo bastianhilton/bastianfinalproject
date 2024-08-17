@@ -83,8 +83,7 @@
                     Mode</v-btn>
                 </v-col>
                 <v-col cols="3">
-                  <v-btn variant="text" stacked title="Logout" prepend-icon="fas fa-right-from-bracket"
-                    size="x-small" href="">Logout</v-btn>
+                  <logout />
                 </v-col>
               </v-row>
             </v-list>
@@ -130,7 +129,7 @@
   import {
     ref
   } from 'vue';
-  //import { useAuth } from '~/composables/auth/useCustomerLogout'
+  import logout from '~/components/authentication/logout'
 
 const drawer = ref(null);
 const rail = ref(true);
