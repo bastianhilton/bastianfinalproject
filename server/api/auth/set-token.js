@@ -1,18 +1,18 @@
-// server/api/auth/set-token.js
+import { PrismaClient } from '@prisma/client';
 
-export default defineEventHandler(async (event) => {
-    const body = await useBody(event); // Parse the request body
-    const token = body.token;
-  
-    // Set the HTTP-only cookie
-    setCookie(event, 'customer_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      sameSite: 'strict',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-    });
-  
-    return { success: true };
+const prisma = new PrismaClient();
+
+export async function getUserByToken(token) {
+  // Since we don't store the token in the database, validate it on the client-side
+
+  // Fetch the customer associated with the session cutoff timestamp
+  const customer = await prisma.mgtn_customer_entity.findFirst({
+    where: {
+      session_cutoff: {
+        not: null,
+      },
+    },
   });
-  
+
+  return customer || null;
+}

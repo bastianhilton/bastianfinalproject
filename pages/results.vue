@@ -1,130 +1,66 @@
 <template>
-    <div>
-      <h1>Search Results</h1>
-      
-      <!-- Sorting and Filtering Controls -->
-      <div>
-        <label>Sort By:</label>
-        <select v-model="sortBy" @change="fetchResults">
-          <option value="createdAt">Date</option>
-          <option value="title">Title</option>
-        </select>
-  
-        <label>Order:</label>
-        <select v-model="sortOrder" @change="fetchResults">
-          <option value="desc">Descending</option>
-          <option value="asc">Ascending</option>
-        </select>
-  
-        <label>Filter by Category:</label>
-        <input v-model="filters.category" @input="fetchResults" placeholder="Category" />
-  
-        <label>Filter by Published:</label>
-        <select v-model="filters.published" @change="fetchResults">
-          <option value="">All</option>
-          <option value="true">Published</option>
-          <option value="false">Unpublished</option>
-        </select>
-      </div>
-  
-      <!-- Display Results -->
-      <ul>
-        <li v-for="post in results" :key="post.id">
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.content }}</p>
-        </li>
-      </ul>
-  
-      <!-- Pagination Controls -->
-      <div v-if="totalPages > 1">
-        <button @click="changePage(page - 1)" :disabled="page <= 1">Previous</button>
-        <button @click="changePage(page + 1)" :disabled="page >= totalPages">Next</button>
-      </div>
-  
-      <p>Total Results: {{ totalResults }}</p>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue'
-  import { useRoute, useRouter, useFetch } from '#app'
-  
-  const route = useRoute()
-  const router = useRouter()
-  
-  const searchQuery = ref(route.query.q || '')
-  const page = ref(parseInt(route.query.page) || 1)
-  const pageSize = ref(10)
-  const sortBy = ref(route.query.sortBy || 'createdAt')
-  const sortOrder = ref(route.query.sortOrder || 'desc')
-  const filters = ref({
-    category: route.query.filters?.category || '',
-    published: route.query.filters?.published || ''
+  <div class="resultsPage">
+    <v-card elevation="0" min-height="100vh">
+      <v-layout>
+        <v-app-bar color="transparent" prominent>
+          <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon> Filters
+
+          <v-spacer></v-spacer>
+          <v-toolbar-title style="text-align: center;">Search Results</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+        </v-app-bar>
+
+        <v-navigation-drawer class="filtersPanel" v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
+          <filters />
+        </v-navigation-drawer>
+
+        <v-main>
+            <v-tabs class="searchSection" center-active v-model="tab" bg-color="transparent">
+              <v-tab value="one">Results</v-tab>
+              <v-tab value="two">Spaces</v-tab>
+              <v-tab value="three">Creators</v-tab>
+            </v-tabs>
+
+            <v-card-text>
+              <v-tabs-window v-model="tab">
+                <v-tabs-window-item value="one">
+                  <productCard />
+                </v-tabs-window-item>
+
+                <v-tabs-window-item value="two">
+                  <relatedspaces />
+                </v-tabs-window-item>
+
+                <v-tabs-window-item value="three">
+                  <relatedcreators />
+                </v-tabs-window-item>
+              </v-tabs-window>
+            </v-card-text>
+        </v-main>
+      </v-layout>
+    </v-card>
+  </div>
+</template>
+
+<script setup>
+  import {
+    ref
+  } from 'vue'
+  import filters from '~/components/search/filters.vue'
+  import relatedspaces from '~/components/cms/related/relatedspaces.vue'
+  import relatedcreators from '~/components/cms/related/relatedcreators.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+
+  const tab = ref(null)
+  const group = ref(null)
+  const drawer = ref(false)
+
+  definePageMeta({
+    layout: 'nolive',
+  });
+
+  useHead ({
+    title: 'Search Results'
   })
-  
-  const results = ref([])
-  const totalPages = ref(1)
-  const totalResults = ref(0)
-  
-  const fetchResults = async () => {
-    const { data } = await useFetch('/api/search', {
-      params: {
-        search: searchQuery.value,
-        page: page.value,
-        pageSize: pageSize.value,
-        sortBy: sortBy.value,
-        sortOrder: sortOrder.value,
-        filters: JSON.stringify(filters.value),
-      },
-    })
-  
-    results.value = data.value.results
-    totalPages.value = data.value.totalPages
-    totalResults.value = data.value.totalResults
-  }
-  
-  const changePage = (newPage) => {
-    page.value = newPage
-    fetchResults()
-    router.push({
-      path: '/search',
-      query: {
-        q: searchQuery.value,
-        page: page.value,
-        sortBy: sortBy.value,
-        sortOrder: sortOrder.value,
-        filters: JSON.stringify(filters.value),
-      },
-    })
-  }
-  
-  onMounted(fetchResults)
-
-/*import config from '~/composables/search/elasticsearchConnect'
-
-    const searchkitClient = new Searchkit(config)
-    const searchClient = Client(searchkitClient);*/
 </script>
-
-<style>
-    .search-panel {
-        display: flex;
-    }
-
-    .search-panel__filters {
-        flex: 1;
-    }
-
-    .search-panel__results {
-        flex: 3;
-    }
-
-    .searchbox {
-        margin-bottom: 2rem;
-    }
-
-    .pagination {
-        margin: 2rem auto;
-        text-align: center;
-    }
-</style>

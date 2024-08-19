@@ -84,27 +84,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
+  import { ref } from 'vue'
   import showcases from '../../components/related/relatedshowcases.vue'
   import productCard from '../../components/commerce/product/productCard.vue'
-
-  export default {
-    components: {
-      showcases,
-      productCard
-    },
-    data() {
-      return {
-        //url: process.env.DIRECTUS_URL,
-        rating: null,
-      }
-    },
-  }
-</script>
-
-<script setup>
 import { useShopById } from '~/composables/read/getShops';
 
+const rating = ref(null);
 const shop = ref(null);
 const route = useRoute();
 
@@ -139,4 +125,4 @@ onMounted(async () => {
   useHead({
         title: shop?.name,
     })
-</script>~/server/api/read/getShops
+</script>

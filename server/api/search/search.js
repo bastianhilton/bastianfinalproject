@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 export default defineEventHandler(async (event) => {
   // Extract query parameters
   const query = getQuery(event)
-  const modelName = query.model || 'post'  // Default to 'post' if not specified
+  const modelName = query.model || ''  // Default to 'mgtn_catalog_product_entity' if not specified
 
   // Make sure the model is valid
   if (!prisma[modelName]) {

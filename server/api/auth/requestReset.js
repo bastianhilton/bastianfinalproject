@@ -1,36 +1,35 @@
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer'; // For sending emails
 
 const prisma = new PrismaClient();
 
-export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  const { email } = body;
+export default async function requestReset(req, res) {
+  const { email } = req.body;
 
   try {
-    // Find the user by email
+    // Check if the user exists
     const user = await prisma.mgtn_customer_entity.findUnique({
       where: { email },
     });
 
     if (!user) {
-      return {
-        statusCode: 404,
-        body: 'User not found',
-      };
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Generate a reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetTokenExpiry = new Date(Date.now() + 3600000); // Token valid for 1 hour
+    // Generate a unique token using UUID and then hash it with bcrypt
+    const resetToken = uuidv4(); // Generate a unique identifier
+    const hashedResetToken = await bcrypt.hash(resetToken, 10); // Hash the token with bcrypt
 
-    // Store the reset token and expiry in the database
+    // Set the expiration date for the reset token (e.g., 1 hour from now)
+    const resetTokenExpiry = new Date(Date.now() + 3600000);
+
+    // Update the user's record with the hashed reset token and expiry
     await prisma.mgtn_customer_entity.update({
       where: { email },
       data: {
-        reset_token: resetToken,
-        reset_token_expiry: resetTokenExpiry,
+        rp_token: hashedResetToken,
+        rp_token_created_at: resetTokenExpiry,
       },
     });
 
@@ -64,4 +63,4 @@ export default defineEventHandler(async (event) => {
       body: 'Internal Server Error',
     };
   }
-});
+};

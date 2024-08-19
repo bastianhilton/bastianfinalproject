@@ -1,52 +1,49 @@
-import { PrismaClient } from '@prisma/client';
+// server/api/auth/resetPassword.js
+
 import bcrypt from 'bcrypt';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  const { token, newPassword } = body;
+export default async function resetPassword(req, res) {
+  const { email, resetToken, newPassword } = req.body;
 
   try {
-    // Find the user by the reset token and ensure the token is still valid
-    const user = await prisma.mgtn_customer_entity.findFirst({
-      where: {
-        reset_token: token,
-        reset_token_expiry: {
-          gt: new Date(),
-        },
-      },
+    // Find the user by email
+    const user = await prisma.mgtn_customer_entity.findUnique({
+      where: { email },
     });
 
     if (!user) {
-      return {
-        statusCode: 400,
-        body: 'Invalid or expired token',
-      };
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Check if the token has expired
+    if (new Date() > user.rp_token_created_at) {
+      return res.status(400).json({ message: 'Reset token has expired' });
+    }
 
-    // Update the user's password and clear the reset token fields
+    // Compare the provided token with the stored hashed token
+    const isTokenValid = await bcrypt.compare(resetToken, user.rp_token);
+
+    if (!isTokenValid) {
+      return res.status(400).json({ message: 'Invalid reset token' });
+    }
+
+    // Update the user's password (after hashing it)
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     await prisma.mgtn_customer_entity.update({
-      where: { entity_id: user.entity_id },
+      where: { email },
       data: {
         password_hash: hashedPassword,
-        reset_token: null,
-        reset_token_expiry: null,
+        rp_token: null, // Clear the reset token
+        rp_token_created_at: null, // Clear the token expiry
       },
     });
 
-    return {
-      statusCode: 200,
-      body: 'Password reset successfully',
-    };
+    res.status(200).json({ message: 'Password has been reset successfully' });
   } catch (error) {
     console.error('Error resetting password:', error);
-    return {
-      statusCode: 500,
-      body: 'Internal Server Error',
-    };
+    res.status(500).json({ message: 'Internal server error' });
   }
-});
+}

@@ -199,6 +199,7 @@ body {
     margin-bottom: 1% !important;
     top: 60px !important;
     position: relative;
+    min-height: 100vh
 }
 
 .contentPage h2 {
@@ -609,6 +610,11 @@ body {
     color: white !important;
 }
 
+.cid-tZRUOapGTD button {
+    position: relative;
+    left: 10px;
+}
+
 /****************** Social Profile ****************/
 
 .cid-u1nMLE9Ke9 {
@@ -699,9 +705,32 @@ body {
     min-width: 20%;
 }
 
+.searchSection {
+    margin-top: 70px;
+}
+
+.filtersPanel {
+    position: relative;
+    margin-top: 5px;
+}
+
 .searchResults p {
     top: 7px;
     position: relative;
+}
+
+.resultsPage {
+    min-height: 100vh;
+    padding-bottom: 50% !important;
+    margin-top: 60px;
+}
+
+.resultsPage .v-layout {
+    min-height: 100vh !important;
+}
+
+.resultsPage .v-navigation-drawer__scrim {
+    min-height: 100vh
 }
 
 .searchResults .v-btn:hover {
@@ -710,6 +739,10 @@ body {
 
 .searchResults .v-btn:active {
     color: orange;
+}
+
+.searchFilters {
+    padding-top: 10px;
 }
 
 .searchfilter p {

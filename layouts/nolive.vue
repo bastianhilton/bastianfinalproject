@@ -108,15 +108,15 @@
   import search from '../components/search/search.vue'
   import ecosystemmenu from '~/components/menus/ecosystemmenu.vue'
   //import live from '~/components/menus/Livebar/live.vue'
-  import topmenu from '~/components/menus/Sidebar/topmenu.vue'
-  import socialmenu from '~/components/menus/Sidebar/socialmenu.vue'
-  import departmentsmenu from '~/components/menus/Sidebar/departmentsmenu.vue'
-  import outlets from '~/components/menus/Sidebar/outletsmenu.vue'
-  import myaccountmenu from '~/components/menus/Sidebar/myaccountmenu.vue'
+  import topmenu from '~/components/menus/sidebar/topmenu.vue'
+  import socialmenu from '~/components/menus/sidebar/socialmenu.vue'
+  import departmentsmenu from '~/components/menus/sidebar/departmentsmenu.vue'
+  import outlets from '~/components/menus/sidebar/outletsmenu.vue'
+  import myaccountmenu from '~/components/menus/sidebar/myaccountmenu.vue'
   import LayoutNotifications from '~/components/menus/LayoutNotifications.vue'
-  import mobilesearch from '~/components/menus/TopMenu/mobilesearch.vue'
-  import myaccounttopmenu from '~/components/menus/TopMenu/myaccounttopmenu.vue'
-  import bottomsidebarmenu from '~/components/menus/Sidebar/bottomsidebarmenu.vue'
+  import mobilesearch from '~/components/menus/topmenu/mobilesearch.vue'
+  import myaccounttopmenu from '~/components/menus/topmenu/myaccounttopmenu.vue'
+  import bottomsidebarmenu from '~/components/menus/sidebar/bottomsidebarmenu.vue'
   import BottomFooter from '~/components/BottomFooter'
   import FooterNav from '~/components/FooterNav'
   import {
@@ -124,7 +124,7 @@
   } from 'vue';
   import logout from '~/components/authentication/logout'
 
-const { logout } = useAuth()
+//const { logout } = useAuth()
 const drawer = ref(null);
 const rail = ref(true);
 const location = ref('bottom');
