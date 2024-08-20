@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     "@prisma/nuxt",
     '@nuxtjs/seo',
     '@pinia/nuxt',
-    'nuxt-meilisearch',
+    '@nuxtjs/algolia',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
@@ -108,10 +108,20 @@ export default defineNuxtConfig({
     storesDirs: ['./stores/**'],
   },
 
-  // https://nuxt.com/modules/nuxt-social-share
-  socialShare: {
-    baseUrl: process.env.NUXT_PUBLIC_SITE_URL
-    // other optional module options
+  algolia: {
+    // options
+    apiKey: process.env.ALGOLIA_API_KEY,
+    applicationId: process.env.ALGOLIA_APPLICATION_ID,
+    instantSearch: {
+      theme: 'algolia'
+    },
+    useFetch: true,
+    crawler: {
+      apiKey: process.env.ALGOLIA_CRAWLER_ID,
+      indexName: process.env.ALGOLIA_INDEX_NAME,
+      meta: ['title', 'description'],
+      include: () => true
+    },
   },
 
   // https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/prisma-nuxt-module#configuration
@@ -122,27 +132,6 @@ export default defineNuxtConfig({
     formatSchema: false,
     installStudio: false,
     autoSetupPrisma: true
-  },
-
-  image: {
-    screens: {
-      default: 320,
-      xxs: 480,
-      xs: 576,
-      sm: 768,
-      md: 996,
-      lg: 1200,
-      xl: 1367,
-      xxl: 1600,
-      '4k': 1921
-    },
-
-    domains: ['img.youtube.com', 'i.vimeocdn.com'],
-
-    alias: {
-      youtube: 'https://img.youtube.com',
-      vimeo: 'https://i.vimeocdn.com',
-    }
   },
 
   // https://nuxtseo.com/robots
@@ -175,32 +164,8 @@ export default defineNuxtConfig({
       enableOnWindowFocus: true,
     }
   },
-  /**/
-
-  meilisearch: {
-    hostUrl:  process.env.MEILISEARCH_HOST,
-    searchApiKey: process.env.MEILISEARCH_SEARCH_API_KEY,
-    adminApiKey: process.env.MEILISEARCH_ADMIN_API_KEY,
-    instantSearch: true, // default false
-    serverSideUsage:  false// default false
-  },
-
- /* directus: {
-		rest: {
-			baseUrl: process.env.DIRECTUS_URL,
-		},
-		auth: {
-      email: process.env.NUXTUS_DIRECTUS_ADMIN_EMAIL,
-      password: process.env.NUXTUS_DIRECTUS_ADMIN_PASSWORD,
-      token: process.env.NUXTUS_DIRECTUS_STATIC_TOKEN,
-			enabled: true,
-		},
-	},*/
 
   runtimeConfig: {
-    // Authentication Secret
-    authSecret: process.env.NUXT_AUTH_SECRET,
-
     // Elasticsearch
     searchHost: process.env.ELASTICSEARCH_URL,
     searchKey: process.env.ELASTICSEARCH_APP_SEARCH_KEY,
@@ -219,13 +184,9 @@ export default defineNuxtConfig({
 
       //websiteURL: process.env.GQL_HOST,
       //websiteToken: process.env.WEBSITE_TOKEN,
+
+      // Authentication Secret
       authSecret: process.env.NUXT_AUTH_SECRET,
-      logto: {
-        endpoint: process.env.NUXT_LOGTO_ENDPOINT,
-        appId: process.env.NUXT_LOGTO_APP_ID,
-        appSecret: process.env.NUXT_LOGTO_APP_SECRET,
-        cookieEncryptionKey: process.env.NUXT_LOGTO_COOKIE_ENCRYPTION_KEY,
-      },
 
       // Wordpress
       wordpressUrl: process.env.API_URL,
@@ -259,18 +220,6 @@ export default defineNuxtConfig({
       // Cloudinary
       cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
 
-      // Meilisearch
-
-      meilisearch: {
-        host: process.env.MEILISEARCH_HOST,
-        searchApiKey: process.env.MEILISEARCH_SEARCH_API_KEY,
-        options: {
-          primaryKey: 'id',
-          keepZeroFacets: false,
-          finitePagination: false
-        }
-      },
-
       // Stripe
       stripePk: process.env.STRIPE_PUBLIC_KEY,
     },
@@ -299,9 +248,6 @@ export default defineNuxtConfig({
             }
           }*/
       },
-      /*  commerce: {
-          httpEndpoint: process.env.VDURE_URL
-        },*/
     },
   },
   /**/

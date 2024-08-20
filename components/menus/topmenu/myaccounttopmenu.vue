@@ -4,7 +4,7 @@
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" icon="fas fa-user" title="My Account"></v-btn>
       </template>
-      <v-list v-if="isLoggedIn">
+      <v-list v-if="isAuthenticated">
         <v-row class="accountDropdown">
           <v-col cols="6">
             <h6>{{ nav?.name }}</h6>
@@ -31,7 +31,7 @@
           </v-col>
         </v-row>
       </v-list>
-      
+
       <v-list v-else>
         <v-list-item><v-btn href="/auth/login">Login / Register</v-btn></v-list-item>
       </v-list>
@@ -44,7 +44,7 @@
     ref
   } from 'vue'
   import logout from '~/components/authentication/logout'
-  const auth = reactive(useAuth());;
+  //const { isAuthenticated } = useAuth()
 
   const location = ref('bottom')
 

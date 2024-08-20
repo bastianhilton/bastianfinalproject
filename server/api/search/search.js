@@ -1,69 +1,42 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import { defineEventHandler, getQuery } from 'h3';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
-  // Extract query parameters
-  const query = getQuery(event)
-  const modelName = query.model || ''  // Default to 'mgtn_catalog_product_entity' if not specified
+  const query = getQuery(event);
 
-  // Make sure the model is valid
-  if (!prisma[modelName]) {
-    return { error: 'Invalid model name' }
-  }
+  const page = parseInt(query.page) || 1;
+  const pageSize = parseInt(query.pageSize) || 10;
+  const skip = (page - 1) * pageSize;
 
-  const searchQuery = query.search?.toString() || ''
-  const page = parseInt(query.page) || 1
-  const pageSize = parseInt(query.pageSize) || 10
-  const sortBy = query.sortBy || 'createdAt'
-  const sortOrder = query.sortOrder || 'desc'
-  const filters = query.filters ? JSON.parse(query.filters) : {}
+  const sortField = query.sortField || 'createdAt';
+  const sortOrder = query.sortOrder === 'desc' ? 'desc' : 'asc';
 
-  // Calculate pagination parameters
-  const skip = (page - 1) * pageSize
-  const orderBy = { [sortBy]: sortOrder }
+  const filters = JSON.parse(query.filters || '{}');
 
-  // Build the dynamic `where` clause
   const where = {
     AND: [
-      {
-        OR: [
-          {
-            title: {
-              contains: searchQuery,
-              mode: 'insensitive',
-            },
-          },
-          {
-            content: {
-              contains: searchQuery,
-              mode: 'insensitive',
-            },
-          },
-        ],
-      },
-      ...Object.keys(filters).map(key => ({
-        [key]: filters[key]
-      }))
-    ]
-  }
+      filters.name ? { name: { contains: filters.name } } : {},
+      filters.category ? { category: filters.category } : {},
+    ],
+  };
 
-  // Fetch results from Prisma dynamically
-  const results = await prisma[modelName].findMany({
+  const products = await prisma.mgtn_catalog_product_entity.findMany({
     where,
     skip,
     take: pageSize,
-    orderBy,
-  })
+    orderBy: {
+      [sortField]: sortOrder,
+    },
+  });
 
-  // Count total results for pagination
-  const totalResults = await prisma[modelName].count({ where })
-  const totalPages = Math.ceil(totalResults / pageSize)
+  const total = await prisma.mgtn_catalog_product_entity.count({ where });
 
   return {
-    results,
+    products,
+    total,
     page,
-    totalPages,
-    totalResults,
-  }
-})
+    pageSize,
+  };
+});
