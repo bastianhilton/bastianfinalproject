@@ -3,25 +3,23 @@
     <v-row>
       <v-col cols="12">
         <v-row>
-          <v-col cols="6"><productGallery :product="data?.products?.items?.image?.url" /></v-col>
+          <v-col cols="6"><productGallery :product="product" /></v-col>
           <v-col cols="6">
             <section class="md:max-w-[640px]">
-              <div
-                class="inline-flex items-center justify-center text-sm font-medium text-white bg-secondary-600 py-1.5 px-3 mb-4">
-                <SfIconSell size="sm" class="mr-1.5" />
-                Sale
+              <h1 class="mb-1 font-bold typography-headline-4">{{ product?.name }}</h1>
+              <div class="headline-2">
+                By: 
               </div>
-              <h1 class="mb-1 font-bold typography-headline-4">{{ data?.products?.items?.name }}</h1>
-              <strong class="block font-bold typography-headline-3">{{ data?.products?.items?.price_range?.minimum_price?.regular_price?.currency }} {{ data?.products?.items?.price_range?.minimum_price?.regular_price?.value }}</strong>
+              <strong class="block font-bold typography-headline-3">{{ product?.price_range?.minimum_price?.regular_price?.currency }} {{ product?.price }}</strong>
               <div class="inline-flex items-center mt-4 mb-2">
                 <SfRating size="xs" :value="3" :max="5" />
                 <SfCounter class="ml-1" size="xs">123</SfCounter>
                 <SfLink href="#" variant="secondary" class="ml-2 text-xs text-neutral-500"> 123 reviews </SfLink>
               </div>
               <ul class="mb-4 font-normal typography-text-sm">
-                <li>Category: {{ data?.products?.items?.categories?.name }}</li>
-                <li>Format: {{ data?.products?.items?.format }}</li>
-                <li>Sku: {{ data?.products?.items?.sku }}</li>
+                <li>Category: {{ product?.categories?.name }}</li>
+                <li>Format: {{ product?.format }}</li>
+                <li>Sku: {{ product?.sku }}</li>
                 <li></li>
               </ul>
               <div class="py-4 mb-4 border-gray-200 border-y">
@@ -46,7 +44,7 @@
                       </SfButton>
                     </div>
                     <p class="self-center mt-1 mb-4 text-xs text-neutral-500 xs:mb-0">
-                      <strong class="text-neutral-900">{{ data?.products?.items?.only_x_left_in_stock }}</strong> in stock
+                      <strong class="text-neutral-900">{{ product?.only_x_left_in_stock }}</strong> in stock
                     </p>
                   </div>
                   <SfButton size="lg" class="w-full xs:ml-4">
@@ -97,13 +95,13 @@
       </v-col>
 
       <v-col cols="12">
-        <v-card>
+        <v-card elevation="0">
           <v-tabs v-model="tab" bg-color="primary">
             <v-tab value="one">Description</v-tab>
             <v-tab value="two">Reviews</v-tab>
             <v-tab value="three">Specifications</v-tab>
-            <v-tab value="four">FAQS</v-tab>
-            <v-tab value="five">Compare</v-tab>
+           <!-- <v-tab value="four">FAQS</v-tab>
+            <v-tab value="five">Compare</v-tab>-->
           </v-tabs>
 
           <v-card-text>
@@ -111,7 +109,7 @@
               <!--Product Description-->
               <v-window-item value="one">
                 <v-card variant="text">
-                  <v-card-text>{{data?.products?.items?.description?.html}}</v-card-text>
+                  <v-card-text>{{product?.description?.html}}</v-card-text>
                 </v-card>
               </v-window-item>
 
@@ -124,12 +122,12 @@
 
               <!--Product Specifications-->
               <v-window-item value="three">
-                <productSpecs :product="$sku" />
+                <productSpecs :product="product" />
               </v-window-item>
 
               <!--Product FAQs-->
               <v-window-item value="four">
-                <v-expansion-panels v-for="(faqs, index) in products?.faqs?.faqs_id" :key="index">
+                <v-expansion-panels v-for="(faqs, index) in product?.faqs?.faqs_id" :key="index">
                   <v-expansion-panel :title="faqs.question" :text="faqs.answer">
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -147,96 +145,69 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
   /*  import {
     addToCart
-  } from '../../utils/addToCart'
+  } from '~/utils/addToCart'
   import {
     buyNow
-  } from '../../utils/buyNow'
+  } from '~/utils/buyNow'
   import {
     addToList
-  } from '../../utils/addToList'
+  } from '~/utils/addToList'
   import {
     bookmark
-  } from '../../utils/bookmark' */
+  } from '~/utils/bookmark' */
   import disqus from '~/components/partials/disqus.vue'
-  import productSpecs from '../../components/commerce/product/productSpecs.vue'
-  import productGallery from '../../components/commerce/product/productGallery.vue'
-  import productCompare from '../../components/commerce/product/productCompare.vue'
-  import addtolist from '../../components/partials/addtolist.vue'
+  import productSpecs from '~/components/commerce/commerce/product/productSpecs.vue'
+  import productGallery from '~/components/commerce/commerce/product/productGallery.vue'
+  import productCompare from '~/components/commerce/commerce/product/productCompare.vue'
+  import addtolist from '~/components/commerce/partials/addtolist.vue'
+  //import product from '~/composables/graphql/commerce/queries/id/product.js'
+  import { ref } from 'vue'
+  import {
+    SfButton,
+    SfCounter,
+    SfLink,
+    SfRating,
+    SfIconSafetyCheck,
+    SfIconCompareArrows,
+    SfIconWarehouse,
+    SfIconPackage,
+    SfIconFavorite,
+    SfIconSell,
+    SfIconShoppingCart,
+    SfIconAdd,
+    SfIconRemove,
+    useId,
+    SfIconShoppingCartCheckout,
+  } from '@storefront-ui/vue';
+  import { clamp } from '@storefront-ui/shared';
+  import { useCounter } from '@vueuse/core';
+  import { getProductById } from '~/composables/commerce/products/products';
 
-  export default {
-    components: {
-      disqus,
-      productSpecs,
-      productGallery,
-      productCompare,
-      addtolist
-    },
-    data: () => ({
-      tab: null,
-    })
+  const inputId = useId();
+  const min = ref(1);
+  const max = ref(999);
+  const { count, inc, dec, set } = useCounter(1, { min: min.value, max: max.value });
+  function handleOnChange(event: Event) {
+    const currentValue = (event.target as HTMLInputElement)?.value;
+    const nextValue = parseFloat(currentValue);
+    set(clamp(nextValue, min.value, max.value));
   }
-</script>
 
-<script setup>
+  const tab = ref(null);
   const route = useRoute();
-  const query = gql `
-query($sku: String!) {
-  products (filter: {sku: {eq: $sku}}) {
-    items {
-      uid
-      name
-      rating_summary
-      description {
-        html
-      }
-      short_description {
-        html
-      }
-      image {
-        url
-      }
-      format
-      size
-      color
-      sku
-      options_container
-      only_x_left_in_stock
-      price_range {
-        minimum_price {
-          regular_price {
-            currency
-            value
-          }
-        }
-      }
-      categories {
-        name
-      }
-    }
-  }
-}
-`
 
-  const {
-    data
-  } = useAsyncQuery(query, {
-    sku: route.params.sku
+  const product = ref(null);
+
+  const productId = route.params.sku
+
+  onMounted(async () => {
+    product.value = await getProductById(productId);
   });
 
-  /*const {
-      getItemById
-    } = useDirectusItems()
-    const route = useRoute();
-
-    const product = await getItemById({
-      collection: "products",
-      id: route.params.id,
-    }); */
-
   useHead({
-    title: data?.products?.name,
+    title: product?.value?.name,
   })
 </script>

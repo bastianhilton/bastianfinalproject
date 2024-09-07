@@ -21,4 +21,8 @@
     useHead({
         title: 'Meeovi Messages',
     })
+
+definePageMeta({
+    middleware: ['auth'],
+  })
 </script>

@@ -83,7 +83,7 @@
     import share from '../../../components/social/share.vue'
     import updatepost from '../../../components/update/social/updatepost.vue'
 
-    //import activity from '~/graphql/cms/queries/id/activity'
+    //import activity from '~/composables/graphql/cms/queries/id/activity'
     import { ref } from 'vue'
 
     const model = ref(null);
@@ -121,6 +121,6 @@ onMounted(async () => {
     })
 
     definePageMeta({
-        //middleware: ['auth-logged-in'],
+        middleware: ['auth'],
     })
 </script>

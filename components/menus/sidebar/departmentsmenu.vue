@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import categories from '~/graphql/commerce/queries/categories'
+import categories from '~/composables/graphql/commerce/queries/categories'
 
 const {
     data

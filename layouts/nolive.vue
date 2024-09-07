@@ -81,7 +81,7 @@
                     Mode</v-btn>
                 </v-col>
                 <v-col cols="3">
-                  <logout />
+                  <!--<logout />-->
                 </v-col>
               </v-row>
             </v-list>
@@ -122,7 +122,7 @@
   import {
     ref
   } from 'vue';
-  import logout from '~/components/authentication/logout'
+  //import logout from '~/components/authentication/logout'
 
 //const { logout } = useAuth()
 const drawer = ref(null);
@@ -130,8 +130,6 @@ const rail = ref(true);
 const location = ref('bottom');
 const loaded = ref(false);
 const loading = ref(false);
-
-//const {  logout  } = useAuth()
 
   /*const {
           getItems

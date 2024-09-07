@@ -62,7 +62,7 @@ import createlist from '../create/commerce/createlist.vue'
 </script>
 
 <script setup>
-  import lists from '~/graphql/commerce/queries/lists'
+  import lists from '~/composables/graphql/commerce/queries/lists'
 
     const {
         data

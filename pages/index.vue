@@ -1,5 +1,6 @@
 <template>
    <div class="contentPage">
+        <headerslider />
         <ataglance />
         <exclusives />
         <bookcallout />
@@ -24,6 +25,7 @@
 </template>
 
 <script setup>
+    import headerslider from '~/components/pages/homepage/headerslider.vue'
     //import intro from '~/components/pages/homepage/intro.vue'
     //import pixanomycallout from '~/components/pages/homepage/pixanomycallout.vue'
     import bookcallout from '~/components/pages/homepage/bookcallout.vue'

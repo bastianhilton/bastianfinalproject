@@ -1,14 +1,7 @@
-// composables/useCustomerLogout.js
 
-export function useCustomerLogout() {
-  const logout = async () => {
-    // Invalidate the token on the server by clearing the cookie
-    await $fetch('/api/auth/logout', {
-      method: 'POST',
-    });
-  };
+export default defineEventHandler((event) => {
+  // Clear the JWT cookie
+  setCookie(event, 'authToken', '', { maxAge: -1 })
 
-  return {
-    logout,
-  };
-}
+  return { message: 'Logged out successfully' }
+})

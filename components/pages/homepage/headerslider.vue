@@ -1,8 +1,11 @@
 <template>
     <div>
-      <v-carousel hide-delimiters show-arrows="hover" :continuous="true" v-for="pages in homepage" :key="pages.id">
+     <!-- <v-carousel hide-delimiters show-arrows="hover" :continuous="true" v-for="pages in homepage" :key="pages.id">
             <v-carousel-item :src="`${url}assets/${pages.image.filename_disk}`" :alt="pages.name" cover></v-carousel-item>
-        </v-carousel>
+        </v-carousel>-->
+    <div v-for="block in data?.cmsBlocks?.items">
+      <div v-html="block?.content"></div>
+    </div>
     </div>
 </template>
 
@@ -15,7 +18,10 @@
 </script>
 
 <script setup>
-  const {
+import { cmsBlocks } from '~/composables/graphql/commerce/queries/blocks/homepagesliderBlock.js';
+
+const { data } = useAsyncQuery(cmsBlocks);
+/*  const {
     $directus,
     $readItem,
     $readSingleton
@@ -28,7 +34,7 @@
     return $directus.request($readItem('pages', '28'))
   })
 
-/*const query = gql`
+const query = gql`
 query {
     pages (search: "homepage slider") {
       id

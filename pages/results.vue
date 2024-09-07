@@ -1,6 +1,6 @@
 <template>
   <div class="resultsPage">
-    <!--<v-card elevation="0" min-height="100vh">
+   <v-card elevation="0" style="min-height: 100vh !important;">
       <v-layout>
         <v-app-bar color="transparent" prominent>
           <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon> Filters
@@ -45,7 +45,7 @@
           </v-card-text>
         </v-main>
       </v-layout>
-    </v-card>-->
+    </v-card>
     <ais-instant-search :search-client="searchClient" index-name="YOUR_ALGOLIA_INDEX_NAME">
       <ais-search-box>
         <div slot-scope="{ isSearchStalled, refine }">
@@ -61,7 +61,7 @@
         <div slot-scope="{ items }">
           <ul>
             <li v-for="item in items" :key="item.objectID">
-              {{ item.hit.name }} <!-- Replace with your desired field -->
+              {{ item.hit.name }}
             </li>
           </ul>
         </div>
@@ -69,9 +69,9 @@
     </ais-instant-search>
   </div>
 </template>
-
+<!---->
 <script setup>
-import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
+/*import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
 import { useAlgoliaRef } from '@nuxtjs/algolia/dist/module'
 import { useRoute } from 'vue-router'
 import { computed, watch } from 'vue'
@@ -96,8 +96,8 @@ watch(
     searchQuery.value = newValue || ''
   }
 )
-
- /* import filters from '~/components/search/filters.vue'
+*/
+  import filters from '~/components/search/filters.vue'
   import relatedspaces from '~/components/cms/related/relatedspaces.vue'
   import relatedcreators from '~/components/cms/related/relatedcreators.vue'
   import productCard from '~/components/commerce/commerce/product/productCard.vue'
@@ -140,7 +140,7 @@ watch(
     if (page.value > 1) {
       emit('page-change', page.value - 1);
     }
-  };*/
+  };
 
   definePageMeta({
     layout: 'nolive',
@@ -150,3 +150,4 @@ watch(
     title: 'Search Results'
   })
 </script>
+<!---->

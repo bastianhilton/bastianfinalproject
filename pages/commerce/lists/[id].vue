@@ -138,6 +138,6 @@ query NewQuery ($id: ID!) {
     title: data?.list?.title,
   })
   definePageMeta({
-    //middleware: ['auth-logged-in'],
+    middleware: ['auth'],
   })
 </script>

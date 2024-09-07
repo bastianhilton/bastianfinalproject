@@ -72,30 +72,17 @@
     </div>
 </template>
 
-<script>
-    import recentlyviewed from '../../../components/related/recentlyviewed.vue'
-    import relatedproducts from '../../../components/related/relatedproducts.vue'
-    //import editor from '../../../components/Editors/editor.vue'
-    import disqus from '~/components/partials/disqus.vue'
-    import share from '../../../components/social/share.vue'
-
-    export default {
-        components: {
-            recentlyviewed,
-            relatedproducts,
-            //editor,
-            disqus,
-            share
-        },
-        data: () => ({
-            tab: null,
-        }),
-    }
-</script>
-
 <script setup>
+  import { ref } from 'vue'
+  import recentlyviewed from '../../../components/related/recentlyviewed.vue'
+  import relatedproducts from '../../../components/related/relatedproducts.vue'
+  //import editor from '../../../components/Editors/editor.vue'
+  import disqus from '~/components/partials/disqus.vue'
+  import share from '../../../components/social/share.vue'
+  import gql from 'graphql-tag'
+
 const route = useRoute();
-import gql from 'graphql-tag'
+const tab = ref(null)
 
 const query = gql`
 query NewQuery ($id: ID!) {

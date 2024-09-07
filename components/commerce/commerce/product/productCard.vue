@@ -13,8 +13,8 @@
 
             <div>Category: {{ product?.categories?.name }}</div>
 
-            <div>{{ product?.price_range?.minimum_price?.regular_price?.currency }}
-              {{ product?.price_range?.minimum_price?.regular_price?.value }}</div>
+            <div>{{ product?.currency }}
+              {{ product?.price }}</div>
           </v-card-text>
 
           <v-card-actions>

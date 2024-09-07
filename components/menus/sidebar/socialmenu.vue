@@ -23,7 +23,7 @@ onMounted(() => {
 fetchNavigation('Account Social'); // Replace 'Main Menu' with the actual name of the navigation
 });
 
- import socialmenu from '~/graphql/cms/queries/menus/socialmenu'
+ import socialmenu from '~/composables/graphql/cms/queries/menus/socialmenu'
 
 const {
     data

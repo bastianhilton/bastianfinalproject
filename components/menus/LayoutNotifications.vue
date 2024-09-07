@@ -25,12 +25,10 @@
   import {
     ref
   } from 'vue'
-  import {
-    getActivity
-  } from '~/composables/cms/social/getActivity'; // Import the composable
+ // import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
 
   const location = ref('bottom');
-  const activities = ref([]); // Reactive variable to store activity data
+ /* const activities = ref([]); // Reactive variable to store activity data
 
   onMounted(async () => {
     activities.value = await getActivity(); // Fetch activity data on component mount
@@ -38,7 +36,7 @@
 
 
 
-  /*    import notifications from '~/graphql/cms/queries/notifications'
+      import notifications from '~/composables/graphql/cms/queries/notifications'
 
   const {
       data
@@ -60,4 +58,4 @@
         }
       }
     });*/
-</script>~/graphql/cms/queries/notifications
+</script>~/composables/graphql/cms/queries/notifications

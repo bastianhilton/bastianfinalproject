@@ -27,7 +27,7 @@ onMounted(() => {
 fetchNavigation('Profile Menu'); // Replace 'Main Menu' with the actual name of the navigation
 });
 
- /* import profilebar from '~/graphql/cms/queries/menus/profilebar'
+ /* import profilebar from '~/composables/graphql/cms/queries/menus/profilebar'
 
 const {
     data

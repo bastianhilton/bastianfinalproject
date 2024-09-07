@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -34,8 +34,8 @@ export default defineEventHandler(async (event) => {
       };
     }
 
-    // Hash the password using bcrypt
-    const hashedPassword = await bcrypt.hash(password_hash, 10);
+    // Hash the password using bcryptjs
+    const hashedPassword = await bcryptjs.hash(password_hash, 10);
 
     // Create a new customer entity
     const newUser = await prisma.mgtn_customer_entity.create({

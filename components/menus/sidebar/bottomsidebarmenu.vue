@@ -23,7 +23,7 @@ onMounted(() => {
 fetchNavigation('Try Something New'); // Replace 'Main Menu' with the actual name of the navigation
 });
 
-  import bottomsidebarmenu from '~/graphql/cms/queries/menus/bottomsidebarmenu'
+  import bottomsidebarmenu from '~/composables/graphql/cms/queries/menus/bottomsidebarmenu'
 
   const {
       data

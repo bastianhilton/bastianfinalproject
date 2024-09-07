@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '@prisma/client';
 
@@ -17,9 +17,9 @@ export default async function requestReset(req, res) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Generate a unique token using UUID and then hash it with bcrypt
+    // Generate a unique token using UUID and then hash it with bcryptjs
     const resetToken = uuidv4(); // Generate a unique identifier
-    const hashedResetToken = await bcrypt.hash(resetToken, 10); // Hash the token with bcrypt
+    const hashedResetToken = await bcryptjs.hash(resetToken, 10); // Hash the token with bcryptjs
 
     // Set the expiration date for the reset token (e.g., 1 hour from now)
     const resetTokenExpiry = new Date(Date.now() + 3600000);

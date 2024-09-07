@@ -33,7 +33,7 @@
 <script setup>
 import profilebar from '../../components/menus/profilebar.vue'
 import followButton from '../../components/social/followButton.vue'
-import members from '~/graphql/cms/queries/members'
+import members from '~/composables/graphql/cms/queries/members'
 import { ref } from 'vue'
 const { $graphql } = useNuxtApp();
 
@@ -70,4 +70,4 @@ const page = await client.request(readItem('pages', route.params.id, {
 useHead({
     title: 'My Network'
 })
-</script>~/graphql/cms/queries/members
+</script>~/composables/graphql/cms/queries/members

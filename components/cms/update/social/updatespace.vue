@@ -53,75 +53,45 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useApolloClient } from '@vue/apollo-composable';
-import { useRoute, useRouter } from 'vue-router';
-import { UPDATE_GROUP, DELETE_GROUP } from '~/graphql/cms/queries/groups'
+import uploadFiles from '~/composables/cms/content/uploadFiles';
+import createPost from '~/composables/cms/posts/createPost';
+import { createItem } from '@directus/sdk';
 
-const dialog = ref(false);
-const notifications = ref(false);
-const sound = ref(true);
-const widgets = ref(false);
-const route = useRoute();
-const router = useRouter();
-const id = route.params.id;
+const { $directus } = useNuxtApp();
+const dialog = ref(false)
+const location = ref('bottom');
+const content = ref('');
+const media = ref(null);
+const image = ref(null);
 
-const name = ref('');
-const description = ref('');
-const image = ref('');
-const media = ref('');
-const reactions = ref('');
+const imageFile = ref(null);
+const documentFile = ref(null);
 
-const { client: apolloClient } = useApolloClient();
+const handleImageUpload = (event) => {
+  imageFile.value = event.target.files[0];
+};
 
-const updateGroup = async () => {
+const handleDocumentUpload = (event) => {
+  documentFile.value = event.target.files[0];
+};
+
+const createNewPost = async () => {
   try {
-    const { data } = await apolloClient.mutate({
-      mutation: UPDATE_GROUP,
-      variables: {
-        name: name.value,
-        description: description.value,
-        id: id,
-      },
+    const uploadedFiles = await uploadFiles({
+      imageFile: imageFile.value,
+      documentFile: documentFile.value,
     });
-    console.log('Group updated:', data.updateGroup.group);
+
+    const post = await $directus.request(
+	updateItem('posts', {
+		content: content.value,
+        media: media.value = uploadedFiles.documentId,
+        image: image.value = uploadedFiles.imageId
+	})
+);
+    console.log('Updated Post:', post);
   } catch (error) {
-    console.error('Error updating group:', error);
+    console.error('Error updating post:', error);
   }
 };
-
-const deleteGroup = async () => {
-  try {
-    const { data } = await apolloClient.mutate({
-      mutation: DELETE_GROUP,
-      variables: {
-        id: id,
-      },
-    });
-    console.log('Group deleted:', data.deleteGroup.group.id);
-  } catch (error) {
-    console.error('Error deleting group:', error);
-  }
-};
-
-const deleteGroupAndRefresh = async () => {
-  await deleteGroup();
-  router.push('/social/spaces');  // Refresh the current route
-};
-
-const updateGroupAndRefresh = async () => {
-  await updateGroup();
-  router.go(0);  // Refresh the current route
-};
-
-const resetForm = () => {
-  name.value = '';
-  description.value = '';
-  image.value = '';
-  media.value = '';
-  reactions.value = '';
-};
-
-const reset = () => {
-  router.go(0);
-};
-</script>~/graphql/cms/queries/groups
+</script>

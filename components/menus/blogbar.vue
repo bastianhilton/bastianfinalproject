@@ -35,7 +35,7 @@
    import {
         ref
     } from 'vue'
- /*   import blogbar from '~/graphql/cms/queries/menus/blogbar'
+ /*   import blogbar from '~/composables/graphql/cms/queries/menus/blogbar'
 
 const {
     data
@@ -68,4 +68,4 @@ const tab = ref(null);
       }
     }
   }); */
-</script>~/graphql/cms/queries/menus/blogbar
+</script>~/composables/graphql/cms/queries/menus/blogbar

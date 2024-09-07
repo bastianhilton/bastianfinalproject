@@ -86,9 +86,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useApolloClient } from '@vue/apollo-composable';
+
 import { useRoute, useRouter } from 'vue-router';
-import CREATE_SHOWCASE from '~/graphql/cms/queries/showcases'
+import CREATE_SHOWCASE from '~/composables/graphql/cms/queries/showcases'
 
 const route = useRoute();
 const router = useRouter();
@@ -126,4 +126,4 @@ const createShowcaseAndRefresh = async () => {
   await createShowcase();
   router.go(0);  // Refresh the current route
 };
-</script>~/graphql/cms/queries/showcases
+</script>~/composables/graphql/cms/queries/showcases

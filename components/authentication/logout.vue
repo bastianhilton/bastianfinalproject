@@ -1,31 +1,19 @@
 <template>
-  <div>
-    <v-btn class="mt-2 btn btn-primary display-4" @click="logout" block>Logout</v-btn>
-  </div>
+  <v-btn @click="signOut('fusionauth', { callbackUrl: '/' })" variant="text" text="Logout"></v-btn>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+//import { useAuthStore } from '~/store/auth';
+//import { useFusionAuth } from "@fusionauth/vue-sdk";
+const { signOut } = useAuth();
 
-const router = useRouter();
+/*const {
+  logout
+} = useFusionAuth();*/
 
-const logout = async () => {
-  try {
-    // If you're using a token, clear it from localStorage or any other storage
-    localStorage.removeItem('token');
+//const authStore = useAuthStore();
 
-    // Optionally, make a call to the backend to handle server-side logout (if needed)
-    await fetch('/api/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Redirect the user to the login page
-    router.push('/');
-  } catch (error) {
-    console.error('Error during logout:', error);
-  }
-};
+/*const logout = () => {
+  authStore.logout();
+};*/
 </script>

@@ -1,60 +1,99 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'; // Optional, if using JWT for sessions
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const jwtSecret = config.public.jwtSecret;
+
+  console.log('JWT Secret:', jwtSecret); // Add this to verify the secret is loaded
+
+  if (!jwtSecret) {
+    throw new Error('JWT Secret is not defined');
+  }
+
   const body = await readBody(event);
-  const { email, password_hash } = body;
+  const { email, password, website_id } = body;
+
+  // Validate input
+  if (!email || !password || !website_id) {
+    return sendError(event, createError({
+      statusCode: 400,
+      statusMessage: 'Email, password, and website_id are required',
+    }));
+  }
 
   try {
-    // Fetch the user from the database using their email
+    // Find the user using the unique constraint
     const user = await prisma.mgtn_customer_entity.findUnique({
       where: {
-        email: email,
+        MGTN_CUSTOMER_ENTITY_EMAIL_WEBSITE_ID: {
+          email,
+          website_id,
+        },
       },
     });
 
+    // Check if the user exists
     if (!user) {
-      return {
+      return sendError(event, createError({
         statusCode: 404,
-        body: 'User not found',
-      };
+        statusMessage: 'User not found',
+      }));
     }
 
-    // Compare the provided password with the hashed password in the database
-    const isPasswordValid = await bcrypt.compare(password_hash, user.password_hash);
+    // Check if the password hash is null
+    if (!user.password_hash) {
+      return sendError(event, createError({
+        statusCode: 400,
+        statusMessage: 'User does not have a password set.',
+      }));
+    }
+
+    // Compare the password with the stored hashed password
+    const isPasswordValid = await bcryptjs.compare(password, user.password_hash);
 
     if (!isPasswordValid) {
-      return {
+      return sendError(event, createError({
         statusCode: 401,
-        body: 'Invalid credentials',
-      };
+        statusMessage: 'Invalid password',
+      }));
     }
 
-    // Optional: Generate a JWT token for the user
-    const token = jwt.sign({ userId: user.entity_id }, 'your-secret-key', {
-      expiresIn: '24h', // Token expiration time
-    });
-
-    // Return success response with token
-    return {
-      statusCode: 200,
-      body: 'Login successful',
-      token: token, // Include the token if using JWT
-      user: {
-        id: user.entity_id,
+    // Generate a JWT token for the session
+    const token = jwt.sign(
+      {
+        userId: user.entity_id,
+        email: user.email,
         firstname: user.firstname,
         lastname: user.lastname,
-        email: user.email,
+        is_seller: user.is_seller,
+      },
+      jwtSecret, // Use the secret key here
+      { expiresIn: '1h' }
+    );
+
+    return {
+      statusCode: 200,
+      body: {
+        message: 'Login successful',
+        token,
+        user: {
+          id: user.entity_id,
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          is_seller: user.is_seller,
+        },
       },
     };
   } catch (error) {
-    console.error('Error logging in:', error);
-    return {
+    console.error('Error during login:', error);
+    return sendError(event, createError({
       statusCode: 500,
-      body: 'Internal Server Error',
-    };
+      statusMessage: 'Internal Server Error',
+    }));
   }
 });

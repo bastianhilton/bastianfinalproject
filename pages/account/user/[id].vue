@@ -12,16 +12,16 @@
                         <div class="content-container">
                             <div class="img-wrap">
                                 <div class="item-img">
-                                    <img :src="`${url}assets/${customer?.image?.filename_disk}`">
+                                    <img :src="`${user?.picture}`" :alt="user?.username" />
                                 </div>
                             </div>
                             <div class="text-wrap align-left">
                                 <h4 class="mbr-text-name mbr-fonts-style display-5">
-                                    <strong>{{ customer?.firstname }}</strong>
+                                    <strong>@{{ user?.username }}</strong>
                                 </h4>
                                 <h4 class="mbr-text mbr-fonts-style display-7" style="">
                                     <v-list style="background: transparent; color: white;">
-                                        <v-list-item title="Member Since">{{ customer?.created_at }}</v-list-item>
+                                        <v-list-item title="Member Since">{{ user?.created_at }}</v-list-item>
                                     </v-list>
                                 </h4>
                             </div>
@@ -87,32 +87,25 @@ import products from '../../../components/pages/profile/products.vue'
 import replies from '../../../components/pages/profile/replies.vue'
 import media from '../../../components/pages/profile/media.vue'
 import likes from '../../../components/pages/profile/likes.vue'
-import { useCustomer } from '~/composables/commerce/customers/useCustomer'; // Import the composable
 
-const customer = ref(null); // Reactive variable to store customer data
-const { fetchCustomerDetails } = useCustomer(); // Destructure the fetchCustomerDetails function
+const user = useLogtoUser();
 
-onMounted(async () => {
-  customer.value = await fetchCustomerDetails(); // Fetch customer details on component mount
-});
+/*import { useFetch } from '#imports'
 
-/*  const {
-    getItemById
-  } = useDirectusItems()
-  const route = useRoute();
+const route = useRoute()
+const { data: user, error } = await useFetch(`/api/commerce/customers/${route.params.id}`)
 
-  const customer = await getItemById({
-    collection: "customers",
-    id: route.params.id,
-  });*/
+if (error && error.value.statusCode === 404) {
+  // Handle not found
+} */
 
     useHead({
-        title: customer?.username,
+        title: user?.username,
     })
 
     definePageMeta({
         auth: false,
-        middleware: 'auth',
+        middleware: ['auth'],
         layout: "nolive",
     });
 </script>

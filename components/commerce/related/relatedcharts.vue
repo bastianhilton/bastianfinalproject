@@ -31,7 +31,7 @@
 
 <script setup>
   import productCard from '../commerce/product/productCard.vue'
-  import charts from '~/graphql/commerce/queries/charts'
+  import charts from '~/composables/graphql/commerce/queries/charts'
 
   const model = ref(null);
 

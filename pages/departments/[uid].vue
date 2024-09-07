@@ -93,15 +93,15 @@
 </template>
 
 <script setup>
-  //import videobar from '../../components/menus/videobar.vue'
-  import latestproducts from '../../components/related/latestproducts.vue'
-  import relatedevents from '../../components/related/relatedevents.vue'
-  import bestsellers from '../../components/related/bestsellers.vue'
-  import relatedcreators from '../../components/related/relatedcreators.vue'
-  import shorts from '../../components/related/shorts.vue'
-  import relatedspaces from '../../components/related/relatedspaces.vue'
-  import productCard from '../../components/commerce/product/productCard.vue'
-  import { CategoryQuery, BestsellerQuery, LatestProductsQuery, EventProductsQuery } from '~/graphql/commerce/queries/id/department'
+  //import videobar from '~/components/menus/videobar.vue'
+  import latestproducts from '~/components/commerce/related/latestproducts.vue'
+  import relatedevents from '~/components/commerce/related/relatedevents.vue'
+  import bestsellers from '~/components/commerce/related/bestsellers.vue'
+  import relatedcreators from '~/components/cms/related/relatedcreators.vue'
+  import shorts from '~/components/cms/related/shorts.vue'
+  import relatedspaces from '~/components/cms/related/relatedspaces.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import { CategoryQuery, BestsellerQuery, LatestProductsQuery, EventProductsQuery } from '~/composables/graphql/commerce/queries/id/department'
   
   const model = ref(null)
 
@@ -156,4 +156,4 @@
   useHead({
     title: data?.categories?.items?.name
   });
-</script>~/graphql/commerce/queries/id/department
+</script>

@@ -44,7 +44,7 @@ const notifications = ref(false);
 const sound = ref(true);
 const widgets = ref(false)
 
- /*   import ecosystemmenu from '~/graphql/cms/queries/menus/ecosystemmenu'
+ /*   import ecosystemmenu from '~/composables/graphql/cms/queries/menus/ecosystemmenu'
 
 const {
     data

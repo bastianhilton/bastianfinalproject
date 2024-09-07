@@ -77,6 +77,6 @@
     })
 
     definePageMeta({
-        //middleware: ['auth-logged-in'],
+        middleware: ['auth'],
     })
 </script>

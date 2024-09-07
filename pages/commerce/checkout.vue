@@ -32,6 +32,7 @@ async function initialize() {
 
   definePageMeta({
     layout: 'nolive',
+    middleware: ['auth'],
   });
   
   useHead({

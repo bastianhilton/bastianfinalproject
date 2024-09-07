@@ -23,7 +23,7 @@ onMounted(() => {
 fetchNavigation('Trending'); // Replace 'Main Menu' with the actual name of the navigation
 });
 
-  import topmenu from '~/graphql/cms/queries/menus/topmenu'
+  import topmenu from '~/composables/graphql/cms/queries/menus/topmenu'
 
 const {
     data

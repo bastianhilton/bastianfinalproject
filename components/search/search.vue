@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <form ref="referenceRef" role="search" class="relative" @submit.prevent="submit">
-    <div class="flex" id="mainSearch">
+  <form ref="referenceRef" role="search" class="relative" @submit.prevent="submit" id="mainSearch">
+    <div class="flex">
       <SfInput
         ref="inputRef"
+        class="searchbox"
         v-model="inputModel"
         wrapper-class="w-full !ring-0 active:!ring-0 hover:!ring-0 focus-within:!ring-0 border-y border-l border-neutral-200 rounded-r-none hover:border-primary-800 active:border-primary-700 active:border-y-2 active:border-l-2 focus-within:border-y-2 focus-within:border-l-2 focus-within:border-primary-700"
         aria-label="Search"
-        placeholder="Search Meeovi"
-        
+        placeholder="Search Meeovi..."
         @focus="open"
         @keydown="handleInputKeyDown"
       >
@@ -24,7 +23,7 @@
           </button>
         </template>
       </SfInput>
-      <SfButton style="background: orange !important; color: black !important;" type="submit" square aria-label="Search for a specific phrase on the page" class="rounded-l-none">
+      <SfButton type="submit" square aria-label="Search for a specific phrase on the page" class="rounded-l-none searchbutton">
         <SfIconSearch />
       </SfButton>
     </div>
@@ -38,7 +37,8 @@
       <ul
         v-else-if="snippets.length > 0"
         ref="dropdownListRef"
-        class="py-2 bg-white h-screen sm:h-auto sm:border sm:border-solid sm:rounded-md sm:border-neutral-100 sm:drop-shadow-md searchDropdown">
+        class="py-2 bg-white h-screen sm:h-auto sm:border sm:border-solid sm:rounded-md sm:border-neutral-100 sm:drop-shadow-md"
+      >
         <li v-for="{ highlight, rest, product } in snippets" :key="product.id">
           <SfListItem
             tag="button"
@@ -57,10 +57,9 @@
       </ul>
     </div>
   </form>
-  </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { type Ref, ref, watch } from 'vue';
 import { offset } from '@floating-ui/vue';
 import { watchDebounced } from '@vueuse/shared';

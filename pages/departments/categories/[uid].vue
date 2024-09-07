@@ -88,7 +88,7 @@
   import relatedevents from '../../components/related/relatedevents.vue'
   import bestsellers from '../../components/related/bestsellers.vue'
   import productCard from '../../components/commerce/product/productCard.vue'
-  import { CategoryQuery, BestsellerQuery, LatestProductsQuery, EventProductsQuery } from '~/graphql/commerce/queries/id/category'
+  import { CategoryQuery, BestsellerQuery, LatestProductsQuery, EventProductsQuery } from '~/composables/graphql/commerce/queries/id/category'
   
   const model = ref(null)
 
@@ -141,4 +141,4 @@
   useHead({
     title: data?.categories?.items?.name
   });
-</script>~/graphql/commerce/queries/id/category
+</script>~/composables/graphql/commerce/queries/id/category

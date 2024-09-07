@@ -2,60 +2,60 @@
     <v-table>
       <tbody>
         <tr>
+          <th>Released</th>
+          <td>{{ new Date(product?.created_at).toLocaleDateString() }}</td>
+        </tr>
+        <tr>
+          <th>Updated</th>
+          <td>{{ new Date(product?.updated_at).toLocaleDateString() }}</td>
+        </tr>
+        <tr>
           <th>Name</th>
-          <td>{{ products?.name }}</td>
+          <td>{{ product?.name }}</td>
         </tr>
         <tr>
           <th>Category Name</th>
-          <td>{{ products?.categories?.name }}</td>
+          <td>{{ product?.categories?.name }}</td>
         </tr>
         <tr>
           <th>Price</th>
-          <td><strong>{{ data?.products?.items?.price_range?.minimum_price?.regular_price?.currency }}&nbsp;</strong>{{ data?.products?.items?.price_range?.minimum_price?.regular_price?.value }}</td>
-        </tr>
-        <tr>
-          <th>Special Price</th>
-          <td>{{ products?.special_price }}</td>
-        </tr>
-        <tr>
-          <th>Special to Date </th>
-          <td>{{ products?.special_to_date }}</td>
+          <td><strong>{{ product?.currency }}&nbsp;</strong>{{ product?.price }}</td>
         </tr>
         <tr>
           <th>Average Rating</th>
-          <td>{{ products?.rating_summary }}</td>
+          <td>{{ product?.rating_summary }}</td>
         </tr>
         <tr>
           <th># of Reviews</th>
-          <td>{{ products?.review_count }}</td>
+          <td>{{ product?.review_count }}</td>
         </tr>
         <tr>
           <th>Sku</th>
-          <td>{{ products?.sku }}</td>
+          <td>{{ product?.sku }}</td>
         </tr>
         <tr>
           <th>How many items are left?</th>
-          <td>{{ products?.only_x_left_in_stock }}</td>
+          <td>{{ product?.extension_attributes?.stock_item?.qty }}</td>
         </tr>
         <tr>
-          <th>Gift Message Available?</th>
-          <td>{{ products?.gift_message_available }}</td>
+          <th>Visibility</th>
+          <td>{{ product?.visibility }}</td>
         </tr>
         <tr>
-          <th>Country of Manufacture</th>
-          <td>{{ products?.country_of_manufacture }}</td>
+          <th>Weight</th>
+          <td>{{ product?.weight }}</td>
         </tr>
         <tr>
           <th>Format</th>
-          <td>{{ products?.format }}</td>
+          <td>{{ product?.format }}</td>
         </tr>
         <tr>
           <th>Product Sizes</th>
-          <td>{{ products?.size }}</td>
+          <td>{{ product?.size }}</td>
         </tr>
         <tr>
           <th>Product Colors</th>
-          <td>{{ products?.color }}</td>
+          <td>{{ product?.color }}</td>
         </tr>
       </tbody>
     </v-table>

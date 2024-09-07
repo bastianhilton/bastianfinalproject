@@ -42,7 +42,7 @@
 
 <script setup>
 import relatedpost from '../../components/pages/homepage/blogposts.vue'
-import post from '~/graphql/cms/queries/id/post'
+import post from '~/composables/graphql/cms/queries/id/post'
 const route = useRoute();
 
   const {
@@ -63,4 +63,4 @@ const route = useRoute();
         title: route.params.title,
     })
 
-</script>~/graphql/cms/queries/id/post
+</script>~/composables/graphql/cms/queries/id/post

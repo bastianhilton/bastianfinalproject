@@ -1,43 +1,75 @@
 <template>
-  <div>
-    <section data-bs-version="5.1" class="header2 supplym5 cid-ujDY4O2LRw mbr-fullscreen" id="header2-a1"
-      data-sortbtn="btn-primary">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-lg-6">
-            <div class="title-wrapper">
-              <h1 class="mbr-section-title mbr-fonts-style display-1">Welcome Back</h1>
-              <!-- Display success message -->
-              <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+  <div class="authPage">
+   <!-- <iframe style="position: relative; height: 100vh !important;" frameborder="0"
+            allow="clipboard-write;camera;geolocation;fullscreen" :src="`${url}meeovi-authentication`"></iframe>-->
+  <section
+      data-bs-version="5.1"
+      class="form2 shopm5 cid-umoq9RvANO mbr-parallax-background"
+      id="aform2-a3"
+      data-sortbtn="btn-primary"
+    >
+      <div
+        class="mbr-overlay"
+        style="opacity: 0.3; background-color: rgb(255, 255, 255);"
+      ></div>
 
-              <!-- Display error message -->
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col content-wrap">
+            <div class="mbr-section-head">
+              <img
+                src="../../assets/images/logo512alpha-128x128.png"
+                alt="Meeovi Logo"
+                class="authLogo"
+              />
+              <h2 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                <strong>Welcome Back</strong>
+              </h2>
+
               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-
-              <div class="mbr-section-btn">
-                <form width="500" @submit.prevent="login">
-                  <v-text-field type="email" v-model="email" label="Email"></v-text-field>
-                  <v-text-field type="password" v-model="password_hash" label="Password"></v-text-field>
+            </div>
+            <div class="form-wrap">
+              <div class="mbr-form" data-form-type="formoid">
+                <form width="500" @submit.prevent="handleLogin">
+                  <v-text-field
+                    type="email"
+                    v-model="email"
+                    label="Email*"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    type="password"
+                    v-model="password"
+                    label="Password*"
+                    required
+                  ></v-text-field>
 
                   <v-list lines="one" style="background: transparent;">
                     <v-list-item>
-                      <v-list-item-subtitle>Forgot your password?. <a href="/auth/forgot-password">Reset It Here</a>
-                      </v-list-item-subtitle>
+                      <v-list-item-title
+                        >Forgot your password?.
+                        <a href="/auth/forgot-password">Reset It Here</a></v-list-item-title
+                      >
+                    </v-list-item>
+
+                    <v-list-item>
+                      <v-list-item-title
+                        >Don't have an account?. <a href="/auth/register">Signup Here</a></v-list-item-title
+                      >
                     </v-list-item>
                   </v-list>
 
-                  <v-btn class="mt-2 btn btn-primary display-4" type="submit">Login
-                  </v-btn>
+                  <v-btn
+                    class="mt-2 btn btn-primary display-4"
+                    type="submit"
+                    >Login</v-btn
+                  >
                 </form>
               </div>
             </div>
-          </div>
-          <div class="col-12 col-lg-6">
-            <div class="image-wrapper">
-              <img class="image_1" src="../../assets/images/mbr-500x750.jpg" alt="">
-              <img class="image_2" src="../../assets/images/mbr-600x593.jpg" alt="">
-              <img class="image_3" src="../../assets/images/mbr-500x333.jpg" alt="">
-              <img class="image_4" src="../../assets/images/mbr-560x747.jpg" alt="">
-            </div>
+            <p class="comment-text mbr-fonts-style align-center mb-0 display-7">
+              We respect your privacy, so we never share your info.
+            </p>
           </div>
         </div>
       </div>
@@ -46,72 +78,52 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+/*import { useRuntimeConfig } from '#app';
 
-const router = useRouter();
+const config = useRuntimeConfig();
+const url = config.public.budibaseEmbed;*/
+import { ref } from 'vue'
 
-const email = ref('');
-const password_hash = ref('');
-const errorMessage = ref('');
-const successMessage = ref('');
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+const websiteId = ref('')
+const errorMessage = ref('')
 
-const login = async () => {
-  const loginData = {
-    email: email.value,
-    password_hash: password_hash.value,
-  };
-
+const handleLogin = async () => {
   try {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+        website_id: 1,
+      }),
     });
 
-    const data = await response.json();
-
-    if (response.status === 200 || response.status === 201) {
-      successMessage.value = 'Login successful! Redirecting to Homepage...';
+    if (response.ok) {
+      const data = await response.json();
+      // Handle successful login
       console.log('Login successful:', data);
-
-      // Optionally store the JWT token in localStorage or cookie
-      localStorage.setItem('token', data.token);
-
-     // Redirect after a short delay to allow the user to see the success message
-     setTimeout(() => {
-        router.push('/');
-      }, 1500); // 2-second delay
+      errorMessage.value = ''; // Clear any previous error message
+      router.push('/'); // Redirect to the homepage
     } else {
-      errorMessage.value = data.body || 'Login failed';
-      console.error('Login error:', data);
+      const errorData = await response.json();
+      // Handle login error
+      errorMessage.value = errorData.statusMessage || 'Login failed';
     }
   } catch (error) {
-    errorMessage.value = 'An error occurred during login';
-    console.error('Login error:', error);
+    console.error('Error during login:', error);
+    errorMessage.value = 'An unexpected error occurred';
   }
 };
 
 
-  useHead({
-    title: 'Welcome Back',
-  });
-
-  definePageMeta({
-    auth: false,
-    layout: false,
-  });
+definePageMeta({
+  auth: false,
+  layout: 'auth',
+});
 </script>
-
-<style scoped>
-.error-message {
-  color: red;
-  margin-top: 10px;
-}
-.success-message {
-  color: green;
-  margin-top: 10px;
-}
-</style>

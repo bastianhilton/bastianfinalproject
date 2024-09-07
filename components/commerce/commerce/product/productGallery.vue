@@ -1,190 +1,48 @@
 <template>
-    <div class="relative flex w-full max-h-[600px] aspect-[4/3]">
-      <SfScrollable
-        ref="thumbsRef"
-        class="items-center w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        direction="vertical"
-        :active-index="activeIndex"
-        :previous-disabled="activeIndex === 0"
-        :next-disabled="activeIndex === images.length - 1"
-        buttons-placement="floating"
-      >
-        <template #previousButton="defaultProps">
-          <SfButton
-            v-if="!firstThumbVisible"
-            v-bind="defaultProps"
-            :disabled="activeIndex === 0"
-            class="absolute !rounded-full z-10 top-4 rotate-90 bg-white"
-            variant="secondary"
-            size="sm"
-            square
-          >
-            <SfIconChevronLeft size="sm" />
-          </SfButton>
-        </template>
-        <button
-          v-for="({ imageThumbSrc, alt }, index) in images"
-          :key="`${alt}-${index}-thumbnail`"
-          :ref="(el) => assignRef(el, index)"
-          type="button"
-          :aria-label="alt"
-          :aria-current="activeIndex === index"
-          :class="`md:w-[78px] md:h-auto relative shrink-0 pb-1 mx-4 -mb-2 border-b-4 snap-start cursor-pointer focus-visible:outline focus-visible:outline-offset transition-colors flex-grow md:flex-grow-0  ${
-            activeIndex === index ? 'border-primary-700' : 'border-transparent'
-          }`"
-          @mouseover="activeIndex = index"
-          @focus="activeIndex = index"
-        >
-          <img :alt="alt" class="border border-neutral-200" width="78" height="78" :src="imageThumbSrc" />
-        </button>
-        <template #nextButton="defaultProps">
-          <SfButton
-            v-if="!lastThumbVisible"
-            v-bind="defaultProps"
-            :disabled="activeIndex === images.length"
-            class="absolute !rounded-full z-10 bottom-4 rotate-90 bg-white"
-            variant="secondary"
-            size="sm"
-            square
-          >
-            <SfIconChevronRight size="sm" />
-          </SfButton>
-        </template>
-      </SfScrollable>
-      <SfScrollable
-        class="w-full h-full snap-y snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-        :active-index="activeIndex"
-        direction="vertical"
-        wrapper-class="h-full m-auto"
-        is-active-index-centered
-        buttons-placement="none"
-        :drag="{ containerWidth: true }"
-        @on-drag-end="onDragged"
-      >
-        <div
-          v-for="({ imageSrc, alt }, index) in images"
-          :key="`${alt}-${index}`"
-          class="flex justify-center h-full basis-full shrink-0 grow snap-center snap-always"
-        >
-          <img
-            :aria-label="alt"
-            :aria-hidden="activeIndex !== index"
-            class="object-cover w-auto h-full"
-            :alt="alt"
-            :src="imageSrc"
-          />
-        </div>
-      </SfScrollable>
-    </div>
-  </template>
-  
-  <script lang="ts" setup>
-  import { ref, onMounted } from 'vue';
-  import {
-    SfScrollable,
-    SfButton,
-    SfIconChevronLeft,
-    SfIconChevronRight,
-    type SfScrollableOnDragEndData,
-  } from '@storefront-ui/vue';
-  import { unrefElement, useIntersectionObserver } from '@vueuse/core';
-  import { watch, type ComponentPublicInstance } from 'vue';
-  
-  const props = defineProps({
-    product: {
-      type: Object,
-      required: true,
-    },
-  });
-  const {
-    product
-  } = props;
+  <div class="relative flex w-full max-h-[600px] aspect-[4/3]">
+    <v-carousel>
+      <v-carousel-item
+        v-for="(image, index) in images"
+        :key="index"
+        :src="image.imageSrc"
+        cover
+      ></v-carousel-item>
+    </v-carousel>
+  </div>
+</template>
 
-  const thumbsRef = ref<HTMLElement>();
-  const firstThumbRef = ref<HTMLButtonElement>();
-  const lastThumbRef = ref<HTMLButtonElement>();
-  const firstThumbVisible = ref(false);
-  const lastThumbVisible = ref(false);
-  const activeIndex = ref(0);
-  
-  const query = gql`
-    query($sku: String!) {
-    products (filter: {sku: {eq: $sku}}) {
-        items {
-        image {
-            url
-        }
-        }
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { getProductById } from '~/composables/commerce/products/products';
+import { useRoute } from 'vue-router';
+
+// Fetch the product images dynamically
+const fetchProductImages = async (productId: string) => {
+  try {
+    const product = await getProductById(productId);
+
+    // Check if product exists and has images
+    if (!product || !product.images) {
+      throw new Error('Product data or images not available');
     }
-    }
-  `;
-  
-  const { result } = useAsyncQuery(query);
-  const images = ref([]);
-  
-  onMounted(() => {
-    watch(result, (newResult) => {
-      if (newResult && newResult.images) {
-        images.value = newResult.images;
-      }
-    });
-  });
-  
-  watch(
-    thumbsRef,
-    (thumbsRef) => {
-      if (thumbsRef) {
-        useIntersectionObserver(
-          firstThumbRef,
-          ([{ isIntersecting }]) => {
-            firstThumbVisible.value = isIntersecting;
-          },
-          {
-            root: unrefElement(thumbsRef),
-            rootMargin: '0px',
-            threshold: 1,
-          },
-        );
-      }
-    },
-    { immediate: true },
-  );
-  
-  watch(
-    thumbsRef,
-    (thumbsRef) => {
-      if (thumbsRef) {
-        useIntersectionObserver(
-          lastThumbRef,
-          ([{ isIntersecting }]) => {
-            lastThumbVisible.value = isIntersecting;
-          },
-          {
-            root: unrefElement(thumbsRef),
-            rootMargin: '0px',
-            threshold: 1,
-          },
-        );
-      }
-    },
-    { immediate: true },
-  );
-  
-  const onDragged = (event: SfScrollableOnDragEndData) => {
-    if (event.swipeRight && activeIndex.value > 0) {
-      activeIndex.value -= 1;
-    } else if (event.swipeLeft && activeIndex.value < images.value.length - 1) {
-      activeIndex.value += 1;
-    }
-  };
-  
-  const assignRef = (el: Element | ComponentPublicInstance | null, index: number) => {
-    if (!el) return;
-    if (index === images.value.length - 1) {
-      lastThumbRef.value = el as HTMLButtonElement;
-    } else if (index === 0) {
-      firstThumbRef.value = el as HTMLButtonElement;
-    }
-  };
-  </script>
-  
+
+    return product.images.map((image: any) => ({
+      imageSrc: image.full, // Assuming 'full' is the key for the full-size image
+      imageThumbSrc: image.thumb, // Assuming 'thumb' is the key for the thumbnail image
+      alt: product.name, // Assuming the product name can be used as alt text
+    }));
+  } catch (error) {
+    console.error('Failed to fetch product images:', error);
+    return []; // Return an empty array in case of error
+  }
+};
+
+const route = useRoute();
+const images = ref<any[]>([]); // Dynamic images array
+const productId = route.params.sku; // Assuming the product SKU is in the route params
+
+// Fetch product images on component mount
+onMounted(async () => {
+  images.value = await fetchProductImages(productId);
+});
+</script>

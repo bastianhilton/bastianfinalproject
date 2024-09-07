@@ -35,7 +35,7 @@
 
 <script setup>
   import blogbar from '../../components/menus/blogbar.vue'
-  import blogCategory from '~/graphql/cms/queries/id/blogCategory'
+  import blogCategory from '~/composables/graphql/cms/queries/id/blogCategory'
   import { ref } from 'vue'
 
   const tab = ref(null);
@@ -59,4 +59,4 @@
     useHead({
         title: data?.category?.name,
     })
-</script>~/graphql/cms/queries/id/blogCategory
+</script>~/composables/graphql/cms/queries/id/blogCategory

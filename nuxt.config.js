@@ -4,6 +4,8 @@
 import vuetify, {
   transformAssetUrls
 } from 'vite-plugin-vuetify'
+import { UserScope } from '@logto/nuxt';
+require("dotenv").config()
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -29,10 +31,20 @@ export default defineNuxtConfig({
         {
           href: "//cdn-images.mailchimp.com/embedcode/classic-061523.css",
         },
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/mage/calendar.css"},
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Sparsh_Faq/css/faq.css"},
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Lof_MultiWishlist/css/popup.css"},
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Magento_Swatches/css/swatches.css"},
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/StripeIntegration_Payments/css/wallets.css"},
+        { rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/styles-l.css" },
+        { rel: "stylesheet", type: "text/css", media: "print", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/print.css" },
       ],
       script: [{
           src: '//platform-api.sharethis.com/js/sharethis.js#property=#{property?._id}&product=custom-share-buttons&source=platform',
         },
+        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/requirejs/require.js"},
+        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/mage/requirejs/mixins.js"},
+        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/requirejs-config.js"},
         /* {
            src: 'https://js.stripe.com/v3/',
          }
@@ -74,9 +86,15 @@ export default defineNuxtConfig({
     '@fortawesome/fontawesome-svg-core/styles.css',
     'assets/styles/mobile.css',
     'assets/styles/styles.css',
+    'assets/styles/App.css',
+    'assets/styles/App.mobile.css',
+    'assets/styles/Theme.css',
     'assets/styles/sellerDashboard.css',
     'assets/styles/PriceSlider.css',
     'assets/styles/searchTheme.css',
+    //'assets/styles/styles-l.css',
+    //'assets/styles/styles-m.css',
+    //'assets/styles/print.css',
     'vuetify/styles',
   ],
 
@@ -91,7 +109,9 @@ export default defineNuxtConfig({
     "@storefront-ui/nuxt",
     "@prisma/nuxt",
     '@nuxtjs/seo',
-    '@pinia/nuxt',
+    //'@pinia/nuxt',
+    //'@nuxtjs/kinde',
+    '@logto/nuxt',
     '@nuxtjs/algolia',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -103,10 +123,10 @@ export default defineNuxtConfig({
     },
   ],
 
-  // https://pinia.vuejs.org/ssr/nuxt.html
+ /* // https://pinia.vuejs.org/ssr/nuxt.html
   pinia: {
     storesDirs: ['./stores/**'],
-  },
+  },*/
 
   algolia: {
     // options
@@ -152,6 +172,7 @@ export default defineNuxtConfig({
     isEnabled: true,
     disableServerSideAuth: false,
     globalAppMiddleware: false,
+    originEnvKey: 'AUTH_ORIGIN',
     baseURL: `http://localhost:3011/api/auth`,
     provider: {
       type: 'authjs',
@@ -163,7 +184,16 @@ export default defineNuxtConfig({
       enablePeriodically: true,
       enableOnWindowFocus: true,
     }
-  },
+  },/**/
+
+  logto: {
+      endpoint: process.env.NUXT_LOGTO_ENDPOINT,
+      appId: process.env.NUXT_LOGTO_APP_ID,
+      appSecret: process.env.NUXT_LOGTO_APP_SECRET,
+      cookieEncryptionKey: process.env.NUXT_LOGTO_COOKIE_ENCRYPTION_KEY,
+      scopes: [UserScope.Email, UserScope.CustomData, UserScope.Profile, UserScope.Profile, UserScope.Phone],
+      fetchUserInfo: true,
+    },/**/
 
   runtimeConfig: {
     // Elasticsearch
@@ -188,8 +218,12 @@ export default defineNuxtConfig({
       // Authentication Secret
       authSecret: process.env.NUXT_AUTH_SECRET,
 
+      // JWT Secret
+      jwtSecret: process.env.JWT_SECRET,
+
       // Wordpress
       wordpressUrl: process.env.API_URL,
+      wpGraphql: process.env.API_URL_GRAPHQL,
       wordpressToken: process.env.WORDPRESS_TOKEN,
       wpApiUsername: process.env.WP_API_USERNAME,
       wpApiPassword: process.env.WP_API_PASSWORD,
@@ -197,6 +231,12 @@ export default defineNuxtConfig({
       // Magento 
       commerceUrl: process.env.MAGE_STORE_URL,
       commerceApiToken: process.env.WEBSITE_TOKEN,
+
+      // Fusionauth
+
+      FUSIONAUTH_CLIENT_ID: process.env.FUSIONAUTH_CLIENT_ID,
+      FUSIONAUTH_URL: process.env.FUSIONAUTH_URL,
+      FUSIONAUTH_REDIRECT_URL: process.env.FUSIONAUTH_REDIRECT_URL,
 
       // Directus
      /* directus: {
@@ -217,6 +257,16 @@ export default defineNuxtConfig({
       // Mailchimp
       mailchimpId: process.env.MAILCHIMP_ID,
 
+      // Meilisearch
+
+      MEILISEARCH_HOST: process.env.MEILISEARCH_HOST,
+      MEILISEARCH_API_KEY: process.env.MEILISEARCH_API_KEY,
+
+      // Algolia
+      algoliaAppId: process.env.ALGOLIA_APPLICATION_ID,
+      algoliaApiKey: process.env.ALGOLIA_API_KEY,
+      algoliaIndexName: process.env.ALGOLIA_INDEX_NAME,
+
       // Cloudinary
       cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
 
@@ -228,11 +278,11 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: process.env.GRAPHQL_HOST,
+        httpEndpoint: process.env.MAGE_MAGENTO_GRAPHQL_URL,
         tokenStorage: "cookie",
         httpLinkOptions: {
           headers: {
-            'x-hasura-admin-secret': `${process.env.GRAPHQL_TOKEN}`,
+            'Application': `Bearer ${process.env.WEBSITE_TOKEN}`,
             'content-type': 'application/json'
           }
         }

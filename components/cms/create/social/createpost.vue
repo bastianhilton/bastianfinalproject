@@ -6,13 +6,13 @@
                     <v-textarea v-model="content" label="What's happening?*" variant="outlined" required></v-textarea>
                     <v-row>
                         <v-col cols="12">
-                            <v-file-input v-model="image" chips multiple clearable density="compact"
-                                prepend-icon="fas fa-image" accept="image/*" label="Photo/Video"
+                            <v-file-input v-model="image" @change="handleImageUpload" chips multiple clearable density="compact"
+                                prepend-icon="fas fa-image" accept="image/*" label="Photo"
                                 variant="solo-inverted"></v-file-input>
                         </v-col>
                         <v-col cols="12">
-                            <v-file-input v-model="media" chips multiple clearable density="compact"
-                                prepend-icon="fas fa-video" accept="video/*" label="Live Video" variant="solo-inverted">
+                            <v-file-input v-model="media" @change="handleDocumentUpload" chips multiple clearable density="compact"
+                                prepend-icon="fas fa-video" accept=".docx, .txt, .pdf, video/*" label="Files" variant="solo-inverted">
                             </v-file-input>
                         </v-col>
                         <v-col cols="2">
@@ -114,7 +114,7 @@
                     <v-btn color="blue-darken-1" variant="text" type="submit" @click="reset = false">
                             Reset
                         </v-btn>
-                    <v-btn color="blue-darken-1" variant="text" type="submit" @click="dialog = false">
+                    <v-btn color="blue-darken-1" @click="updatePost" variant="text" type="submit">
                             Post
                         </v-btn>
                 </v-card-actions>
@@ -135,41 +135,45 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useApolloClient } from '@vue/apollo-composable';
-import { useRoute, useRouter } from 'vue-router';
-//import CREATE_ACTIVITY from '~/graphql/cms/queries/activities'
-    //import video from '../../../components/partials/videojs'
+import uploadFiles from '~/composables/cms/content/uploadFiles';
+import createPost from '~/composables/cms/posts/createPost';
+import { createItem } from '@directus/sdk';
 
+const { $directus } = useNuxtApp();
 const dialog = ref(false)
 const location = ref('bottom');
-const route = useRoute();
-const router = useRouter();
-//const id = ref('');
-
 const content = ref('');
-const image = ref('');
-const media = ref('');
-const reactions = ref('');
+const media = ref(null);
+const image = ref(null);
 
-const { client: apolloClient } = useApolloClient();
+const imageFile = ref(null);
+const documentFile = ref(null);
 
-const createActivity = async () => {
-  try {
-    const { data } = await apolloClient.mutate({
-      mutation: CREATE_ACTIVITY,
-      variables: {
-        content: content.value,
-        //id: id.value,
-      },
-    });
-    console.log('Activity created:', data.createActivity.activity);
-  } catch (error) {
-    console.error('Error updating activity:', error);
-  }
+const handleImageUpload = (event) => {
+  imageFile.value = event.target.files[0];
 };
 
-const createActivityAndRefresh = async () => {
-  await createActivity();
-  router.go(0);  // Refresh the current route
+const handleDocumentUpload = (event) => {
+  documentFile.value = event.target.files[0];
+};
+
+const updatePost = async () => {
+  try {
+    const uploadedFiles = await uploadFiles({
+      imageFile: imageFile.value,
+      documentFile: documentFile.value,
+    });
+
+    const post = await $directus.request(
+	createItem('posts', {
+		content: content.value,
+        media: media.value = uploadedFiles.documentId,
+        image: image.value = uploadedFiles.imageId
+	})
+);
+    console.log('Created Post:', post);
+  } catch (error) {
+    console.error('Error creating post:', error);
+  }
 };
 </script>

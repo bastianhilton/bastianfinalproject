@@ -13,7 +13,7 @@ const route = useRoute()
 const { data: seller } = await useAsyncData('seller', () => {
   return $directus.request($readItem('navigation', '14'))
 })
-  /*  import sellerbar from '~/graphql/cms/queries/menus/sellerbar'
+  /*  import sellerbar from '~/composables/graphql/cms/queries/menus/sellerbar'
 
 const {
     data

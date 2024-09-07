@@ -21,7 +21,7 @@
 </script>
 
 <script setup>
-import outlets from '~/graphql/commerce/queries/outlets'
+import outlets from '~/composables/graphql/commerce/queries/outlets'
 
 const {
     data

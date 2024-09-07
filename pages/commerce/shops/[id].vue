@@ -61,6 +61,7 @@ const shop = await client.request(readItem('shops', route.params.id, {
 
   definePageMeta({
     layout: 'nolive',
+    middleware: ['auth'],
   });
 
   useHead({

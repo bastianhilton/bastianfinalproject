@@ -32,7 +32,7 @@
 
 <script setup>
 import blogbar from '../../components/menus/blogbar.vue'
-import posts from '~/graphql/cms/queries/posts'
+import posts from '~/composables/graphql/cms/queries/posts'
 import { ref } from 'vue'
 
 const tab = ref(null);
@@ -55,4 +55,4 @@ const { data } = useAsyncQuery(posts);
     useHead({
         title: 'Blog',
     })
-</script>~/graphql/cms/queries/posts
+</script>~/composables/graphql/cms/queries/posts

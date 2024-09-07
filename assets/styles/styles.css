@@ -32,6 +32,7 @@ body {
 #mainSearch {
     width: 600px;
     height: 50px;
+    display: inline-block !important;
 }
 
 #mainSearch span {
@@ -52,6 +53,12 @@ body {
     width: 650px;
     background-color: white !important;
     border-radius: 5px;
+    display: inline-block !important;
+}
+
+.searchbutton {
+    background-color: orange !important;
+    color: black !important;
 }
 
 #searchResults {
@@ -181,6 +188,33 @@ body {
 .authSellerBar {
     position: relative;
     bottom: 0px;
+    text-align: center;
+}
+
+.authPage {
+    /*background-image: url(../images/jumbotron.jpg);*/
+    background-size: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+}
+
+.authLogo {
+    width: 120px;
+    position: relative;
+    left: 40%;
+}
+
+.authForm {
+    position: relative;
+    width: 50%;
+    margin-top: 5%;
+    left: 25%;
+    background-color: white;
+}
+
+.authForm h1 {
+    width: 100%;
     text-align: center;
 }
 
@@ -540,6 +574,10 @@ body {
 
 .productVCard {
     min-height: 62px;
+}
+
+.customerDashboard {
+    margin-top: 60px;
 }
 
 /******************* Upload Center ************/

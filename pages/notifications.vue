@@ -23,10 +23,6 @@
 </template>
 
 <script setup>
-/*import notifications from '~/graphql/cms/queries/notifications'
-
-const { data } = useAsyncQuery(notifications);*/
-
 import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
   
   const activities = ref([]); // Reactive variable to store activity data
