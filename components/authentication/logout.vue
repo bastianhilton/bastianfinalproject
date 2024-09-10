@@ -1,19 +1,20 @@
 <template>
-  <v-btn @click="signOut('fusionauth', { callbackUrl: '/' })" variant="text" text="Logout"></v-btn>
+  <v-btn @click="handleLogout" variant="text" text="Logout"></v-btn>
 </template>
 
 <script setup>
-//import { useAuthStore } from '~/store/auth';
-//import { useFusionAuth } from "@fusionauth/vue-sdk";
-const { signOut } = useAuth();
+import { useRouter } from 'vue-router';
 
-/*const {
-  logout
-} = useFusionAuth();*/
+const router = useRouter();
 
-//const authStore = useAuthStore();
+const handleLogout = () => {
+  // Remove the token (stored in localStorage or cookies)
+  localStorage.removeItem('jwtToken');  // Assuming the token is stored in localStorage
 
-/*const logout = () => {
-  authStore.logout();
-};*/
+  // Optional: Clear any other user data from state or storage
+  // For example: localStorage.removeItem('userDetails');
+
+  // Redirect to the login page or homepage
+  router.push('/');
+}
 </script>

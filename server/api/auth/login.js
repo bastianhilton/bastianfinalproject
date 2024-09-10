@@ -72,7 +72,7 @@ export default defineEventHandler(async (event) => {
         is_seller: user.is_seller,
       },
       jwtSecret, // Use the secret key here
-      { expiresIn: '1h' }
+      { expiresIn: '12h' }
     );
 
     return {

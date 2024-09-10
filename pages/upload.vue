@@ -2,11 +2,11 @@
     <div class="contentPage">
         <v-row>
             <v-col cols="12">
-             <p class="uploadHeader">{{ page.name }}</p>
+                <p class="uploadHeader">{{ page.name }}</p>
 
-             <p class="uploadDescription" v-html="page.content"></p>   
+                <p class="uploadDescription" v-html="page.content"></p>
             </v-col>
-            
+
             <v-col cols="12">
                 <v-card>
                     <v-tabs v-model="tab" bg-color="orange">
@@ -37,33 +37,44 @@
 </template>
 
 <script>
-import createproduct from '../components/commerce/create/commerce/createproduct.vue'
-import createlist from '../components/commerce/create/commerce/createlist.vue'
-import bookmarkvideo from '../components/cms/create/social/bookmarkvideo.vue'
-
-  export default {
-    components: { createproduct, createlist, bookmarkvideo },
-    data: () => ({
-      tab: null,
-    }),
-  }
+    export default {
+        components: {
+            createproduct,
+            createlist,
+            bookmarkvideo
+        },
+        data: () => ({
+            tab: null,
+        }),
+    }
 </script>
 
 <script setup>
+    import {
+        ref
+    } from 'vue'
+    import createproduct from '~/components/commerce/create/commerce/createproduct.vue'
+    import createlist from '~/components/commerce/create/commerce/createlist.vue'
+    import bookmarkvideo from '~/components/cms/create/social/bookmarkvideo.vue'
+
     useHead({
         title: 'Upload Center',
     })
 
-const {
-    getItemById
-  } = useDirectusItems()
+    const tab = ref(null)
 
-  const page = await getItemById({
-    collection: "pages",
-    id: 20
-  });
+    const {
+    $directus,
+    $readItem,
+  } = useNuxtApp()
 
-  definePageMeta({
-	  middleware: ['auth'],
-	})  
+    const {
+        data: page
+    } = await useAsyncData('page', () => {
+        return $directus.request($readItem('pages', '20'))
+    })
+
+    definePageMeta({
+        middleware: ['auth'],
+    })
 </script>

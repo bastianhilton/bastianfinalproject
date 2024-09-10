@@ -1,8 +1,6 @@
 <template>
   <div class="authPage">
-   <!-- <iframe style="position: relative; height: 100vh !important;" frameborder="0"
-            allow="clipboard-write;camera;geolocation;fullscreen" :src="`${url}meeovi-authentication`"></iframe>-->
-  <section
+    <section
       data-bs-version="5.1"
       class="form2 shopm5 cid-umoq9RvANO mbr-parallax-background"
       id="aform2-a3"
@@ -78,16 +76,13 @@
 </template>
 
 <script setup>
-/*import { useRuntimeConfig } from '#app';
-
-const config = useRuntimeConfig();
-const url = config.public.budibaseEmbed;*/
 import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 const email = ref('')
 const password = ref('')
-const websiteId = ref('')
 const errorMessage = ref('')
 
 const handleLogin = async () => {
@@ -106,13 +101,19 @@ const handleLogin = async () => {
 
     if (response.ok) {
       const data = await response.json();
-      // Handle successful login
-      console.log('Login successful:', data);
-      errorMessage.value = ''; // Clear any previous error message
-      router.push('/'); // Redirect to the homepage
+      
+      // Store the token in localStorage or cookies
+      localStorage.setItem('authToken', data.body.token);
+
+      // Clear any previous error message
+      errorMessage.value = '';
+
+      // Redirect to the previous page or home if no previous page
+      const returnUrl = route.query.returnUrl || '/';
+      console.log('Redirecting to:', returnUrl);
+      router.push(returnUrl);
     } else {
       const errorData = await response.json();
-      // Handle login error
       errorMessage.value = errorData.statusMessage || 'Login failed';
     }
   } catch (error) {
@@ -120,7 +121,6 @@ const handleLogin = async () => {
     errorMessage.value = 'An unexpected error occurred';
   }
 };
-
 
 definePageMeta({
   auth: false,

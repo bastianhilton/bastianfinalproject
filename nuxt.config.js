@@ -200,6 +200,8 @@ export default defineNuxtConfig({
     searchHost: process.env.ELASTICSEARCH_URL,
     searchKey: process.env.ELASTICSEARCH_APP_SEARCH_KEY,
     indexName: process.env.ELASTICSEARCH_INDEX_NAME,
+    api_key: process.env.ELASTICSEARCH_API_KEY,
+    id: process.env.ELASTICSEARCH_ID,
 
     // Cloudflare Turnstile
     turnstile: {
@@ -278,25 +280,25 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: process.env.MAGE_MAGENTO_GRAPHQL_URL,
+        httpEndpoint: process.env.GRAPHQL_HOST,
         tokenStorage: "cookie",
         httpLinkOptions: {
           headers: {
-            'Application': `Bearer ${process.env.WEBSITE_TOKEN}`,
+            'x-hasura-admin-secret': `${process.env.GRAPHQL_TOKEN}`,
             'content-type': 'application/json'
           }
         }
       },
       cms: {
         httpEndpoint: process.env.API_URL_GRAPHQL,
-        /*  httpLinkOptions: {
-            headers: {
-              'Authorization': `Bearer ${process.env.WORDPRESS_TOKEN}`,
-              'username': process.env.WP_API_USERNAME,
-              'password': process.env.WP_API_PASSWORD,
-              'content-type': 'application/json'
-            }
-          }*/
+        httpLinkOptions: {
+          headers: {
+            'Authorization': `Bearer ${process.env.WORDPRESS_TOKEN}`,
+            'username': process.env.WP_API_USERNAME,
+            'password': process.env.WP_API_PASSWORD,
+            'content-type': 'application/json'
+          }
+        }
       },
     },
   },

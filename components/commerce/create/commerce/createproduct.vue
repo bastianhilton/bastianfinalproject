@@ -143,21 +143,12 @@
     </div>
 </template>
 
-<script>
-    import editor from '../../partials/editor.vue'
-
-    export default {
-        components: {
-            editor
-        },
-    }
-</script>
-
 <script setup>
     import {
         ref
     } from 'vue'
     import { useRuntimeConfig } from '#imports';
+    import editor from '~/components/partials/editor.vue'
 
     const config = useRuntimeConfig();
     const name = ref('');

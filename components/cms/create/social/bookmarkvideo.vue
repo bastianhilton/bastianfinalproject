@@ -29,31 +29,18 @@
     </div>
 </template>
 
-<script>
-    import video from '../../apps/media/videojs.vue'
-
-    export default {
-        components: {
-            video
-        },
-        data() {
-            return {
-                dialog: false,
-                notifications: false,
-                sound: true,
-                widgets: false,
-            }
-        }
-    }
-</script>
-
 <script setup>
    import {
         ref
     } from 'vue'
     import { useRuntimeConfig } from '#imports';
+    import video from '~/components/media/video/videojs.vue'
 
     const config = useRuntimeConfig();
+    const dialog = ref(false);
+    const notifications = ref(false);
+    const sound = ref(true);
+    const widgets = ref(false);
     const title = ref('');
     const videoFile = ref('');
     const content = ref('');

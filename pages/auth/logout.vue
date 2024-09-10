@@ -5,24 +5,18 @@
 </template>
 
 <script setup>
-    import {
-        useRouter
-    } from 'vue-router';
-    const fusionAuth = inject('fusionAuth'); // Access the FusionAuth client
-    const router = useRouter();
+import { useRouter } from 'vue-router';
 
-    onMounted(async () => {
-        try {
-            // Clear local access token
-            localStorage.removeItem('access_token');
+const router = useRouter();
 
-            // Redirect to FusionAuth logout page
-            await fusionAuth.logout();
+const handleLogout = () => {
+  // Remove the token (stored in localStorage or cookies)
+  localStorage.removeItem('jwtToken');  // Assuming the token is stored in localStorage
 
-            // After logout, you can redirect the user to the homepage or a custom page
-            router.push('/');
-        } catch (error) {
-            console.error('Error during logout:', error);
-        }
-    });
+  // Optional: Clear any other user data from state or storage
+  // For example: localStorage.removeItem('userDetails');
+
+  // Redirect to the login page or homepage
+  router.push('/api/auth/login');
+}
 </script>
