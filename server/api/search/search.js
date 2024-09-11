@@ -1,39 +1,37 @@
-import client from '~/utils/elasticsearch';
+import { defineEventHandler, getQuery } from 'h3';
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery(event)?.q || ''; // Get the 'q' query parameter from the request
-    const pageSize = parseInt(getQuery(event)?.pageSize) || 10; // Get the page size from the request
-    const lastSortValue = getQuery(event)?.lastSortValue || ''; // Get the last sort value from the request
+  const query = getQuery(event);
+  const searchQuery = query.q || '';
+  const page = query.page || 1;
+  const pageSize = query.pageSize || 10;
 
-    if (!query) {
-        return { results: [], total: 0 }; // Return empty if no query is provided
-    }
+  try {
+    const config = useRuntimeConfig();
 
-    try {
-        const response = await client.search({
-            index: useRuntimeConfig().indexName, // Elasticsearch index
-            body: {
-                query: {
-                    match: {
-                        field: query // Replace 'field' with the field you'd like to search
-                    }
-                },
-                sort: [{ "_id": "asc" }], // Sort by document ID or another unique field
-                size: pageSize,
-                search_after: lastSortValue // Use the last sort value from the previous page
-            }
-        });
+    // Perform search with properly structured request
+    const response = await $fetch(`${config.public.commerceUrl}/rest/V1/products`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${config.public.commerceApiToken}`,
+        'Content-Type': 'application/json',
+      },
+      params: {
+        'searchCriteria[filterGroups][0][filters][0][field]': 'name', // Search field
+        'searchCriteria[filterGroups][0][filters][0][value]': `%${searchQuery}%`, // Search term
+        'searchCriteria[filterGroups][0][filters][0][conditionType]': 'like', // Condition type
+        'searchCriteria[pageSize]': pageSize, // Number of results per page
+        'searchCriteria[currentPage]': page, // Current page
+      },
+    });
 
-        return { 
-            results: response.hits.hits, 
-            total: response.hits.total.value,
-            lastSortValue: response.hits.hits.length > 0 ? response.hits.hits[response.hits.hits.length - 1]._id : ''
-        }; // Return the search results, total number of hits, and last sort value
-    } catch (error) {
-        console.error('Elasticsearch search error:', error.meta?.body?.error || error);
-        throw createError({
-            statusCode: 500,
-            message: error.meta?.body?.error?.reason || 'Elasticsearch search failed'
-        });
-    }
+    // Extract product data and calculate total pages
+    const products = response.items || [];
+    const totalPages = Math.ceil((response.total_count || 0) / pageSize);
+
+    return { results: products, totalPages };
+  } catch (error) {
+    console.error('Error fetching search results from Magento:', error);
+    throw new Error('Failed to fetch search results');
+  }
 });

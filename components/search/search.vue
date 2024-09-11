@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-text-field id="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
+  <div class="searchField">
+    <v-text-field id="searchQuery" class="mainSearch" density="compact" variant="solo" label="Search Meeovi" append-inner-icon="fas fa-search" single-line
         hide-details v-model="searchQuery" @keyup.enter="submitSearch"></v-text-field>
   </div>
 </template>

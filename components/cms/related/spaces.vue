@@ -1,15 +1,15 @@
 <template>
     <div>
         <v-card class="mx-auto" max-width="400" style="max-height: 550px !important;">
-            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${url}/assets/${space?.image?.filename_disk}`" cover />
+            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${space?.avatar_url}`" cover />
                 <v-card-title>{{ space?.name }}</v-card-title>
 
             <v-card-subtitle class="pt-4">
-                <div># of Members: {{space?.numberOfMembers}}</div>
+                <div># of Members: {{space?.total_member_count}}</div>
 
                 <div>Created: {{ new Date(space?.date_created).toLocaleDateString() }}</div>
 
-                <div>Last Activity: {{ new Date(space?.date_updated).toLocaleDateString() }}</div>
+                <div>Last Activity: {{ new Date(space?.last_activity).toLocaleDateString() }}</div>
             </v-card-subtitle>
 
             <v-card-text>
@@ -24,16 +24,6 @@
         </v-card>
     </div>
 </template>
-
-<script>
-    export default {
-        data() {
-            return {
-                url: process.env.DIRECTUS_URL || 'http://89.116.38.24:8011'
-            }
-        }
-    }
-</script>
 
 <script setup>
     import {

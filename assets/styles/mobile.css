@@ -1,13 +1,5 @@
 /**************** Main CSS ***************/
-@media only screen and (max-width: 760px){
-    .notificationsHeader {
-        display: none;
-    }
-
-    .ecosystemMenuIcon {
-        display: none !important;
-    }
-
+@media only screen and (max-width: 1263px){
     #search {
         display: none;
     }
@@ -17,9 +9,13 @@
         top: 0px;
         position: relative;
     }
+
+    #mainSearch {
+      display: none;
+    }
 }
 
-@media only screen and (min-width: 761px){
+@media only screen and (min-width: 1264px){
     #minSearch {
         display: none;
     }

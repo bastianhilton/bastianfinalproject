@@ -4,7 +4,6 @@
 import vuetify, {
   transformAssetUrls
 } from 'vite-plugin-vuetify'
-import { UserScope } from '@logto/nuxt';
 require("dotenv").config()
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -28,16 +27,13 @@ export default defineNuxtConfig({
           rel: 'apple-touch-icon',
           href: '/icons/apple-touch-icon-180x180.png'
         },
-        {
-          href: "//cdn-images.mailchimp.com/embedcode/classic-061523.css",
-        },
         //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/mage/calendar.css"},
         //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Sparsh_Faq/css/faq.css"},
         //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Lof_MultiWishlist/css/popup.css"},
         //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Magento_Swatches/css/swatches.css"},
         //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/StripeIntegration_Payments/css/wallets.css"},
-        { rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/styles-l.css" },
-        { rel: "stylesheet", type: "text/css", media: "print", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/print.css" },
+        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/styles-l.css" },
+        //{ rel: "stylesheet", type: "text/css", media: "print", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/print.css" },
       ],
       script: [{
           src: '//platform-api.sharethis.com/js/sharethis.js#property=#{property?._id}&product=custom-share-buttons&source=platform',
@@ -47,10 +43,7 @@ export default defineNuxtConfig({
         //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/requirejs-config.js"},
         /* {
            src: 'https://js.stripe.com/v3/',
-         }
-        {
-          src: "//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js",
-        },*/
+         }*/
       ],
     },
   },
@@ -92,9 +85,6 @@ export default defineNuxtConfig({
     'assets/styles/sellerDashboard.css',
     'assets/styles/PriceSlider.css',
     'assets/styles/searchTheme.css',
-    //'assets/styles/styles-l.css',
-    //'assets/styles/styles-m.css',
-    //'assets/styles/print.css',
     'vuetify/styles',
   ],
 
@@ -102,17 +92,11 @@ export default defineNuxtConfig({
     '@nuxtjs/apollo',
     'nuxt3-leaflet',
     "@nuxt/image",
-    '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     "nuxt-disqus",
-    //'nuxt-directus',
     "@storefront-ui/nuxt",
     "@prisma/nuxt",
     '@nuxtjs/seo',
-    //'@pinia/nuxt',
-    //'@nuxtjs/kinde',
-    '@logto/nuxt',
-    '@nuxtjs/algolia',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
@@ -122,27 +106,6 @@ export default defineNuxtConfig({
       })
     },
   ],
-
- /* // https://pinia.vuejs.org/ssr/nuxt.html
-  pinia: {
-    storesDirs: ['./stores/**'],
-  },*/
-
-  algolia: {
-    // options
-    apiKey: process.env.ALGOLIA_API_KEY,
-    applicationId: process.env.ALGOLIA_APPLICATION_ID,
-    instantSearch: {
-      theme: 'algolia'
-    },
-    useFetch: true,
-    crawler: {
-      apiKey: process.env.ALGOLIA_CRAWLER_ID,
-      indexName: process.env.ALGOLIA_INDEX_NAME,
-      meta: ['title', 'description'],
-      include: () => true
-    },
-  },
 
   // https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/prisma-nuxt-module#configuration
   prisma: {
@@ -168,7 +131,7 @@ export default defineNuxtConfig({
     shortname: process.env.DISQUS_SHORTNAME,
   },
 
-  auth: {
+  /*auth: {
     isEnabled: true,
     disableServerSideAuth: false,
     globalAppMiddleware: false,
@@ -184,16 +147,7 @@ export default defineNuxtConfig({
       enablePeriodically: true,
       enableOnWindowFocus: true,
     }
-  },/**/
-
-  logto: {
-      endpoint: process.env.NUXT_LOGTO_ENDPOINT,
-      appId: process.env.NUXT_LOGTO_APP_ID,
-      appSecret: process.env.NUXT_LOGTO_APP_SECRET,
-      cookieEncryptionKey: process.env.NUXT_LOGTO_COOKIE_ENCRYPTION_KEY,
-      scopes: [UserScope.Email, UserScope.CustomData, UserScope.Profile, UserScope.Profile, UserScope.Phone],
-      fetchUserInfo: true,
-    },/**/
+  },*/
 
   runtimeConfig: {
     // Elasticsearch
@@ -234,12 +188,6 @@ export default defineNuxtConfig({
       commerceUrl: process.env.MAGE_STORE_URL,
       commerceApiToken: process.env.WEBSITE_TOKEN,
 
-      // Fusionauth
-
-      FUSIONAUTH_CLIENT_ID: process.env.FUSIONAUTH_CLIENT_ID,
-      FUSIONAUTH_URL: process.env.FUSIONAUTH_URL,
-      FUSIONAUTH_REDIRECT_URL: process.env.FUSIONAUTH_REDIRECT_URL,
-
       // Directus
      /* directus: {
         url: process.env.DIRECTUS_URL,
@@ -255,22 +203,6 @@ export default defineNuxtConfig({
 
       // Google Tag Manager
       gtagId: process.env.NUXT_PUBLIC_GTAG_ID,
-
-      // Mailchimp
-      mailchimpId: process.env.MAILCHIMP_ID,
-
-      // Meilisearch
-
-      MEILISEARCH_HOST: process.env.MEILISEARCH_HOST,
-      MEILISEARCH_API_KEY: process.env.MEILISEARCH_API_KEY,
-
-      // Algolia
-      algoliaAppId: process.env.ALGOLIA_APPLICATION_ID,
-      algoliaApiKey: process.env.ALGOLIA_API_KEY,
-      algoliaIndexName: process.env.ALGOLIA_INDEX_NAME,
-
-      // Cloudinary
-      cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
 
       // Stripe
       stripePk: process.env.STRIPE_PUBLIC_KEY,

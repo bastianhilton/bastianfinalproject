@@ -36,14 +36,14 @@
 
             <v-list>
               <v-list-item>
-                <!--<v-btn @click="login()" variant="text">Login</v-btn> |
+                <v-btn @click="login()" variant="text">Login</v-btn> |
                 <v-btn @click="register()" variant="text">Register</v-btn>
-                <v-btn @click="login()" href="/auth/login">Login / Register</v-btn>
+                <!--<v-btn @click="login()" href="/auth/login">Login / Register</v-btn>
           <LoginLink to="/api/login" external>
             Sign in
-          </LoginLink>-->
+          </LoginLink>
 
-                <a :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }} </a>
+                <a :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }} </a>-->
               </v-list-item>
             </v-list>
           </v-expansion-panel-text>
@@ -58,20 +58,7 @@
     ref
   } from 'vue'
   import logout from '~/components/authentication/logout.vue'
-  import {
-    useLogtoUser
-  } from '#imports'; // Add this line if auto-import is disabled
-  //import { useFusionAuth } from "@fusionauth/vue-sdk";
 
- /* const {
-    isLoggedIn,
-    userInfo,
-    isFetchingUserInfo,
-    login,
-    register,
-  } = useFusionAuth();*/
-
-  const user = useLogtoUser();
   const location = ref('bottom')
 
   const {

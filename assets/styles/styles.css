@@ -29,13 +29,13 @@ body {
     color: white !important;
 }
 
-#mainSearch {
+.mainSearch {
     width: 600px;
     height: 50px;
     display: inline-block !important;
 }
 
-#mainSearch span {
+.mainSearch span {
     height: 50px !important;
 }
 
