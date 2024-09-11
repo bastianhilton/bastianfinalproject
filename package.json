@@ -28,7 +28,6 @@
   "dependencies": {
     "@apollo/client": "^3.11.3",
     "@directus/sdk": "^16.1.1",
-    "@elastic/elasticsearch": "^8.15.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
@@ -38,7 +37,6 @@
     "@nuxtjs/seo": "^2.0.0-rc.18",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@prisma/nuxt": "^0.0.35",
-    "@searchkit/instantsearch-client": "^4.14.0",
     "@videojs/http-streaming": "^3.13.1",
     "@videojs/themes": "^1.0.1",
     "bcryptjs": "^2.4.3",
@@ -53,7 +51,6 @@
     "jsonwebtoken": "^9.0.2",
     "nuxt-disqus": "^1.1.1",
     "pinia": "^2.2.2",
-    "searchkit": "^4.13.0",
     "video.js": "^8.16.1",
     "videojs-contrib-ads": "^7.1.0",
     "videojs-contrib-quality-levels": "latest",
