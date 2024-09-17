@@ -6,13 +6,13 @@
                     <v-textarea v-model="content" label="What's happening?*" variant="outlined" required></v-textarea>
                     <v-row>
                         <v-col cols="12">
-                            <v-file-input v-model="image" @change="handleImageUpload" chips multiple clearable density="compact"
-                                prepend-icon="fas fa-image" accept="image/*" label="Photo"
+                            <v-file-input v-model="image" chips multiple clearable density="compact"
+                                prepend-icon="fas fa-image" accept="image/*" label="Photo/Video"
                                 variant="solo-inverted"></v-file-input>
                         </v-col>
                         <v-col cols="12">
-                            <v-file-input v-model="media" @change="handleDocumentUpload" chips multiple clearable density="compact"
-                                prepend-icon="fas fa-video" accept=".docx, .txt, .pdf, video/*" label="Files" variant="solo-inverted">
+                            <v-file-input v-model="media" chips multiple clearable density="compact"
+                                prepend-icon="fas fa-video" accept="video/*" label="Live Video" variant="solo-inverted">
                             </v-file-input>
                         </v-col>
                         <v-col cols="2">
@@ -137,45 +137,76 @@
 
 <script setup>
 import { ref } from 'vue';
-import uploadFiles from '~/composables/cms/content/uploadFiles';
-import createPost from '~/composables/cms/posts/createPost';
-import { createItem } from '@directus/sdk';
+import { useApolloClient } from '@vue/apollo-composable';
+import { useRoute, useRouter } from 'vue-router';
+import { UPDATE_ACTIVITY, DELETE_ACTIVITY } from '~/graphql/cms/mutations/activities'
+    //import video from '../../../components/partials/videojs'
 
-const { $directus } = useNuxtApp();
-const dialog = ref(false)
 const location = ref('bottom');
+const route = useRoute();
+const router = useRouter();
+const id = route.params.id;
+
 const content = ref('');
-const media = ref(null);
-const image = ref(null);
+const image = ref('');
+const media = ref('');
+const reactions = ref('');
 
-const imageFile = ref(null);
-const documentFile = ref(null);
+const { client: apolloClient } = useApolloClient();
 
-const handleImageUpload = (event) => {
-  imageFile.value = event.target.files[0];
-};
-
-const handleDocumentUpload = (event) => {
-  documentFile.value = event.target.files[0];
-};
-
-const createNewPost = async () => {
+const updateActivity = async () => {
   try {
-    const uploadedFiles = await uploadFiles({
-      imageFile: imageFile.value,
-      documentFile: documentFile.value,
+    const { data } = await apolloClient.mutate({
+      mutation: UPDATE_ACTIVITY,
+      variables: {
+        content: content.value,
+        id: id,
+      },
+      context: {
+        clientName: 'secondary'  // This will use the secondary endpoint
+      }
     });
-
-    const post = await $directus.request(
-	updateItem('posts', {
-		content: content.value,
-        media: media.value = uploadedFiles.documentId,
-        image: image.value = uploadedFiles.imageId
-	})
-);
-    console.log('Updated Post:', post);
+    console.log('Activity updated:', data.updateActivity.activity);
   } catch (error) {
-    console.error('Error updating post:', error);
+    console.error('Error updating activity:', error);
   }
+};
+
+const deleteActivity = async () => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: DELETE_ACTIVITY,
+      variables: {
+        id: id,
+      },
+      context: {
+        clientName: 'secondary'  // This will use the secondary endpoint
+      }
+    });
+    console.log('Activity deleted:', data.deleteActivity.activity.id);
+  } catch (error) {
+    console.error('Error deleting activity:', error);
+  }
+};
+
+const deleteActivityAndRefresh = async () => {
+  await deleteActivity();
+  router.push('/social/newsfeed');  // Refresh the current route
+};
+
+const updateActivityAndRefresh = async () => {
+  await updateActivity();
+  router.go(0);  // Refresh the current route
+};
+
+const resetForm = () => {
+  content.value = '';
+  image.value = '';
+  media.value = '';
+  reactions.value = '';
+};
+
+const reset = () => {
+  router.go(0);
 };
 </script>

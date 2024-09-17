@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const group = gql`
+const activity = gql`
 query NewQuery ($id: ID!) {
   activity(id: $id) {
     content
@@ -18,4 +18,4 @@ query NewQuery ($id: ID!) {
   }
 }`
 
-export default group;
+export default activity;

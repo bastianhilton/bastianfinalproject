@@ -5,14 +5,13 @@
       <v-card-title v-html="activity?.title"></v-card-title>
 
       <v-list lines="one">
-        <v-list-item :title="activity?.user_id" :subtitle="activity?.capabilities"
-          :prepend-avatar="activity?.user_avatar">
+        <v-list-item :title="activity?.creator?.username" :prepend-avatar="activity?.creator?.avatar?.url">
         </v-list-item>
       </v-list>
 
       <v-card-text>
         <div>
-          <p v-html="activity?.content?.rendered"></p>
+          <p v-html="activity?.content"></p>
         </div>
       </v-card-text>
 
@@ -38,16 +37,6 @@
     </v-card>
   </div>
 </template>
-
-<script>
-  export default {
-    data() {
-      return {
-        //url: process.env.DIRECTUS_URL || 'http://89.116.38.24:8011'
-      }
-    }
-  }
-</script>
 
 <script setup>
   import {

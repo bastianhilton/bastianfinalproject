@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const myaccountmenu = gql`
+const settingsmenu = gql`
 query AccountCommerce {
-  menus(where: {slug: "shop"}) {
+  menus(where: {slug: "settings"}) {
     nodes {
       menuItems {
         nodes {
@@ -18,4 +18,4 @@ query AccountCommerce {
   }
 }`
 
-export default myaccountmenu;
+export default settingsmenu;

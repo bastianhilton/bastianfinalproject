@@ -53,45 +53,77 @@
 
 <script setup>
 import { ref } from 'vue';
-import uploadFiles from '~/composables/cms/content/uploadFiles';
-import createPost from '~/composables/cms/posts/createPost';
-import { createItem } from '@directus/sdk';
+import { useApolloClient } from '@vue/apollo-composable';
+import { useRoute, useRouter } from 'vue-router';
+import { UPDATE_GROUP, DELETE_GROUP } from '~/graphql/cms/mutations/groups'
 
-const { $directus } = useNuxtApp();
-const dialog = ref(false)
-const location = ref('bottom');
-const content = ref('');
-const media = ref(null);
-const image = ref(null);
+const route = useRoute();
+const router = useRouter();
+const id = route.params.id;
 
-const imageFile = ref(null);
-const documentFile = ref(null);
+const name = ref('');
+const description = ref('');
+const image = ref('');
+const media = ref('');
+const reactions = ref('');
 
-const handleImageUpload = (event) => {
-  imageFile.value = event.target.files[0];
-};
+const { client: apolloClient } = useApolloClient();
 
-const handleDocumentUpload = (event) => {
-  documentFile.value = event.target.files[0];
-};
-
-const createNewPost = async () => {
+const updateGroup = async () => {
   try {
-    const uploadedFiles = await uploadFiles({
-      imageFile: imageFile.value,
-      documentFile: documentFile.value,
+    const { data } = await apolloClient.mutate({
+      mutation: UPDATE_GROUP,
+      variables: {
+        name: name.value,
+        description: description.value,
+        id: id,
+      },
+      context: {
+        clientName: 'secondary'  // This will use the secondary endpoint
+      }
     });
-
-    const post = await $directus.request(
-	updateItem('posts', {
-		content: content.value,
-        media: media.value = uploadedFiles.documentId,
-        image: image.value = uploadedFiles.imageId
-	})
-);
-    console.log('Updated Post:', post);
+    console.log('Group updated:', data.updateGroup.group);
   } catch (error) {
-    console.error('Error updating post:', error);
+    console.error('Error updating group:', error);
   }
+};
+
+const deleteGroup = async () => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: DELETE_GROUP,
+      variables: {
+        id: id,
+      },
+      context: {
+        clientName: 'secondary'  // This will use the secondary endpoint
+      }
+    });
+    console.log('Group deleted:', data.deleteGroup.group.id);
+  } catch (error) {
+    console.error('Error deleting group:', error);
+  }
+};
+
+const deleteGroupAndRefresh = async () => {
+  await deleteGroup();
+  router.push('/social/spaces');  // Refresh the current route
+};
+
+const updateGroupAndRefresh = async () => {
+  await updateGroup();
+  router.go(0);  // Refresh the current route
+};
+
+const resetForm = () => {
+  name.value = '';
+  description.value = '';
+  image.value = '';
+  media.value = '';
+  reactions.value = '';
+};
+
+const reset = () => {
+  router.go(0);
 };
 </script>

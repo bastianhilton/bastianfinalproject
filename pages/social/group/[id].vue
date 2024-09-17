@@ -3,7 +3,7 @@
         <!--<profilebar />-->
 
         <v-card min-height="500px" elevation="0">
-            <v-toolbar color="primary" dark extended flat height="250" :image="`${group?.avatar_urls?.full}`"></v-toolbar>
+            <v-toolbar color="primary" dark extended flat height="250" :image="`${result?.group?.attachmentCover?.full}`"></v-toolbar>
             <!--Shorts for Space 
             <shorts />-->
             <v-tabs v-model="tab" align-tabs="center" bg-color="info" stacked>
@@ -54,8 +54,8 @@
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong>
-                                                            <v-avatar size="80" rounded="0" :image="`${group?.avatar_urls?.full}`"></v-avatar>
-                                                        </strong><br><br>{{ group?.name }}</h4>
+                                                            <v-avatar size="80" rounded="0" :image="`${result?.group?.creator?.avatar?.url}`"></v-avatar>
+                                                        </strong><br><br>{{ result?.group?.name }}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,7 +66,7 @@
                                                         style="color: rgb(255, 153, 102); fill: rgb(255, 153, 102);"></span>
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
-                                                        <strong>Group Created</strong><br><br>{{ new Date(group?.date_created).toLocaleDateString() }}
+                                                        <strong>Group Created</strong><br><br>{{ new Date(result?.group?.dateCreated).toLocaleDateString() }}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -79,7 +79,7 @@
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong># of
-                                                            Members</strong><br><br>{{ group?.total_member_count }}
+                                                            Members</strong><br><br>{{ result?.group?.totalMemberCount }}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -88,12 +88,12 @@
                                             <div class="card-wrapper">
                                                 <div class="card-box align-center">
                                                     <v-avatar size="50">
-                                                        <img :src="`${group?.creator?.avatar?.url}`" :alt="group?.creator?.username" />
+                                                        <img :src="`${result?.group?.creator?.avatar?.url}`" :alt="result?.group?.creator?.username" />
                                                     </v-avatar>
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong>Created By</strong><br><br><a
-                                                            :href="`/account/user/${group?.creator?.username}`"></a></h4>
+                                                            :href="`/account/user/${result?.group?.creator?.username}`"></a></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@
                                             <div class="card-wrapper">
                                                 <div class="card-box align-center">
                                                     <h4 class="card-title align-center mbr-black mbr-fonts-style display-7"
-                                                        v-html="group?.description"></h4>
+                                                        v-html="result?.group?.description"></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@
                         <!--Space Social Feed-->
                         <v-tabs-window-item value="tab-2">
                             <v-row>
-                            <v-col cols="3" v-for="activities in group?.activities?.nodes" :key="activities">
+                            <v-col cols="3" v-for="activities in result?.group?.activities?.nodes" :key="activities">
                                 <post :post="activities" />
                             </v-col>
                         </v-row>
@@ -123,53 +123,68 @@
                         <!--Space People-->
                         <v-tabs-window-item value="tab-3">
                             <v-list lines="one">
-                                <v-list-item :title="`${group?.total_member_count} Members`"></v-list-item>
+                                <v-list-item :title="`${result?.group?.totalMemberCount} Members`"></v-list-item>
                             </v-list>
 
                             <v-text-field label="Find a Member" prepend-inner-icon="fas fa-search" variant="solo">
                             </v-text-field>
 
                             <v-list lines="two">
-                                <h5>Creator of {{ group?.name }}</h5>
-                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
-                                    <creators />
-                                </v-list-item>
-                            </v-list>
+                            <h5>Creator of {{ result?.group?.name }}</h5>
+                            <v-list-item>
+                                <v-row align="center" class="spacer" no-gutters>
+                                    <v-col cols="4" sm="2" md="1">
+                                        <v-avatar size="50">
+                                            <img :src="`${result?.group?.creator?.avatar?.url}`"
+                                                :alt="result?.group?.creator?.username" />
+                                        </v-avatar>
+                                    </v-col>
+
+                                    <v-col class="hidden-xs-only text-left ms-2" sm="5" md="3">
+                                        <p>{{ result?.group?.creator?.username }}</p>
+                                    </v-col>
+
+                                    <v-col class="text-medium-emphasis text-truncate hidden-sm-and-down">
+                                        <v-btn prepend-icon="fas fa-user-plus" color="primary">Add Friend</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-list-item>
+                        </v-list>
+
+                        <v-list lines="two">
+                            <h5>Admins of {{ result?.group?.name }}</h5>
+                            <v-list-item v-for="admins in result?.group?.admins?.nodes" :key="admins">
+                                <member :member="admins" />
+                            </v-list-item>
+                        </v-list>
+
+                        <v-list lines="two">
+                            <h5>Moderators of {{ result?.group?.name }}</h5>
+                            <v-list-item v-for="mods in result?.group?.mods?.nodes" :key="mods">
+                                <member :member="mods" />
+                            </v-list-item>
+                        </v-list>
 
                             <v-list lines="two">
-                                <h5>Admins of {{ group?.name }}</h5>
-                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
-                                    <creators />
-                                </v-list-item>
-                            </v-list>
-
-                            <v-list lines="two">
-                                <h5>Moderators of {{ group?.name }}</h5>
-                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
-                                    <creators />
-                                </v-list-item>
-                            </v-list>
-
-                            <v-list lines="two">
-                                <h5>All Members of {{ group?.name }}</h5>
-                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
-                                    <creators />
-                                </v-list-item>
-                            </v-list>
-                        </v-tabs-window-item>
+                            <h5>All Members of {{ result?.group?.name }}</h5>
+                            <v-list-item v-for="members in result?.group?.members?.nodes" :key="members">
+                                <member :member="members" />
+                            </v-list-item>
+                        </v-list>
+                    </v-tabs-window-item>
 
                         <!--Space Media-->
                         <v-tabs-window-item value="tab-4">
                             <v-card class="mx-auto" max-width="400">
-                                <img class="align-end text-white" height="200" :src="`${group?.media?.filename_disk}`"
-                                    :alt="group?.name" cover />
+                                <img class="align-end text-white" height="200" :src="`${result?.group?.activities?.nodes?.content}`"
+                                    :alt="result?.group?.name" cover />
                             </v-card>
                         </v-tabs-window-item>
 
                         <!--Space Products-->
                         <v-tabs-window-item value="tab-5">
                             <section class="features3 cid-sBXVblMrWB" id="features3-2j">
-                                <div class="container" v-for="products in group?.products?.products_id"
+                                <div class="container" v-for="products in result?.group?.products?.products_id"
                                     :key="products?.id">
                                     <productCard :product="products" />
                                 </div>
@@ -179,7 +194,7 @@
                         <!--Space Events-->
                         <v-tabs-window-item value="tab-6">
                             <section class="features3 cid-sBXVblMrWB" id="features3-2j">
-                                <div class="container" v-for="products in group?.products?.products_id"
+                                <div class="container" v-for="products in result?.group?.products?.products_id"
                                     :key="products?.id">
                                     <relatedevents :product="products" />
                                 </div>
@@ -210,7 +225,11 @@
 </script>
 
 <script setup>
+import {
+    useQuery
+  } from '@vue/apollo-composable'
     //import profilebar from '~/components/menus/profilebar.vue'
+    import member from '~/components/cms/related/member.vue'
     import comments from '~/components/cms/social/comments.vue'
     import settings from '~/components/cms/update/social/updatespace.vue'
     import productCard from '~/components/commerce/commerce/product/productCard.vue'
@@ -225,12 +244,18 @@
         ref
     } from 'vue'
 
-    const model = ref(null);
     const tab = ref(null);
     const route = useRoute();
-
-    const { data } = useAsyncQuery(group, {
-        id: route.params.id
+    const {
+        result,
+        loading,
+        error
+    } = useQuery(group, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    }, {
+        context: {
+            clientName: 'secondary' // This will use the secondary endpoint
+        }
     });
 
     /*const group = ref(null);
@@ -259,7 +284,7 @@
         });*/
 
     useHead({
-        title: group?.name
+        title: result?.group?.name
     })
 
     definePageMeta({

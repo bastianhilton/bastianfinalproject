@@ -1,21 +1,21 @@
 <template>
     <div>
         <v-card class="mx-auto" max-width="400" style="max-height: 550px !important;">
-            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${space?.avatar_url?.full}`" cover />
+            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${space?.attachmentCover?.full}`" cover />
                 <v-card-title>{{ space?.name }}</v-card-title>
 
             <v-card-subtitle class="pt-4">
-                <div># of Members: {{space?.total_member_count}}</div>
+                <div># of Members: {{space?.totalMemberCount}}</div>
 
-                <div>Created: {{ new Date(space?.date_created).toLocaleDateString() }}</div>
+                <div>Created: {{ new Date(space?.dateCreated).toLocaleDateString() }}</div>
 
-                <div>Last Activity: {{ new Date(space?.last_activity).toLocaleDateString() }}</div>
+                <div>Last Activity: {{ new Date(space?.lastActivity).toLocaleDateString() }}</div>
             </v-card-subtitle>
 
             <v-card-text>
                 <div>Status: {{space?.status}}</div>
 
-                <div v-html="space?.description?.raw"></div>
+                <div v-html="space?.description"></div>
             </v-card-text>
 
             <v-card-actions>

@@ -2,35 +2,85 @@
   <div class="contentPage">
     <!--<profilebar />-->
 
-    <v-row>
-      <v-col cols="12">
-        <v-card title="Social Feed" color="green">
-          <v-sheet class="mx-auto" elevation="0" color="transparent">
-            <h5 style="padding: 15px;">Your Top Posts</h5>
-            <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-              <v-slide-group-item v-for="(activities, index) in activities" :key="index"
-                v-slot="{ isSelected, toggle, selectedClass }">
-                <v-col cols="4">
-                  <activity :activity="activities" :class="['ma-4', selectedClass]" @click="toggle" />
-                </v-col>
+    <v-card elevation="0" style="min-height: 100vh !important;">
+      <v-layout>
+        <v-app-bar color="transparent" prominent>
+          <!-- <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon> Filters-->
 
-                <div class="d-flex fill-height align-center justify-center">
-                  <v-scale-transition>
-                    <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
-                  </v-scale-transition>
-                </div>
-              </v-slide-group-item>
-            </v-slide-group>
-          </v-sheet>
-        </v-card>
-      </v-col>
+          <v-spacer></v-spacer>
+          <v-toolbar title="Social Feed" color="transparent">
+          <!--  <v-dialog min-width="500">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn v-bind="activatorProps" prepend-icon="fas fa-plus" title="Create a Post" variant="flat">
+                  Create a Post
+                </v-btn>
+              </template>
 
-      <v-col cols="4" v-for="(activities, index) in activities" :key="index">
-        <div style="padding-top: 10px;">
-          <activity :activity="activities" />
-        </div>
-      </v-col>
-    </v-row>
+              <template v-slot:default="{ isActive }">
+                <createpost />
+              </template>
+            </v-dialog>-->
+          </v-toolbar>
+
+          <v-spacer></v-spacer>
+        </v-app-bar>
+
+
+        <!--<v-navigation-drawer class="filtersPanel" v-model="drawer"
+                    :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
+                    <filters />
+                </v-navigation-drawer>-->
+
+        <v-main>
+          <v-tabs class="searchSection" center-active v-model="tab" bg-color="transparent">
+            <v-tab value="one">All Posts</v-tab>
+            <!--<v-tab value="two">Facebook</v-tab>
+            <v-tab value="three">Twitter</v-tab>-->
+            
+          </v-tabs>
+
+          <v-card-text>
+            <v-tabs-window v-model="tab">
+              <v-tabs-window-item value="one">
+                <v-row>
+                  <v-col cols="4" v-if="result?.members?.nodes && result?.members?.nodes.length"
+                    v-for="(activity, index) in result.members.nodes" :key="index">
+                    <div style="padding-top: 10px;" v-for="(activities, index) in activity?.activities?.nodes"
+                      :key="index">
+                      <activity :activity="activities" />
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-tabs-window-item>
+
+              <!--<v-tabs-window-item value="two">
+                <v-row>
+                  <v-col cols="4" v-if="result?.members?.nodes && result?.members?.nodes.length"
+                    v-for="(activity, index) in result.members.nodes" :key="index">
+                    <div style="padding-top: 10px;" v-for="(activities, index) in activity?.activities?.nodes"
+                      :key="index">
+                      <activity :activity="activities" />
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-tabs-window-item>
+
+              <v-tabs-window-item value="three">
+                <v-row>
+                  <v-col cols="4" v-if="result?.members?.nodes && result?.members?.nodes.length"
+                    v-for="(activity, index) in result.members.nodes" :key="index">
+                    <div style="padding-top: 10px;" v-for="(activities, index) in activity?.activities?.nodes"
+                      :key="index">
+                      <activity :activity="activities" />
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-tabs-window-item>-->
+            </v-tabs-window>
+          </v-card-text>
+        </v-main>
+      </v-layout>
+    </v-card>
   </div>
 </template>
 
@@ -39,13 +89,22 @@
     ref,
     onMounted
   } from 'vue';
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
   //import profilebar from '~/components/menus/profilebar.vue';
   import activity from '~/components/cms/related/posts.vue'
   import activities from '~/graphql/cms/queries/activities'
   //import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
 
 
-  const { data } = useAsyncQuery(activities);
+  const {
+    result
+  } = useQuery(activities, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
   /*const activities = ref([]); 
 
   onMounted(async () => {

@@ -9,7 +9,8 @@
                             <v-row>
                                 <v-col cols="10">
                                     <v-list lines="two">
-                                        <v-list-item :title="data?.activity?.user_id" :prepend-avatar="data?.activity?.user_avatar">
+                                        <v-list-item :title="result?.activity?.creator?.username"
+                                            :prepend-avatar="result?.activity?.creator?.avatar?.url">
                                         </v-list-item>
                                     </v-list>
                                 </v-col>
@@ -17,7 +18,8 @@
                                 <v-col cols="1">
                                     <v-dialog min-width="500">
                                         <template v-slot:activator="{ props: activatorProps }">
-                                            <v-btn v-bind="activatorProps" icon="fas fa-gear" title="Update Post" class="rightAddBtn" variant="flat"></v-btn>
+                                            <v-btn v-bind="activatorProps" icon="fas fa-gear" title="Update Post"
+                                                class="rightAddBtn" variant="flat"></v-btn>
                                         </template>
 
                                         <template v-slot:default="{ isActive }">
@@ -28,13 +30,13 @@
                             </v-row>
 
 
-                            <v-card-text class="pt-4" v-html="data?.activity?.content?.rendered"></v-card-text>
+                            <v-card-text class="pt-4" v-html="result?.activity?.content"></v-card-text>
 
                             <v-card-subtitle class="pt-4">
-                                Posted: {{ new Date(data?.activity?.date).toLocaleDateString() }}
+                                Posted: {{ new Date(result?.activity?.date).toLocaleDateString() }}
                             </v-card-subtitle>
 
-                            <v-card-text class="pt-4" v-html="data?.activity?.status"></v-card-text>
+                            <v-card-text class="pt-4" v-html="result?.activity?.status"></v-card-text>
 
                             <v-row class="align-center">
                                 <v-col>
@@ -64,7 +66,7 @@
 
 <script>
     export default {
-        data() {
+        result() {
             return {
                 activityId: this.$route.params.id,
                 //url: process.env.DIRECTUS_URL,
@@ -74,48 +76,61 @@
 </script>
 
 <script setup>
-    import { ref } from 'vue'
+    import {
+        ref
+    } from 'vue'
+    import {
+        useQuery
+    } from '@vue/apollo-composable'
     //import profilebar from '~/components/menus/profilebar.vue'
     import disqus from '~/components/partials/disqus.vue'
-    import comments from '~/components/cms/social/comments.vue'
+    //import comments from '~/components/cms/social/comments.vue'
     import repost from '~/components/cms/social/repost.vue'
     import reactions from '~/components/cms/social/reactions.vue'
     import bookmark from '~/components/cms/social/bookmark.vue'
     import share from '~/components/partials/share.vue'
     import updatepost from '~/components/cms/update/social/updatepost.vue'
-    import { getActivityById } from '~/composables/cms/social/getActivity';
+    //import { getActivityById } from '~/composables/cms/social/getActivity';
     import activity from '~/graphql/cms/queries/id/activity'
 
     const model = ref(null);
     const route = useRoute();
-    const { data } = useAsyncQuery(activity, {
-        id: route.params.id
+    const {
+        result,
+        loading,
+        error
+    } = useQuery(activity, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    }, {
+        context: {
+            clientName: 'secondary' // This will use the secondary endpoint
+        }
     });
 
-   /* const activity = ref(null);
+    /* const activity = ref(null);
 
-    onMounted(async () => {
-        const id = route.params.id;
-        try {
-            activity.value = await getActivityById(id);
-            console.log(activity.value);  // Check the fetched data in the console
-        } catch (error) {
-            console.error("Failed to fetch activity data:", error);
-        }
-    });*/
+     onMounted(async () => {
+         const id = route.params.id;
+         try {
+             activity.value = await getActivityById(id);
+             console.log(activity.value);  // Check the fetched result in the console
+         } catch (error) {
+             console.error("Failed to fetch activity result:", error);
+         }
+     });*/
 
 
- /*   const {
-        getItemById
-      } = useDirectusItems()
+    /*   const {
+           getItemById
+         } = useDirectusItems()
 
-      const newsfeed = await getItemById({
-        collection: "newsfeed",
-        id: route.params.id
-      });*/
+         const newsfeed = await getItemById({
+           collection: "newsfeed",
+           id: route.params.id
+         });*/
 
     useHead({
-        title: data?.activity?.title,
+        title: result?.activity?.title,
     })
 
     definePageMeta({

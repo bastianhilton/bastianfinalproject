@@ -43,7 +43,7 @@
                         <v-tabs-window v-model="tab">
                             <v-tabs-window-item value="one">
                                 <v-row>
-                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                    <v-col cols="3" v-for="(result, index) in result?.groups?.nodes" :key="index">
                                         <spaces :space="result" />
                                     </v-col>
                                 </v-row>
@@ -51,7 +51,7 @@
 
                             <v-tabs-window-item value="two">
                                 <v-row>
-                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                    <v-col cols="3" v-for="(result, index) in result?.groups?.nodes" :key="index">
                                         <spaces :space="result" />
                                     </v-col>
                                 </v-row>
@@ -59,7 +59,7 @@
 
                             <v-tabs-window-item value="three">
                                 <v-row>
-                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                    <v-col cols="3" v-for="(result, index) in result?.groups?.nodes" :key="index">
                                         <spaces :space="result" />
                                     </v-col>
                                 </v-row>
@@ -75,24 +75,30 @@
 <script setup>
     import {
         ref,
-        onMounted,
-        watch
     } from 'vue';
+    import {
+    useQuery
+  } from '@vue/apollo-composable'
     import spaces from '~/components/cms/related/spaces.vue'
     import createspace from '~/components/cms/create/social/createspace.vue'
-    import group from '~/graphql/cms/queries/groups'
+    import groups from '~/graphql/cms/queries/groups'
     //import { getGroups } from '~/composables/cms/social/getGroups.js'; // Import the composable function
   
 
     const tab = ref(null);
-    const drawer = ref(false);
    /* const groups = ref([]); 
 
     onMounted(async () => {
         groups.value = await getGroups();
     }); */
 
-    const { data } = useAsyncQuery(group);
+    const {
+    result
+  } = useQuery(groups, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
 
     /* const {
          getItems
