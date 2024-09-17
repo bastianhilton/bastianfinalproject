@@ -1,8 +1,8 @@
 ## This Website is in Alpha Release ##
 
-# What is Meeovi?
+# What is M Template?
 
-Meeovi is a social marketplace for sellers to interact with their customers. 
+M Template is a social marketplace template for sellers to interact with their customers. 
 
 ## Features include:
 
@@ -11,24 +11,17 @@ Meeovi is a social marketplace for sellers to interact with their customers.
 
 - Newsfeed or the Social Feed functions like a traditional feed of content created and followed by the user.
 - Spaces are groups where users can create or join for topics that shares their interest.
-- Meeovi Live allows for users to create 60 second videos to promote their ideas, products, or anything they would like.
 - Departments are large categories focusing on particular topic of products, they function like Department stores and consists of live videos, products for that particular department, and filtering capabilities.
 
 - Categories function as traditional categories that are based on particular product types. They are found within each Department and have subcategories of their own.
 
-- Soundstage is a category within Meeovi Music department that focuses on live performances, music related live videos.
-- Charts is a category within Meeovi Music department that provides a charting system for music related products.
-- Radio a category within Meeovi Music department for radio stations both predefined and customer created with music related products.
-
-- Showcase consists of product galleries designed by customers and sellers to showcase products and product bundles.
-
-and much more. Take a look at www.meeovi.com 
+and much more.
 
 ## Frontend:
 
 - Built on Nuxt 3
-- Integrates with Sentry, Graphql, Vitest, i18n for Internalization, Cypress for testing, and Google Fonts
-- Netlify and Docker Integration for deployment
+- Integrates with Graphql, Vitest, Rest APIs, and Google Fonts
+- Netlify and Github Integration for deployment
 - Vuetify and TailwindCSS for frontend styling
 - Fontawesome for icons
 
@@ -38,7 +31,7 @@ and much more. Take a look at www.meeovi.com
 
 ## How to Start:
 
-- git clone https://github.com/Meeovi/meeovi-frontend
+- git clone https://github.com/Birkbeck2/ma-project-bastianhilton
 - change .sample-env to .env
 - update wordpressUrl environment variable
 - run npm install
