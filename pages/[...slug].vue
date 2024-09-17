@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-    import page from '~/composables/graphql/cms/queries/id/page'
+    import page from '~/graphql/cms/queries/id/page'
     import { ref } from 'vue'
 
     const route = useRoute();

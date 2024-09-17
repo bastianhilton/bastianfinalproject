@@ -1,0 +1,15 @@
+
+
+query GetDepartmentsMenu{
+  categories {
+    items {
+      uid
+      name
+      children {
+        uid
+        name
+      }
+    }
+  }
+}
+

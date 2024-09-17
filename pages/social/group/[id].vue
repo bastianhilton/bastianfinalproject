@@ -3,7 +3,7 @@
         <!--<profilebar />-->
 
         <v-card min-height="500px" elevation="0">
-            <v-toolbar color="primary" dark extended flat height="250" :image="`${$directus.url}assets/${space?.image?.filename_disk}?width=600`"></v-toolbar>
+            <v-toolbar color="primary" dark extended flat height="250" :image="`${group?.avatar_urls?.full}`"></v-toolbar>
             <!--Shorts for Space 
             <shorts />-->
             <v-tabs v-model="tab" align-tabs="center" bg-color="info" stacked>
@@ -54,8 +54,8 @@
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong>
-                                                            <v-avatar size="80" rounded="0" :image="`${$directus.url}assets/${space?.image?.filename_disk}?width=600`"></v-avatar>
-                                                        </strong><br><br>{{ space?.name }}</h4>
+                                                            <v-avatar size="80" rounded="0" :image="`${group?.avatar_urls?.full}`"></v-avatar>
+                                                        </strong><br><br>{{ group?.name }}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,7 +66,7 @@
                                                         style="color: rgb(255, 153, 102); fill: rgb(255, 153, 102);"></span>
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
-                                                        <strong>Group Created</strong><br><br>{{ new Date(space?.date_created).toLocaleDateString() }}
+                                                        <strong>Group Created</strong><br><br>{{ new Date(group?.date_created).toLocaleDateString() }}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -79,7 +79,7 @@
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong># of
-                                                            Members</strong><br><br>{{ space?.numberOfMembers }}
+                                                            Members</strong><br><br>{{ group?.total_member_count }}
                                                     </h4>
                                                 </div>
                                             </div>
@@ -88,12 +88,12 @@
                                             <div class="card-wrapper">
                                                 <div class="card-box align-center">
                                                     <v-avatar size="50">
-                                                        <img :src="`${space?.creator_avatar?.filename_disk}`" :alt="space?.creator" />
+                                                        <img :src="`${group?.creator?.avatar?.url}`" :alt="group?.creator?.username" />
                                                     </v-avatar>
                                                     <h4
                                                         class="card-title align-center mbr-black mbr-fonts-style display-7">
                                                         <strong>Created By</strong><br><br><a
-                                                            :href="`/account/user/${space?.creator}`"></a></h4>
+                                                            :href="`/account/user/${group?.creator?.username}`"></a></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@
                                             <div class="card-wrapper">
                                                 <div class="card-box align-center">
                                                     <h4 class="card-title align-center mbr-black mbr-fonts-style display-7"
-                                                        v-html="space?.description"></h4>
+                                                        v-html="group?.description"></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,8 +114,8 @@
                         <!--Space Social Feed-->
                         <v-tabs-window-item value="tab-2">
                             <v-row>
-                            <v-col cols="3" v-for="(posts, index) in space?.posts?.posts_id" :key="index">
-                                <post :post="posts" />
+                            <v-col cols="3" v-for="activities in group?.activities?.nodes" :key="activities">
+                                <post :post="activities" />
                             </v-col>
                         </v-row>
                         </v-tabs-window-item>
@@ -123,36 +123,36 @@
                         <!--Space People-->
                         <v-tabs-window-item value="tab-3">
                             <v-list lines="one">
-                                <v-list-item :title="`${space?.numberOfMembers} Members`"></v-list-item>
+                                <v-list-item :title="`${group?.total_member_count} Members`"></v-list-item>
                             </v-list>
 
                             <v-text-field label="Find a Member" prepend-inner-icon="fas fa-search" variant="solo">
                             </v-text-field>
 
                             <v-list lines="two">
-                                <h5>Creator of {{ space?.name }}</h5>
-                                <v-list-item v-for="admins in space?.space_admins?.space_admin_id" :key="admins">
+                                <h5>Creator of {{ group?.name }}</h5>
+                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
                                     <creators />
                                 </v-list-item>
                             </v-list>
 
                             <v-list lines="two">
-                                <h5>Admins of {{ space?.name }}</h5>
-                                <v-list-item v-for="admins in space?.space_admins?.space_admin_id" :key="admins">
+                                <h5>Admins of {{ group?.name }}</h5>
+                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
                                     <creators />
                                 </v-list-item>
                             </v-list>
 
                             <v-list lines="two">
-                                <h5>Moderators of {{ space?.name }}</h5>
-                                <v-list-item v-for="admins in space?.space_admins?.space_admin_id" :key="admins">
+                                <h5>Moderators of {{ group?.name }}</h5>
+                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
                                     <creators />
                                 </v-list-item>
                             </v-list>
 
                             <v-list lines="two">
-                                <h5>All Members of {{ space?.name }}</h5>
-                                <v-list-item v-for="admins in space?.space_admins?.space_admin_id" :key="admins">
+                                <h5>All Members of {{ group?.name }}</h5>
+                                <v-list-item v-for="admins in group?.space_admins?.space_admin_id" :key="admins">
                                     <creators />
                                 </v-list-item>
                             </v-list>
@@ -161,15 +161,15 @@
                         <!--Space Media-->
                         <v-tabs-window-item value="tab-4">
                             <v-card class="mx-auto" max-width="400">
-                                <img class="align-end text-white" height="200" :src="`${space?.media?.filename_disk}`"
-                                    :alt="space?.name" cover />
+                                <img class="align-end text-white" height="200" :src="`${group?.media?.filename_disk}`"
+                                    :alt="group?.name" cover />
                             </v-card>
                         </v-tabs-window-item>
 
                         <!--Space Products-->
                         <v-tabs-window-item value="tab-5">
                             <section class="features3 cid-sBXVblMrWB" id="features3-2j">
-                                <div class="container" v-for="products in space?.products?.products_id"
+                                <div class="container" v-for="products in group?.products?.products_id"
                                     :key="products?.id">
                                     <productCard :product="products" />
                                 </div>
@@ -179,7 +179,7 @@
                         <!--Space Events-->
                         <v-tabs-window-item value="tab-6">
                             <section class="features3 cid-sBXVblMrWB" id="features3-2j">
-                                <div class="container" v-for="products in space?.products?.products_id"
+                                <div class="container" v-for="products in group?.products?.products_id"
                                     :key="products?.id">
                                     <relatedevents :product="products" />
                                 </div>
@@ -210,15 +210,17 @@
 </script>
 
 <script setup>
-    import profilebar from '~/components/menus/profilebar.vue'
+    //import profilebar from '~/components/menus/profilebar.vue'
     import comments from '~/components/cms/social/comments.vue'
     import settings from '~/components/cms/update/social/updatespace.vue'
     import productCard from '~/components/commerce/commerce/product/productCard.vue'
     import shorts from '~/components/cms/related/shorts.vue'
     import post from '~/components/cms/related/posts.vue'
     import relatedevents from '~/components/commerce/related/relatedevents.vue'
-
-    //import group from '~/composables/graphql/cms/queries/id/group'
+    import {
+        getGroupById
+    } from '~/composables/cms/social/getGroups'; // Import the composable function
+    import group from '~/graphql/cms/queries/id/group'
     import {
         ref
     } from 'vue'
@@ -226,23 +228,38 @@
     const model = ref(null);
     const tab = ref(null);
     const route = useRoute();
-    /*    const { data } = useAsyncQuery(group, {
-           id: route.params.id
-       });*/
 
-const { $directus, $readItem } = useNuxtApp()
+    const { data } = useAsyncQuery(group, {
+        id: route.params.id
+    });
 
-const { data: space } = await useAsyncData('space', () => {
-  return $directus.request(
-    $readItem('spaces', route.params.id, {
-      fields: ['*', { '*': ['*'] }]
-    })
-  )
-})
+    /*const group = ref(null);
 
+    onMounted(async () => {
+        const id = route.params.id;
+        try {
+            group.value = await getGroupById(id);
+            console.log(group.value);  // Check the fetched data in the console
+        } catch (error) {
+            console.error("Failed to fetch group data:", error);
+        }
+    });*/
+    /*    const {
+            getItemById
+        } = useDirectusItems()
+
+        const space = await getItemById({
+            collection: "Space",
+            id: route.params.id
+        }); 
+
+        const page = await getItemById({
+            collection: "pages",
+            id: route.params.id
+        });*/
 
     useHead({
-        title: 'space?.name'
+        title: group?.name
     })
 
     definePageMeta({

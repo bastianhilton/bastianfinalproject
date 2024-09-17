@@ -67,7 +67,7 @@
 </script>
 
 <script setup>
-const query = gql`
+/*const query = gql`
 query MyQuery {
   products(filter: {price: {from: "0"}}) {
     items {
@@ -104,7 +104,7 @@ query MyQuery {
     data
   } = await useAsyncQuery(query)
 
-  /*
+  
   const { getItems } = useDirectusItems()
 
   const products = await getItems({ collection: "products"});

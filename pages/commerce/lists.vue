@@ -1,68 +1,52 @@
 <template>
-    <div>
+    <div class="accountPage">
         <!--<profilebar />-->
-        <section data-bs-version="5.1" class="firmm4_features1 features1 cid-uhBuptnWmV" id="features1-9v"
-            data-sortbtn="btn-primary">
-            <v-toolbar color="transparent">
-                <v-toolbar-title>
-                    <div class="mbr-section-head pb-4">
-                        <h4 class="mbr-section-title mbr-fonts-style align-left mb-0 display-5">Lists
-                        </h4>
-
-                    </div>
-                </v-toolbar-title>
-
-                <div class="d-flex justify-center align-center h-100">
-                    <createlist />
-                </div>
+        <v-card elevation="0">
+            <v-toolbar title="Meeovi Lists" color="green">
+                <createlist />
             </v-toolbar>
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="card col-12 col-lg-3 col-md-6 col-sm-6" v-for="item in wishlist" :key="item">
-                        <div class="card_wrapper">
-                            <div class="card-box">
-                                <div class="icon_block">
-                                    <div class="iconfont-wrapper">
-                                        <span class="mbr-iconfont mobi-mbri-cart-full mobi-mbri"></span>
-                                    </div>
-                                </div>
-                                <p class="card-text mbr-fonts-style display-4">User: {{ item?.customer_id }}</p>
-                                <p class="card-text mbr-fonts-style display-4">Wishlist #: {{ item?.wishlist_id }}</p>
-                                <p class="card-text mbr-fonts-style display-4">Shared: {{ item?.shared }}</p>
-                                <p class="card-text mbr-fonts-style display-4">Code: {{ item?.sharing_code }}</p>
-                                <p class="btn_link mbr-fonts-style display-4"><a
-                                        :href="`/account/user/item/${item?.wishlist_id}`"
-                                        class="text-secondary">View<span
-                                            class="mobi-mbri mobi-mbri-right mbr-iconfont"></span></a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <v-tabs v-model="tab" bg-color="green">
+                <v-tab value="one">All Lists</v-tab>
+                <!--<v-tab value="two">Starred</v-tab>-->
+            </v-tabs>
+
+            <v-card-text>
+                <v-tabs-window v-model="tab">
+                    <v-tabs-window-item value="one">
+                        <v-row>
+                            <v-col cols="3" v-for="lists in data?.customer?.wishlists">
+                                <list :list="lists" />
+                            </v-col>
+                        </v-row>
+                    </v-tabs-window-item>
+
+                    <v-tabs-window-item value="two">
+                        
+                    </v-tabs-window-item>
+                </v-tabs-window>
+            </v-card-text>
+        </v-card>
+
     </div>
 </template>
 
-<script>
-    import profilebar from '../../../components/menus/profilebar.vue'
-    import createlist from '../../../components/partials/createListBtn.vue'
-
-    export default {
-        components: {
-            profilebar,
-            createlist
-        },
-        data: () => ({
-            model: null,
-            //url: process.env.DIRECTUS_URL,
-        }),
-    }
-</script>
-
 <script setup>
+    //import profilebar from '~/components/menus/profilebar.vue'
+    import {
+        ref
+    } from 'vue'
+    import {
+        useQuery
+    } from '@vue/apollo-composable'
+    import list from '~/components/commerce/related/lists.vue'
+    import createlist from '~/components/commerce/partials/createListBtn.vue'
+    import wishlists from '~/graphql/commerce/queries/lists.js'
+
+    const tab = ref(null);
+
     const {
-        data: wishlist
-    } = await useFetch('/api/catalog/wishlists')
+        data
+    } = useQuery(wishlists); /**/
 
     /*const {
         getItems
@@ -73,10 +57,11 @@
       }); */
 
     useHead({
-        title: 'Lists',
+        title: 'Meeovi Lists',
     })
 
     definePageMeta({
+        layout: "nolive",
         middleware: ['auth'],
     })
 </script>

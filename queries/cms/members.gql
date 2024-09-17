@@ -1,0 +1,20 @@
+
+
+query GetMembers {
+  members {
+    nodes {
+      avatar {
+        url
+      }
+      description
+      id
+      memberTypes
+      url
+      username
+      totalFriendCount
+      locale
+      latestUpdate
+    }
+  }
+}
+

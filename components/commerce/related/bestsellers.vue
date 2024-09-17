@@ -1,10 +1,8 @@
 <template>
   <div>
-    <!--<v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
+    <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
       <h4>Best Sellers</h4>
-      <div v-if="pending">Loading...</div>
-      <div v-if="error">Error: {{ error.message }}</div>
-      <v-slide-group v-if="!pending && products" v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+      <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
         <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="(products, index) in products?.items" :key="index">
           <productCard :product="products" :class="['ma-4', selectedClass]" @click="toggle" />
 
@@ -15,25 +13,29 @@
           </div>
         </v-slide-group-item>
       </v-slide-group>
-    </v-sheet>-->
-
-    <div v-for="block in data?.cmsBlocks?.items">
-      <h4>{{ block?.title }}</h4>
-
-      <div v-html="block?.content"></div>
-    </div>
+    </v-sheet>
   </div>
 </template>
 
 <script setup>
-  import productCard from '../commerce/product/productCard.vue'
+  //import productCard from '../commerce/product/productCard.vue'
   import { ref } from 'vue'
-  import { cmsBlocks } from '~/composables/graphql/commerce/queries/blocks/bestsellerBlock.js';
+  import {
+        getProducts
+    } from '@/composables/commerce/products/products.js';
 
-  const { data } = useAsyncQuery(cmsBlocks);
-  //import bestsellers from '~/composables/graphql/commerce/queries/bestsellers'
+    // Pass the specific products name you want to fetch
+    const products = ref([]); 
+
+    onMounted(async () => {
+        products.value = await getProducts();
+    });
+
+/*  //import bestsellers from '~/graphql/commerce/queries/bestsellers'
 
   const model = ref(null);
 
-  //const { data: products, pending, error } = await useFetch('/api/commerce/catalog/products/bestsellers/products');/**/
+    const {
+      data
+    } = useAsyncQuery(bestsellers);*/
 </script>

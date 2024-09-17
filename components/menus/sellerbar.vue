@@ -1,19 +1,14 @@
 <template>
     <v-card variant="text">
         <v-tabs style="background-color: transparent" center-active>
-            <v-tab v-for="(menu, index) in seller?.menus" :key="index"><a :href="menu?.url">{{ menu?.name }}</a></v-tab>
+            <v-tab v-for="(menu, index) in nav?.menus" :key="index"><a :href="menu?.url">{{ menu?.name }}</a></v-tab>
         </v-tabs>
     </v-card>
 </template>
 
 <script setup>
-const { $directus, $readItem } = useNuxtApp()
-const route = useRoute()
-
-const { data: seller } = await useAsyncData('seller', () => {
-  return $directus.request($readItem('navigation', '14'))
-})
-  /*  import sellerbar from '~/composables/graphql/cms/queries/menus/sellerbar'
+    import sellerbar from '~/graphql/cms/queries/menus/sellerbar'
+  
 
 const {
     data
@@ -26,5 +21,5 @@ const {
   const nav = await getItemById({
     collection: "navigation",
     id: 14
-  });*/
+  });
 </script>

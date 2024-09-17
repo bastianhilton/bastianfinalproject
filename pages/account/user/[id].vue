@@ -88,7 +88,7 @@ import replies from '../../../components/pages/profile/replies.vue'
 import media from '../../../components/pages/profile/media.vue'
 import likes from '../../../components/pages/profile/likes.vue'
 
-const user = useLogtoUser();
+//const user = useLogtoUser();
 
 /*import { useFetch } from '#imports'
 

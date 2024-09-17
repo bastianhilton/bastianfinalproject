@@ -1,39 +1,33 @@
 <template>
-  <div>
-    <h5 class="menuh5">{{ bottomsidebarmenu?.name }}</h5>
-    <v-list v-for="item in bottomsidebarmenu?.menus" :key="item">
-      <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url"></v-list-item>
+  <div v-for="item in result?.menus?.nodes" :key="item">
+    <h5 class="menuh5">{{ item?.name }}</h5>
+    <v-list v-for="item in item?.menuItems?.nodes" :key="item">
+      <v-list-item :title="item?.label" :value="item?.label" :prepend-icon="item?.icon" :href="item?.path"></v-list-item>
     </v-list>
   </div>
 </template>
 
 <script setup>
-const { $directus, $readItem } = useNuxtApp()
-const route = useRoute()
+import { ref } from 'vue'
+import { useQuery } from '@vue/apollo-composable'
+import bottomsidebarmenu from '~/graphql/cms/queries/menus/bottomsidebarmenu'
 
-const { data: bottomsidebarmenu } = await useAsyncData('bottomsidebarmenu', () => {
-  return $directus.request($readItem('navigation', '6'))
+const { result } = useQuery(bottomsidebarmenu, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
+  }
 })
-/*import { useNavigation } from '@/composables/cms/content/useNavigation';
-
-// Pass the specific navigation name you want to fetch
-const { navigation, fetchNavigation } = useNavigation();
-
-onMounted(() => {
-fetchNavigation('Try Something New'); // Replace 'Main Menu' with the actual name of the navigation
-});
-
-  import bottomsidebarmenu from '~/composables/graphql/cms/queries/menus/bottomsidebarmenu'
-
-  const {
+/* const {
       data
   } = useAsyncQuery(bottomsidebarmenu);
   const {
-    getItemById
-  } = useDirectusItems()
+    $directus,
+    $readItem
+  } = useNuxtApp()
 
-  const nav = await getItemById({
-    collection: "navigation",
-    id: 6
-  });*/
+  const {
+    data: bottomnav
+  } = await useAsyncData('bottomnav', () => {
+    return $directus.request($readItem('navigation', '6'))
+  })*/
 </script>

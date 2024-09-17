@@ -7,8 +7,7 @@
         </a>
       </template>
       <v-list lines="two">
-        <v-list-item v-for="notifications in activities" :key="notifications?.id"
-          :href="notifications?.id">
+        <v-list-item v-for="notifications in activities" :key="notifications?.id" :href="notifications?.id">
           <v-list-item-title v-html="notifications?.title"></v-list-item-title>
           <v-list-item-subtitle>{{ new Date(notifications?.date).toLocaleDateString() }}</v-list-item-subtitle>
         </v-list-item>
@@ -25,37 +24,32 @@
   import {
     ref
   } from 'vue'
- // import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
+  import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
 
   const location = ref('bottom');
- /* const activities = ref([]); // Reactive variable to store activity data
+  const activities = ref([]); // Reactive variable to store activity data
 
   onMounted(async () => {
-    activities.value = await getActivity(); // Fetch activity data on component mount
-  });
+     activities.value = await getActivity(); // Fetch activity data on component mount
+   }); 
+ /*  import notifications from '~/graphql/cms/queries/notifications'
 
+  const { data } = await useAsyncQuery(notifications);*/
 
+  /*   const {
+       getItems
+     } = useDirectusItems()
 
-      import notifications from '~/composables/graphql/cms/queries/notifications'
+     const notifications = await getItems({
+       collection: "notifications",
+     });
 
-  const {
-      data
-  } = useAsyncQuery(notifications);
-
-    const {
-      getItems
-    } = useDirectusItems()
-
-    const notifications = await getItems({
-      collection: "notifications",
-    });
-
-    const navigation = await getItems({
-      collection: "navigation",
-      filter: {
-        type: {
-          _eq: "All Notifications"
-        }
-      }
-    });*/
-</script>~/composables/graphql/cms/queries/notifications
+     const navigation = await getItems({
+       collection: "navigation",
+       filter: {
+         type: {
+           _eq: "All Notifications"
+         }
+       }
+     });*/
+</script>

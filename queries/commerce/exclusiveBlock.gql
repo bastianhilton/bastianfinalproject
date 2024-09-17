@@ -1,0 +1,10 @@
+
+ query GetExclusiveBlock{
+  cmsBlocks (identifiers: "Exclusives") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

@@ -10,7 +10,7 @@
 
 <script setup>
 import productCard from '~/components/commerce/commerce/product/productCard.vue'
-  import deals from '~/composables/graphql/commerce/queries/deals'
+  //import deals from '~/graphql/commerce/queries/deals'
 
     useHead({
         title: 'Orders Dashboard',
@@ -18,9 +18,9 @@ import productCard from '~/components/commerce/commerce/product/productCard.vue'
 
 const model = ref(null);
 
-const {
+/*const {
   data
-} = useAsyncQuery(deals);
+} = useAsyncQuery(deals);*/
 
 definePageMeta({
     //middleware: ['auth'],

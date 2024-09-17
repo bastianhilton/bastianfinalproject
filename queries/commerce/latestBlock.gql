@@ -1,0 +1,10 @@
+
+ query GetLatestBlock{
+  cmsBlocks (identifiers: "latest-block") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

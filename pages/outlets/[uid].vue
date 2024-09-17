@@ -3,15 +3,15 @@
     <v-card variant="text">
       <v-sheet class="mx-auto">
         <v-slide-group show-arrows>
-          <h5 style="padding: 15px">{{ data?.categories?.items[0]?.name }}</h5>
+          <h5 style="padding: 15px">{{ result?.categories?.items[0]?.name }}</h5>
           <v-slide-group-item v-slot="{ isSelected, toggle }">
             <v-btn :color="isSelected ? 'primary' : undefined" class="ma-2" @click="toggle"
-              :href="`/outlets/${data?.categories?.items[0]?.uid}`">
+              :href="`/outlets/${result?.categories?.items[0]?.uid}`">
               All
             </v-btn>
           </v-slide-group-item>
 
-          <div v-for="categories in data?.categories?.items" :key="categories">
+          <div v-for="categories in result?.categories?.items" :key="categories">
             <v-slide-group-item v-for="categories in categories?.children" :key="categories"
               v-slot="{ isSelected, toggle }">
               <v-btn :color="isSelected ? 'primary' : undefined" class="ma-2" @click="toggle"
@@ -24,8 +24,7 @@
       </v-sheet>
 
       <!--Department Banner Slider-->
-      <img :src="`${data?.categories?.items[0]?.image}`" :alt="data?.categories?.items[0]?.name" cover />
-      <!--Department Creators Slider-->
+      <img :src="`${result?.categories?.items[0]?.image}`" :alt="result?.categories?.items[0]?.name" cover />
     </v-card>
 
     <v-row class="departmentRow">
@@ -33,10 +32,10 @@
       <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
         <h4>Best Sellers</h4>
         <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-          <div v-for="category in best?.categories?.items" :key="category">
+          <div v-for="category in best?.products?.items" :key="category">
             <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }"
               v-for="products in category?.products?.items" :key="products">
-              <productCard :product="category" :class="['ma-4', selectedClass]" @click="toggle" />
+              <productCard :product="products" :class="['ma-4', selectedClass]" @click="toggle" />
               <div class="d-flex fill-height align-center justify-center">
                 <v-scale-transition>
                   <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
@@ -51,10 +50,10 @@
       <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
         <h4>Latest Products</h4>
         <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-          <div v-for="category in latest?.categories?.items" :key="category">
+          <div v-for="category in latest?.products?.items" :key="category">
             <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }"
               v-for="products in category?.products?.items" :key="products">
-              <productCard :product="category" :class="['ma-4', selectedClass]" @click="toggle" />
+              <productCard :product="products" :class="['ma-4', selectedClass]" @click="toggle" />
               <div class="d-flex fill-height align-center justify-center">
                 <v-scale-transition>
                   <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
@@ -66,8 +65,8 @@
       </v-sheet>
 
       <!--List of products in the department-->
-      <v-col cols="3" v-for="category in data?.categories?.items" :key="category">
-        <div v-for="products in category?.products?.items" :key="products">
+      <v-col cols="3" v-for="category in result?.categories?.items" :key="category.uid">
+        <div v-for="products in category?.products?.items" :key="products.uid">
           <productCard :product="products" />
         </div>
       </v-col>
@@ -75,140 +74,40 @@
   </div>
 </template>
 
-<script>
-  //import videobar from '../../components/menus/videobar.vue'
-  import latestproducts from '../../components/related/latestproducts.vue'
-  import relatedevents from '../../components/related/relatedevents.vue'
-  import bestsellers from '../../components/related/bestsellers.vue'
-  import productCard from '../../components/commerce/product/productCard.vue'
-
-  export default {
-    components: {
-      //videobar,
-      //live,
-      latestproducts,
-      relatedevents,
-      bestsellers,
-      productCard,
-    },
-    data() {
-      return {
-        model: null,
-        //url: process.env.DIRECTUS_URL,
-      }
-    },
-  }
-</script>
-
 <script setup>
-  const CATEGORY_QUERY = gql `
-  query CategoryQuery($uid: String!) {
-    categories (filters: {category_uid: {eq: $uid}}) {
-    items {
-      uid
-      name
-      children {
-        uid
-        name
-      }
-      image
-      products(pageSize: 5, sort: {position: DESC}) {
-        items {
-          description {
-            html
-          }
-          uid
-          name
-          image {
-            url
-          }
-          sku
-          price_range {
-            minimum_price {
-              regular_price {
-                currency
-                value
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-  const BESTSELLER_QUERY = gql `
-  query BestsellerQuery($uid: String!) {
-    products(filter: {category_uid: {eq: $uid}}, pageSize: 5, sort: {position: DESC}) {
-      items {
-        uid
-        name
-        image {
-          url
-        }
-        sku
-        price_range {
-          minimum_price {
-            regular_price {
-              currency
-              value
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-  const LATEST_PRODUCTS_QUERY = gql `
-  query LatestProductsQuery($uid: String!) {
-    products(filter: {category_uid: {eq: $uid}}, pageSize: 5, sort: {position: DESC}) {
-      items {
-        uid
-        name
-        image {
-          url
-        }
-        sku
-        price_range {
-          minimum_price {
-            regular_price {
-              currency
-              value
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import { CategoryQuery, BestsellerQuery, LatestProductsQuery } from '~/graphql/commerce/queries/id/department'
+  
+  const model = ref(null)
 
   // Retrieve the route and extract the UID
   const route = useRoute();
 
   // Execute the queries with the UID variable
   const {
-    data,
+    result,
     error: errorData
-  } = useAsyncQuery(CATEGORY_QUERY, {
+  } = useQuery(CategoryQuery, {
     uid: route.params.uid
   });
   const {
-    data: best,
+    result: best,
     error: errorBest
-  } = useAsyncQuery(BESTSELLER_QUERY, {
+  } = useQuery(BestsellerQuery, {
     uid: route.params.uid
   });
   const {
-    data: latest,
+    result: latest,
     error: errorLatest
-  } = useAsyncQuery(LATEST_PRODUCTS_QUERY, {
+  } = useQuery(LatestProductsQuery, {
     uid: route.params.uid
   });
 
-  if (errorData || errorBest || errorLatest || errorEvents) {
-    console.error('GraphQL Error:', errorData || errorBest || errorLatest || errorEvents);
+  if (errorData || errorBest || errorLatest) {
+    console.error('GraphQL Error:', errorData || errorBest || errorLatest);
   }
 
   /*  const {
@@ -230,10 +129,10 @@
 */
 
 definePageMeta({
-    layout: false,
+    layout: 'nolive',
   });
-  
+
   useHead({
-    title: data?.categories?.items?.name
+    title: result?.categories?.items?.name
   });
 </script>

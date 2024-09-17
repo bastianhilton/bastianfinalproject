@@ -15,12 +15,12 @@
                         <span class="text-h6">The Meeovi Company</span>
                     </v-card-title>
                 </v-toolbar>
-                <v-row style="padding: 10px;">
-                    <v-col cols="3" v-for="menu in eco?.menus" :key="menu?.id">
-                        <a :href="menu?.url">
+                <v-row style="padding: 10px;" v-for="menu in result?.menus?.nodes" :key="menu?.id">
+                    <v-col cols="3" v-for="menu in menu?.menuItems?.nodes" :key="menu?.id">
+                        <a :href="menu?.path">
                             <v-card class="mx-auto" max-width="300">
                               <v-avatar :icon="`fas fa-${menu?.icon}`" size="180"></v-avatar>
-                                <v-card-title>{{ menu?.name }}</v-card-title>
+                                <v-card-title>{{ menu?.label }}</v-card-title>
                             </v-card>
                         </a>
                     </v-col>
@@ -32,39 +32,14 @@
 
 <script setup>
 import { ref } from 'vue'
-const { $directus, $readItem } = useNuxtApp()
-const route = useRoute()
+import { useQuery } from '@vue/apollo-composable'
+import ecosystemmenu from '~/graphql/cms/queries/menus/ecosystemmenu'
 
-const { data: eco } = await useAsyncData('eco', () => {
-  return $directus.request($readItem('navigation', '12'))
+const { result } = useQuery(ecosystemmenu, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
+  }
 })
 
 const dialog = ref(false);
-const notifications = ref(false);
-const sound = ref(true);
-const widgets = ref(false)
-
- /*   import ecosystemmenu from '~/composables/graphql/cms/queries/menus/ecosystemmenu'
-
-const {
-    data
-} = useAsyncQuery(ecosystemmenu);
-import { onMounted } from 'vue';
-import { useNavigation } from '@/composables/cms/content/useNavigation';
-
-// Pass the specific navigation name you want to fetch
-const { navigation, fetchNavigation } = useNavigation();
-
-onMounted(() => {
-  fetchNavigation('ecosystemmenu'); // Replace 'Main Menu' with the actual name of the navigation
-});
-
-    const {
-        getItemById
-    } = useDirectusItems()
-
-    const eco = await getItemById({
-        collection: "navigation",
-        id: 12
-    });*/
 </script>

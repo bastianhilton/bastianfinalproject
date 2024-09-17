@@ -2,93 +2,61 @@
   <div>
     <v-menu :location="location" transition="slide-y-transition">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" icon="fas fa-user" title="My Account"></v-btn>
+        <a variant="flat" v-bind="props">
+          <v-icon start icon="fas fa-user-circle"></v-icon>
+        </a>
       </template>
-
-      <!-- Show loading state while checking user data -->
-      <v-list v-if="loading">
-        <v-list-item>Loading...</v-list-item>
-      </v-list>
-
-      <!-- Show when user is logged in -->
-      <v-list v-if="isAuthenticated">
+      <v-list>
         <v-row class="accountDropdown">
-          <v-toolbar :title="`Hello, ${user?.firstname || 'User'}`" color="orange"></v-toolbar>
-
-          <!-- First column of the user menu -->
-          <v-col cols="6">
-            <h6>{{ nav?.name }}</h6>
+          <v-col cols="6" v-for="(menu, index) in result?.menus?.nodes" :key="index">
+            <h6>{{ menu?.name }}</h6>
+            <br>
             <v-divider></v-divider>
-            <div v-for="(item, index) in nav?.menus" :key="index">
-              <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url"></v-list-item>
+            <div v-for="(item, index) in menu?.menuItems?.nodes" :key="index">
+              <v-list-item :title="item?.label" :value="item?.label" :prepend-icon="item?.icon"
+                :href="item?.path"></v-list-item>
             </div>
           </v-col>
 
-          <!-- Second column of the user menu -->
-          <v-col cols="6">
-            <h6>{{ navcomm?.name }}</h6>
+          <v-col cols="6" v-for="(menu, index) in social?.menus?.nodes" :key="index">
+            <h6>{{ menu?.name }}</h6>
+            <br>
             <v-divider></v-divider>
-            <div v-for="(item, index) in navcomm?.menus" :key="index">
-              <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url"></v-list-item>
+            <div v-for="(item, index) in menu?.menuItems?.nodes" :key="index">
+              <v-list-item :title="item?.label" :value="item?.label" :prepend-icon="item?.websiteFields?.icon"
+                :href="item?.path"></v-list-item>
             </div>
           </v-col>
-
-          <!-- Logout option -->
           <v-col cols="12">
-            <logout />
+            <v-list-item prepend-icon="fas fa-upload" title="Upload Center" href="/upload"></v-list-item>
+          </v-col>
+
+          <v-col cols="12">
+            <!--<v-list-item prepend-icon="fas fa-clock-rotate-left" :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }}</v-list-item>-->
+            <v-list-item @click="logout" prepend-icon="fas fa-clock-rotate-left" title="Logoff" href="/logoff">
+            </v-list-item>
           </v-col>
         </v-row>
-      </v-list>
-
-      <!-- Show when user is NOT logged in -->
-      <v-list v-else>
-        <v-list-item>
-          <v-btn variant="text" href="/auth/login">Login</v-btn> |
-          <v-btn variant="text" href="/auth/register">Register</v-btn>
-        </v-list-item>
       </v-list>
     </v-menu>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import logout from '~/components/authentication/logout.vue'
-import { useNuxtApp } from '#app'
+import { ref } from 'vue';
+import { useQuery } from '@vue/apollo-composable'
+import { AccountCommerce, AccountSocial } from '~/graphql/cms/queries/menus/myaccounttopmenu'
 
-const isAuthenticated = ref(false);
-
-// Fetch user status
-onMounted(async () => {
-  const { $cookies } = useNuxtApp();  // Access $cookies from useNuxtApp()
-  const token = $cookies.get('auth_token');  // Get the auth token from cookies
-
-  if (token) {
-    // Check token validity with Magento API
-    try {
-      const userData = await $fetch('/rest/V1/customers/me', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (userData) {
-        isAuthenticated.value = true;
-      }
-    } catch (error) {
-      // Token is invalid or expired
-      isAuthenticated.value = false;
-    }
+const { result } = useQuery(AccountCommerce, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
   }
-});
-
-// Fetch navigation data from Directus or other sources
-const { $directus, $readItem } = useNuxtApp()
-
-const { data: nav } = await useAsyncData('nav', () => {
-  return $directus.request($readItem('navigation', '2'))
+})
+const { result: social } = useQuery(AccountSocial, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
+  }
 })
 
-const { data: navcomm } = await useAsyncData('navcomm', () => {
-  return $directus.request($readItem('navigation', '3'))
-})
+const location = ref('bottom');
 </script>

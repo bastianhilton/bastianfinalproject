@@ -3,11 +3,11 @@
     <v-expansion-panels variant="accordion">
       <v-expansion-panel title="Departments" expand-icon="fas fa-plus" collapse-icon="fas fa-minus" elevation="0">
         <v-expansion-panel-text>
-          <div v-for="departments in data?.categories?.items" :key="departments">
-           <v-list v-for="departments in departments?.children" :key="departments">
-              <v-list-item :title="departments?.name" :value="departments?.name" :href="`/departments/${departments?.uid}`">
+          <div v-for="child in result?.categories?.items" :key="child.uid">
+            <v-list v-for="child in child?.children" :key="child.uid" class="ml-4">
+              <v-list-item :title="child.name" :value="child.name" :href="`/departments/${child.uid}`">
               </v-list-item>
-          </v-list> 
+            </v-list>
           </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
@@ -16,17 +16,28 @@
 </template>
 
 <script setup>
-import categories from '~/composables/graphql/commerce/queries/categories'
+  import {
+    ref,
+    onMounted
+  } from 'vue';
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import categories from '~/graphql/commerce/queries/categories.js'
 
-const {
-    data
-} = useAsyncQuery(categories);
+  const {
+    result
+  } = useQuery(categories)
 
-/*  const {
-          getItems
-      } = useDirectusItems()
+  /*  import {
+      getCategories
+    } from '@/composables/commerce/categories/getCategories';
 
-      const departments = await getItems({
-          collection: "departments"
-      });*/
+    const categories = ref([]);
+
+    onMounted(async () => {
+      // Fetch the category with ID 2, which is the root category with children
+      categories.value = await getCategories('Default Category', 2);
+      console.log(categories.value); // Check the response structure for troubleshooting
+    }); */
 </script>

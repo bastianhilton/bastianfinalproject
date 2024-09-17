@@ -1,61 +1,96 @@
 import { useRuntimeConfig } from '#imports';
 
-export const getCategories = async () => {
+export const getCategories = async (catName, level = 2) => {
   const config = useRuntimeConfig();
   try {
-    const categories = await $fetch(`${config.public.commerceUrl}/rest/default/V1/categories`, {
+    const categories = await $fetch(`${config.public.commerceUrl}/rest/V1/categories/list`, {
+      method: 'GET',
       headers: {
-        'Authorization': `Bearer ${config.public.commerceApiToken}`
+        'Authorization': `Bearer ${config.public.commerceApiToken}`,
+        'Content-Type': 'application/json'
+      },
+      params: {
+        searchCriteria: JSON.stringify({
+          pageSize: 1000 // Adjust this value based on your total number of categories
+        })
       }
     });
-    return categories;
+    
+    console.log('API Response:', categories);
+
+    // Filter categories on the client side
+    const filteredCategories = (categories.items || []).filter(category => 
+      category.level === level && 
+      category.parent_id && 
+      categories.items.find(parent => parent.id === category.parent_id && parent.name === catName)
+    );
+
+    console.log('Filtered categories:', filteredCategories);
+    return filteredCategories;
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    if (error.response && error.response.status === 401) {
-      console.error('Unauthorized: Check your API token.');
+    console.error(`Error fetching categories for ${catName} at level ${level}:`, error);
+    if (error.response) {
+      console.error('Response status:', error.response.status);
+      console.error('Response data:', error.response.data);
     }
     return [];
   }
 };
 
-export const getCategoryById = async (uid) => {
+export const getCategoryById = async (categoryId) => {
   const config = useRuntimeConfig();
+
+  if (!categoryId) {
+    console.error('Category ID is undefined');
+    return { category: null, products: [] };
+  }
+
   try {
-    const category = await $fetch(`${config.public.commerceUrl}/rest/V1/categories/${uid}`, {
+    // Fetch category details
+    const category = await $fetch(`${config.public.commerceUrl}/rest/V1/categories/${categoryId}`, {
+      method: 'GET',
       headers: {
-        'Authorization': `Bearer ${config.public.commerceApiToken}`
+        'Authorization': `Bearer ${config.public.commerceApiToken}`,
+        'Content-Type': 'application/json'
       }
     });
-    return category;
-  } catch (error) {
-    console.error(`Error fetching category with ID ${uid}:`, error);
-    return null;
-  }
-};
 
-export const getCategoryProducts = async (uid) => {
-  const config = useRuntimeConfig();
-  try {
-    const response = await $fetch(`${config.public.commerceUrl}/rest/V1/categories/products`, {
+    // Fetch products in the category
+    const products = await $fetch(`${config.public.commerceUrl}/rest/V1/products`, {
+      method: 'GET',
       headers: {
-        'Authorization': `Bearer ${config.public.commerceApiToken}`
+        'Authorization': `Bearer ${config.public.commerceApiToken}`,
+        'Content-Type': 'application/json'
       },
       params: {
         searchCriteria: JSON.stringify({
-          filterGroups: [{
-            filters: [{
-              field: 'category_id',
-              value: uid,
-              conditionType: 'eq'
-            }]
-          }]
+          filterGroups: [
+            {
+              filters: [
+                {
+                  field: 'category_id',
+                  value: categoryId,
+                  conditionType: 'eq'
+                }
+              ]
+            }
+          ],
+          pageSize: 50 // Adjust this value based on how many products you want to display
         })
       }
     });
-    return response.items;
+
+    return {
+      category,
+      products: products.items || []
+    };
   } catch (error) {
-    console.error(`Error fetching products for category with ID ${uid}:`, error);
-    return [];
+    console.error(`Error fetching category ${categoryId} with products:`, error);
+    if (error.response) {
+      console.error('Response status:', error.response.status);
+      console.error('Response data:', error.response.data);
+    }
+    return { category: null, products: [] };
   }
 };
 
@@ -81,42 +116,50 @@ export const getCategoriesByIds = async (ids) => {
   }
 };
 
-// Function to fetch latest products (example, assuming this endpoint exists)
 export const getLatestProducts = async () => {
   const config = useRuntimeConfig();
   try {
-    const response = await fetch(`${config.public.commerceUrl}/rest/V1/products?searchCriteria[sortOrders][0][field]=created_at&searchCriteria[sortOrders][0][direction]=DESC&searchCriteria[pageSize]=5`, {
+    const latestProducts = await $fetch(`${config.public.commerceUrl}/rest/V1/products`, {
       headers: {
-        Authorization: `Bearer ${config.public.commerceApiToken}`
+        'Authorization': `Bearer ${config.public.commerceApiToken}`
+      },
+      params: {
+        searchCriteria: JSON.stringify({
+          sortOrders: [{
+            field: 'created_at',
+            direction: 'DESC'
+          }],
+          pageSize: 5
+        })
       }
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return await response.json();
+    return latestProducts;
   } catch (error) {
     console.error('Error fetching latest products:', error);
     return [];
   }
 };
 
-// Function to fetch best-selling products (example, assuming this endpoint exists)
 export const getBestSellingProducts = async () => {
   const config = useRuntimeConfig();
   try {
-    const response = await fetch(`${config.public.commerceUrl}/rest/V1/products?searchCriteria[sortOrders][0][field]=sales&searchCriteria[sortOrders][0][direction]=DESC&searchCriteria[pageSize]=5`, {
+    const bestSellingProducts = await $fetch(`${config.public.commerceUrl}/rest/V1/products`, {
       headers: {
-        Authorization: `Bearer ${config.public.commerceApiToken}`
+        'Authorization': `Bearer ${config.public.commerceApiToken}`
+      },
+      params: {
+        searchCriteria: JSON.stringify({
+          sortOrders: [{
+            field: 'sales',
+            direction: 'DESC'
+          }],
+          pageSize: 5
+        })
       }
     });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return await response.json();
+    return bestSellingProducts;
   } catch (error) {
     console.error('Error fetching best-selling products:', error);
     return [];
   }
 };
-
-

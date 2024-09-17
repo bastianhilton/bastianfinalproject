@@ -42,7 +42,7 @@
 </script>
 
 <script setup>
-const query = gql`
+/*const query = gql`
 query NewQuery {
   posts {
     nodes {
@@ -71,7 +71,7 @@ query NewQuery {
     data
   } = useAsyncQuery(query);
 
-/*const {
+const {
   getItems
 } = useDirectusItems()
 

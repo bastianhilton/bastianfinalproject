@@ -88,7 +88,7 @@
 import { ref } from 'vue';
 
 import { useRoute, useRouter } from 'vue-router';
-import CREATE_SHOWCASE from '~/composables/graphql/cms/queries/showcases'
+import CREATE_SHOWCASE from '~/graphql/cms/queries/showcases'
 
 const route = useRoute();
 const router = useRouter();
@@ -126,4 +126,4 @@ const createShowcaseAndRefresh = async () => {
   await createShowcase();
   router.go(0);  // Refresh the current route
 };
-</script>~/composables/graphql/cms/queries/showcases
+</script>~/graphql/cms/queries/showcases

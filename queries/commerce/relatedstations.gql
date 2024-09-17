@@ -1,0 +1,29 @@
+
+
+ query GetRelatedStations{
+  products (filter: {category_id: {eq: "74"}}) {
+    items {
+      uid
+      name
+      rating_summary
+      description {
+        html
+      }
+      image {
+        url
+      }
+      sku
+      price_range {
+        minimum_price {
+          regular_price {
+            currency
+            value
+          }
+        }
+      }
+      categories {
+        name
+      }
+    }
+  }
+ }

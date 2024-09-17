@@ -1,12 +1,12 @@
 <template>
   <v-card variant="text">
     <v-tabs style="background-color: transparent" center-active>
-      <div v-for="(menu, index) in navigation" :key="index">
+      <div v-for="(menu, index) in result?.menus?.nodes" :key="index">
       <v-tab>
         <a href="/account/user/profile">Profile</a>
       </v-tab>
-      <v-tab v-for="items in menu?.navigationFields?.menu?.nodes" :key="items.id">
-        <a :href="items?.websiteFields?.link">{{ items?.title }}</a>
+      <v-tab v-for="(item, index) in menu?.menuItems?.nodes" :key="index">
+        <a :href="item?.path">{{ item?.label }}</a>
       </v-tab>
       </div>
     </v-tabs>
@@ -14,20 +14,17 @@
 </template>
 
 <script setup>
-import { useNavigation } from '@/composables/cms/content/useNavigation';
+import { ref } from 'vue'
+import { useQuery } from '@vue/apollo-composable'
+import profilemenu from '~/graphql/cms/queries/menus/profilemenu'
 
-const dialog = ref(false);
-const notifications = ref(false);
-const sound = ref(true);
-const widgets = ref(false)
-// Pass the specific navigation name you want to fetch
-const { navigation, fetchNavigation } = useNavigation();
+const { result } = useQuery(profilemenu, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
+  }
+})
 
-onMounted(() => {
-fetchNavigation('Profile Menu'); // Replace 'Main Menu' with the actual name of the navigation
-});
-
- /* import profilebar from '~/composables/graphql/cms/queries/menus/profilebar'
+ /* import profilebar from '~/graphql/cms/queries/menus/profilebar'
 
 const {
     data

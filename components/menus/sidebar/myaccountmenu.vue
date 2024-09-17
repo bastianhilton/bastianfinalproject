@@ -1,55 +1,17 @@
 <template>
   <div>
-    <div>
-      <v-expansion-panels variant="accordion">
-        <v-expansion-panel :title="nav?.name" expand-icon="fas fa-plus" collapse-icon="fas fa-minus" elevation="0">
-          <v-expansion-panel-text>
-            <v-list>
-              <v-row class="accountDropdown">
-                <v-toolbar v-if="user" :title="`Hello, ${user.username}`" color="orange">
-                </v-toolbar>
-                <v-col cols="12">
-                  <h6>{{ nav?.name }}</h6>
-                  <br>
-                  <v-divider></v-divider>
-                  <div v-for="(item, index) in nav?.menus" :key="index">
-                    <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url">
-                    </v-list-item>
-                  </div>
-                </v-col>
-
-                <v-col cols="12">
-                  <h6>{{ navcomm?.name }}</h6>
-                  <br>
-                  <v-divider></v-divider>
-                  <div v-for="(item, index) in navcomm?.menus" :key="index">
-                    <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url">
-                    </v-list-item>
-                  </div>
-                </v-col>
-
-                <v-col cols="12">
-                  <logout /><!---->
-                </v-col>
-              </v-row>
-            </v-list>
-
-            <v-list>
-              <v-list-item>
-                <v-btn @click="login()" variant="text">Login</v-btn> |
-                <v-btn @click="register()" variant="text">Register</v-btn>
-                <!--<v-btn @click="login()" href="/auth/login">Login / Register</v-btn>
-          <LoginLink to="/api/login" external>
-            Sign in
-          </LoginLink>
-
-                <a :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }} </a>-->
+    <v-expansion-panels variant="accordion">
+      <v-expansion-panel title="My Account" expand-icon="fas fa-plus" collapse-icon="fas fa-minus" elevation="0">
+        <v-expansion-panel-text>
+          <div v-for="item in result?.menus?.nodes" :key="item">
+            <v-list v-for="item in item?.menuItems?.nodes" :key="item">
+              <v-list-item :title="item?.label" :value="item?.label" :prepend-icon="item?.icon" :href="item?.path">
               </v-list-item>
             </v-list>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </div>
+          </div>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
@@ -57,25 +19,29 @@
   import {
     ref
   } from 'vue'
-  import logout from '~/components/authentication/logout.vue'
-
-  const location = ref('bottom')
-
-  const {
-    $directus,
-    $readItem
-  } = useNuxtApp()
-  const route = useRoute()
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import myaccountmenu from '~/graphql/cms/queries/menus/myaccountmenu'
 
   const {
-    data: nav
-  } = await useAsyncData('nav', () => {
-    return $directus.request($readItem('navigation', '2'))
+    result
+  } = useQuery(myaccountmenu, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
   })
+  /* const {
+       data
+   } = useAsyncQuery(bottomsidebarmenu);
+   const {
+     $directus,
+     $readItem
+   } = useNuxtApp()
 
-  const {
-    data: navcomm
-  } = await useAsyncData('navcomm', () => {
-    return $directus.request($readItem('navigation', '3'))
-  })
+   const {
+     data: account
+   } = await useAsyncData('account', () => {
+     return $directus.request($readItem('navigation', '2'))
+   })*/
 </script>

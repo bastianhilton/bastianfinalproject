@@ -1,80 +1,75 @@
 <template>
-    <div class="contentPage">
-        <!--<profilebar />-->
-        <v-card elevation="0" min-height="100vh">
-            <v-toolbar title="Social Feed" color="transparent">
-                <v-dialog min-width="500">
-                    <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn v-bind="activatorProps" prepend-icon="fas fa-plus" title="Create a Space" variant="flat">
-                            Create a Post
-                        </v-btn>
-                    </template>
+  <div class="contentPage">
+    <!--<profilebar />-->
 
-                    <template v-slot:default="{ isActive }">
-                        <createpost />
-                    </template>
-                </v-dialog>
-            </v-toolbar>
-            <v-tabs v-model="tab" bg-color="transparent">
-                <v-tab value="one">Posts I Follow</v-tab>
-                <v-tab value="two">My Posts</v-tab>
-                <v-tab value="three">Popular Posts</v-tab>
-            </v-tabs>
+    <v-row>
+      <v-col cols="12">
+        <v-card title="Social Feed" color="green">
+          <v-sheet class="mx-auto" elevation="0" color="transparent">
+            <h5 style="padding: 15px;">Your Top Posts</h5>
+            <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+              <v-slide-group-item v-for="(activities, index) in activities" :key="index"
+                v-slot="{ isSelected, toggle, selectedClass }">
+                <v-col cols="4">
+                  <activity :activity="activities" :class="['ma-4', selectedClass]" @click="toggle" />
+                </v-col>
 
-            <v-card-text>
-                <v-tabs-window v-model="tab">
-                    <v-tabs-window-item value="one">
-                        <v-row>
-                            <v-col cols="3" v-for="(posts, index) in posts" :key="index">
-                                <post :post="posts" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-
-                    <v-tabs-window-item value="two">
-                        <v-row>
-                            <v-col cols="3" v-for="(posts, index) in posts" :key="index">
-                                <post :post="posts" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-
-                    <v-tabs-window-item value="three">
-                        <v-row>
-                            <v-col cols="3" v-for="(posts, index) in posts" :key="index">
-                                <post :post="posts" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-                </v-tabs-window>
-            </v-card-text>
+                <div class="d-flex fill-height align-center justify-center">
+                  <v-scale-transition>
+                    <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
+                  </v-scale-transition>
+                </div>
+              </v-slide-group-item>
+            </v-slide-group>
+          </v-sheet>
         </v-card>
-    </div>
+      </v-col>
+
+      <v-col cols="4" v-for="(activities, index) in activities" :key="index">
+        <div style="padding-top: 10px;">
+          <activity :activity="activities" />
+        </div>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script setup>
-    //import profilebar from '../../components/menus/profilebar.vue'
-    import {
-        ref
-    } from 'vue'
-    import post from '~/components/cms/related/posts.vue'
-    import createpost from '~/components/cms/create/social/createpost'
+  import {
+    ref,
+    onMounted
+  } from 'vue';
+  //import profilebar from '~/components/menus/profilebar.vue';
+  import activity from '~/components/cms/related/posts.vue'
+  import activities from '~/graphql/cms/queries/activities'
+  //import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
 
-    const tab = ref(null);
-    const dialog = ref(false)
 
-    const {
-        $directus,
-        $readItems,
-    } = useNuxtApp()
+  const { data } = useAsyncQuery(activities);
+  /*const activities = ref([]); 
 
-    const {
-        data: posts
-    } = await useAsyncData('posts', () => {
-        return $directus.request($readItems('posts'))
-    })
+  onMounted(async () => {
+    activities.value = await getActivity(); 
+  });
+*/
+  const model = ref(null); // Model for v-slide-activities
 
-    useHead({
-        title: 'Feeds',
-    })
+  // Placeholder methods for actions
+  const repost = () => {
+    /* Implement repost functionality */
+  };
+  const addLike = () => {
+    /* Implement like functionality */
+  };
+  const addBookmark = () => {
+    /* Implement bookmark functionality */
+  };
+
+  useHead({
+    title: 'Social Feed',
+  });
+
+  definePageMeta({
+    //middleware: ['auth-logged-in'],
+  });
 </script>

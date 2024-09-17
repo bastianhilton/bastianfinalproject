@@ -1,0 +1,22 @@
+
+
+query GetLiveId ($id: ID!) {
+  video(id: $id){
+    id
+    title
+    content
+    videoFields {
+      type
+      videoFile {
+        node {
+          sourceUrl
+        }
+      }
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
+    }
+  }
+}

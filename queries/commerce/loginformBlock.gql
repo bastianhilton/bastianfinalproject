@@ -1,0 +1,10 @@
+
+ query GetLoginFormBlock{
+  cmsBlocks (identifiers: "login-form") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

@@ -163,7 +163,7 @@
   import productGallery from '~/components/commerce/commerce/product/productGallery.vue'
   import productCompare from '~/components/commerce/commerce/product/productCompare.vue'
   import addtolist from '~/components/commerce/partials/addtolist.vue'
-  //import product from '~/composables/graphql/commerce/queries/id/product.js'
+  //import product from '~/graphql/commerce/queries/id/product.js'
   import { ref } from 'vue'
   import {
     SfButton,

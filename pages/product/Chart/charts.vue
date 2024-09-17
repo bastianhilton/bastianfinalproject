@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-  import charts from '../../../graphql/commerce/queries/charts'
+  import charts from '../../../queries/commerce/queries/charts'
 
 const {
   data

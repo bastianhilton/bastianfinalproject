@@ -30,8 +30,18 @@
 </template>
 
 <script setup>
-  import productCard from '../commerce/product/productCard.vue'
-  import charts from '~/composables/graphql/commerce/queries/charts'
+  import {
+        useProductsByCategory
+    } from '@/composables/commerce/products/useProductsByCategory.js';
+
+    // Pass the specific products name you want to fetch
+    const products = ref([]); 
+
+    onMounted(async () => {
+        products.value = await useProductsByCategory(73);
+    });
+/*  import productCard from '../commerce/product/productCard.vue'
+  //import charts from '~/graphql/commerce/queries/charts'
 
   const model = ref(null);
 
@@ -39,7 +49,7 @@
     data
   } = useAsyncQuery(charts);
 
-/*const {
+const {
         getItems
     } = useDirectusItems()
 

@@ -6,25 +6,25 @@
     <div class="container-fluid">
         <div class="row align-items-stretch items-row justify-content-center">
 
-            <div class="item features-image item-long col-12 col-md-12 col-lg-8" v-for="callout in data?.categories?.items" :key="callout">
+            <div class="item features-image item-long col-12 col-md-12 col-lg-8">
                 <div class="item-wrapper">
                     <div class="mbr-section-head">
                         <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7">
-                            {{ callout.name }}
+                            {{ category.name }}
                         </h4>
                         <h5 class="mbr-section-subtitle mbr-fonts-style mb-0 display-2">
-                            <strong>{{ callout.description }}</strong>
+                            <strong>{{ category.custom_attributes[0]?.value }}</strong>
                         </h5>
                         
                         <div class="mbr-section-btn item-footer">
-                            <a :href="`/departments/${callout.id}`" class="btn btn-black-outline item-btn display-7" target="_blank">
+                            <a :href="`/departments/${category.id}`" class="btn btn-black-outline item-btn display-7" target="_blank">
                                 <span class="mobi-mbri mobi-mbri-arrow-next mbr-iconfont mbr-iconfont-btn"></span>
                                 Read More
                             </a>
                         </div>
                     </div>
                     <div class="item-img">
-                        <img :src="`${callout?.image?.sourceUrl}`" :alt="callout?.name">
+                        <img :src="`${category?.custom_attributes[1]?.value}`" :alt="category?.name">
                     </div>
                 </div>
             </div>
@@ -80,7 +80,17 @@
 </script>
 
 <script setup>
-  const query = gql `
+  import {
+        getCategoryById
+    } from '@/composables/commerce/categories/getCategories.js';
+
+    // Pass the specific category name you want to fetch
+    const category = ref([]); 
+
+    onMounted(async () => {
+        category.value = await getCategoryById(67);
+    });
+/*  const query = gql `
 query {
   categories (filters: {name: {match: "Yardsale"}}) {
     items {
@@ -96,7 +106,7 @@ query {
   const {
     data
   } = useAsyncQuery(query);
-/*  const { getItems } = useDirectusItems()
+  const { getItems } = useDirectusItems()
 
   //const products = await getItems({ collection: "products"});
   const departments = await getItems({ collection: "departments", params: {filter: {name: {_eq: "Yardsale"}}} });*/

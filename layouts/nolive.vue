@@ -12,7 +12,8 @@
         <a class="logobrand" href="/">
           <v-icon start icon="fas fa-shopping-bag" color="orange">
             <!--<img :src="siteoverview?.featuredImage?.node?.sourceUrl" :alt="siteoverview?.title" />-->
-          </v-icon><!--{{ siteoverview?.title }}-->Meeovi
+          </v-icon>
+          <!--{{ siteoverview?.title }}-->Meeovi
         </a>
       </v-app-bar-title>
 
@@ -29,7 +30,7 @@
           <ecosystemmenu />
         </v-col>
 
-        <v-col>
+        <v-col id="minSearch">
           <mobilesearch />
         </v-col>
 
@@ -50,6 +51,7 @@
         <v-layout>
           <v-navigation-drawer class="sidebarSection" v-model="drawer" temporary>
             <v-list nav>
+              <!---->
               <topmenu />
               <v-divider></v-divider>
 
@@ -89,6 +91,11 @@
 
           <v-main id="sidebarNav"></v-main>
           <main id="mainSection">
+            <v-row>
+              <v-col>
+                <!--<live />-->
+              </v-col>
+            </v-row>
             <div>
               <slot />
             </div>
@@ -107,7 +114,7 @@
   //import SearchHeader from '../components/search/SearchHeader.vue'
   import search from '../components/search/search.vue'
   import ecosystemmenu from '~/components/menus/ecosystemmenu.vue'
-  //import live from '~/components/menus/Livebar/live.vue'
+  //import live from '~/components/menus/livebar/live.vue'
   import topmenu from '~/components/menus/sidebar/topmenu.vue'
   import socialmenu from '~/components/menus/sidebar/socialmenu.vue'
   import departmentsmenu from '~/components/menus/sidebar/departmentsmenu.vue'
@@ -124,12 +131,13 @@
   } from 'vue';
   //import logout from '~/components/authentication/logout'
 
-//const { logout } = useAuth()
 const drawer = ref(null);
 const rail = ref(true);
 const location = ref('bottom');
 const loaded = ref(false);
 const loading = ref(false);
+
+//const {  logout  } = useAuth()
 
   /*const {
           getItems
@@ -146,4 +154,12 @@ const loading = ref(false);
   function onClick() {
     theme.value = theme.value === 'light' ? 'dark' : 'light'
   };
+
+  useHead({
+    title: 'Meeovi',
+    htmlAttrs: {
+      // uncomment this line to simulate dark mode
+      // class: 'dark',
+    },
+  });
 </script>

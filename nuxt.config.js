@@ -27,20 +27,10 @@ export default defineNuxtConfig({
           rel: 'apple-touch-icon',
           href: '/icons/apple-touch-icon-180x180.png'
         },
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/mage/calendar.css"},
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Sparsh_Faq/css/faq.css"},
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Lof_MultiWishlist/css/popup.css"},
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/Magento_Swatches/css/swatches.css"},
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/StripeIntegration_Payments/css/wallets.css"},
-        //{ rel: "stylesheet", type: "text/css", media: "all", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/styles-l.css" },
-        //{ rel: "stylesheet", type: "text/css", media: "print", href: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/css/print.css" },
       ],
       script: [{
           src: '//platform-api.sharethis.com/js/sharethis.js#property=#{property?._id}&product=custom-share-buttons&source=platform',
         },
-        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/requirejs/require.js"},
-        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/mage/requirejs/mixins.js"},
-        //{ src: "https://commerce.meeovicms.com/static/frontend/Sm/ego/en_GB/requirejs-config.js"},
         /* {
            src: 'https://js.stripe.com/v3/',
          }*/
@@ -89,11 +79,10 @@ export default defineNuxtConfig({
   ],
 
   modules: [
-    '@nuxtjs/apollo',
-    'nuxt3-leaflet',
     "@nuxt/image",
     '@nuxtjs/tailwindcss',
     "nuxt-disqus",
+    '@pinia/nuxt',
     "@storefront-ui/nuxt",
     "@prisma/nuxt",
     '@nuxtjs/seo',
@@ -165,8 +154,8 @@ export default defineNuxtConfig({
     },
     public: {
       // Hasura
-      websiteURL: process.env.GQL_HOST,
-      websiteToken: process.env.WEBSITE_TOKEN,
+      websiteURL: process.env.GRAPHQL_HOST,
+      websiteToken: process.env.GRAPHQL_TOKEN,
 
       //websiteURL: process.env.GQL_HOST,
       //websiteToken: process.env.WEBSITE_TOKEN,
@@ -209,33 +198,6 @@ export default defineNuxtConfig({
     },
   },
 
-  apollo: {
-    clients: {
-      default: {
-        httpEndpoint: process.env.GRAPHQL_HOST,
-        tokenStorage: "cookie",
-        httpLinkOptions: {
-          headers: {
-            'x-hasura-admin-secret': `${process.env.GRAPHQL_TOKEN}`,
-            'content-type': 'application/json'
-          }
-        }
-      },
-      cms: {
-        httpEndpoint: process.env.API_URL_GRAPHQL,
-        httpLinkOptions: {
-          headers: {
-            'Authorization': `Bearer ${process.env.WORDPRESS_TOKEN}`,
-            'username': process.env.WP_API_USERNAME,
-            'password': process.env.WP_API_PASSWORD,
-            'content-type': 'application/json'
-          }
-        }
-      },
-    },
-  },
-  /**/
-
   build: {
     transpile: [
       'vuetify',
@@ -251,6 +213,20 @@ export default defineNuxtConfig({
     define: {
       'process.env.DEBUG': false,
     },
+    plugins: [
+      {
+        name: 'graphql-loader',
+        enforce: 'pre',
+        transform(code, id) {
+          if (id.endsWith('.gql')) {
+            return {
+              code: `import gql from 'graphql-tag'; export default gql\`${code}\`;`,
+              map: null
+            }
+          }
+        }
+      }
+    ]
   },
 
   compatibilityDate: '2024-07-14'

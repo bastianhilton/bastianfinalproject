@@ -9,7 +9,7 @@
                             <v-row>
                                 <v-col cols="10">
                                     <v-list lines="two">
-                                        <v-list-item :title="newsfeed?.avatar?.username" :prepend-avatar="newsfeed?.avatar?.avatar?.filename_disk">
+                                        <v-list-item :title="data?.activity?.user_id" :prepend-avatar="data?.activity?.user_avatar">
                                         </v-list-item>
                                     </v-list>
                                 </v-col>
@@ -28,13 +28,13 @@
                             </v-row>
 
 
-                            <v-card-text class="pt-4" v-html="newsfeed?.post"></v-card-text>
+                            <v-card-text class="pt-4" v-html="data?.activity?.content?.rendered"></v-card-text>
 
                             <v-card-subtitle class="pt-4">
-                                Posted: {{ new Date(newsfeed?.date_created).toLocaleDateString() }}
+                                Posted: {{ new Date(data?.activity?.date).toLocaleDateString() }}
                             </v-card-subtitle>
 
-                            <v-card-text class="pt-4" v-html="newsfeed?.status"></v-card-text>
+                            <v-card-text class="pt-4" v-html="data?.activity?.status"></v-card-text>
 
                             <v-row class="align-center">
                                 <v-col>
@@ -74,17 +74,17 @@
 </script>
 
 <script setup>
-    import profilebar from '../../../components/menus/profilebar.vue'
-    import disqus from '~/components/partials/disqus.vue'
-    import comments from '../../../components/social/comments.vue'
-    import repost from '../../../components/social/repost.vue'
-    import reactions from '../../../components/social/reactions.vue'
-    import bookmark from '../../../components/social/bookmark.vue'
-    import share from '../../../components/social/share.vue'
-    import updatepost from '../../../components/update/social/updatepost.vue'
-
-    //import activity from '~/composables/graphql/cms/queries/id/activity'
     import { ref } from 'vue'
+    //import profilebar from '~/components/menus/profilebar.vue'
+    import disqus from '~/components/partials/disqus.vue'
+    import comments from '~/components/cms/social/comments.vue'
+    import repost from '~/components/cms/social/repost.vue'
+    import reactions from '~/components/cms/social/reactions.vue'
+    import bookmark from '~/components/cms/social/bookmark.vue'
+    import share from '~/components/partials/share.vue'
+    import updatepost from '~/components/cms/update/social/updatepost.vue'
+    import { getActivityById } from '~/composables/cms/social/getActivity';
+    import activity from '~/graphql/cms/queries/id/activity'
 
     const model = ref(null);
     const route = useRoute();
@@ -92,35 +92,33 @@
         id: route.params.id
     });
 
-/* import { getActivityById } from '~/composables/cms/social/getActivity';
+   /* const activity = ref(null);
 
-const activity = ref(null);
-
-onMounted(async () => {
-    const id = route.params.id;
-    try {
-        activity.value = await getActivityById(id);
-        console.log(activity.value);  // Check the fetched data in the console
-    } catch (error) {
-        console.error("Failed to fetch activity data:", error);
-    }
-});*/
+    onMounted(async () => {
+        const id = route.params.id;
+        try {
+            activity.value = await getActivityById(id);
+            console.log(activity.value);  // Check the fetched data in the console
+        } catch (error) {
+            console.error("Failed to fetch activity data:", error);
+        }
+    });*/
 
 
-   const {
+ /*   const {
         getItemById
       } = useDirectusItems()
 
       const newsfeed = await getItemById({
         collection: "newsfeed",
         id: route.params.id
-      });
+      });*/
 
     useHead({
-        title: activity?.title,
+        title: data?.activity?.title,
     })
 
     definePageMeta({
-        middleware: ['auth'],
+        //middleware: ['auth-logged-in'],
     })
 </script>

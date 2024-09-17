@@ -1,0 +1,10 @@
+
+ query GetRelatedProducts{
+  cmsBlocks (identifiers: "relatedproducts") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

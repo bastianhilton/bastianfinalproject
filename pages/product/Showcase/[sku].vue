@@ -82,7 +82,7 @@
   import productCard from '../../../components/commerce/product/productCard.vue'
   import profilebar from '../../../components/menus/profilebar.vue'
   import updateshowcase from '../../../components/update/social/updateshowcase.vue'
-  import showcase from '../../../graphql/commerce/queries/id/showcase'
+  import showcase from '../../../queries/commerce/queries/id/showcase'
 
   const tab = ref(null);
   const {

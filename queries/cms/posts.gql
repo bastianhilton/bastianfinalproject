@@ -1,0 +1,25 @@
+
+
+query GetPosts {
+  posts {
+    nodes {
+      author {
+        node {
+          username
+        }
+      }
+      content
+      date
+      excerpt
+      id
+      title
+      slug
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
+    }
+  }
+}
+

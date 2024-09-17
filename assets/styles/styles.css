@@ -245,6 +245,12 @@ body {
     min-height: 100vh
 }
 
+.accountPage {
+    position: relative;
+    min-height: 100vh;
+    margin-top: 64px
+}
+
 .contentPage h2 {
     width: 100% !important;
     text-align: center;
@@ -861,6 +867,10 @@ body {
 
 footer {
     background-color: rgb(var(--v-theme-info))!important;
+    color: white !important;
+}
+
+.footer3 h2 {
     color: white !important;
 }
 

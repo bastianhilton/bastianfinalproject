@@ -1,0 +1,10 @@
+
+ query GetHomepageSliderBlock{
+  cmsBlocks (identifiers: "homepage-slider") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

@@ -1,6 +1,6 @@
 // composables/useDeals.js
 import { ref } from 'vue';
-import { GET_DEALS } from '~/composables/graphql/commerce/queries/deals';
+import { GET_DEALS } from '~/graphql/commerce/queries/deals';
 
 export function useDeals(clientName = 'commerce') {
     const { apolloClients } = useNuxtApp();

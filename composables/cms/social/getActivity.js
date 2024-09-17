@@ -3,15 +3,15 @@ import { useRuntimeConfig } from '#imports';
 export const getActivity = async () => {
   const config = useRuntimeConfig();
   try {
-    const activity = await $fetch(`${config.public.wordpressUrl}/wp-json/buddypress/v1/activity`, {
+    const activities = await $fetch(`${config.public.wordpressUrl}/wp-json/buddypress/v1/activity`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${config.public.wordpressToken}`
       }
     });
-    return activity;
+    return activities;
   } catch (error) {
-    console.error('Error fetching activity:', error);
+    console.error('Error fetching activities:', error);
     return [];
   }
 };

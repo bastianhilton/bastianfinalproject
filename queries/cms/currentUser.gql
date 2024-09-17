@@ -1,0 +1,14 @@
+
+
+query GetUsers{
+    viewer {
+    id
+    username
+    email
+    name
+    avatar {
+      url
+    }
+  }
+}
+

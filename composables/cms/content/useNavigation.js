@@ -1,12 +1,14 @@
 import { useRuntimeConfig } from '#imports';
 
-export const getNavigation = async () => {
+export const getNavigation = async (id) => {
   const config = useRuntimeConfig();
+  //const credentials = btoa(`${config.public.WP_API_EMAIL}:${config.public.WORDPRESS_TOKEN}`);
+  
   try {
-    const navigation = await $fetch(`${config.public.wordpressUrl}/wp-json/wp-json/wp/v2/navigations`, {
+    const navigation = await $fetch(`${config.public.wordpressUrl}/wp-json/wp/v2/navigations/${id}`, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.public.wordpressToken}`
+        'Authorization': `Basic ${config.public.wordpressToken}`,  // Basic Auth Header
+        'Content-Type': 'application/json'
       }
     });
     return navigation;

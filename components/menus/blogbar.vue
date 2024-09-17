@@ -35,11 +35,12 @@
    import {
         ref
     } from 'vue'
- /*   import blogbar from '~/composables/graphql/cms/queries/menus/blogbar'
+    //import blogbar from '~/graphql/cms/queries/menus/blogbar'
+  
 
 const {
     data
-} = useAsyncQuery(blogbar);*/
+} = useAsyncQuery(blogbar);/**/
 
 const tab = ref(null);
 
@@ -68,4 +69,4 @@ const tab = ref(null);
       }
     }
   }); */
-</script>~/composables/graphql/cms/queries/menus/blogbar
+</script>~/graphql/cms/queries/menus/blogbar

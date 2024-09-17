@@ -1,0 +1,29 @@
+
+
+query {
+  navigations(where: {search: "Ecosystemmenu"}) {
+    nodes {
+      title
+      navigationFields {
+        menu {
+          nodes {
+            ... on Website {
+              id
+              websiteFields {
+                link
+                type
+                description
+                image {
+                  node {
+                    sourceUrl
+                  }
+                }
+              }
+              title
+            }
+          }
+        }
+      }
+    }
+  }
+}

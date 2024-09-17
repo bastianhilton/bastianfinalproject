@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section data-bs-version="5.1" class="features1 cid-tAGUEKoXKD" id="features1-5y" v-for="(category, index) in data?.categories?.items" :key="index">
+    <section result-bs-version="5.1" class="features1 cid-tAGUEKoXKD" id="features1-5y" v-for="(category, index) in result?.categories?.items" :key="index">
 
       <div class="container">
         <div class="row main align-items-center">
@@ -29,26 +29,34 @@
 </template>
 
 <script setup>
-  const query = gql `
-query {
-  categories (filters: {category_uid: {eq: "NDE="}}) {
-    items {
-      uid
-      name
-      image
-      description
-    }
-  }
-}
-`
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+import categoryBooks from '~/graphql/commerce/queries/books.js'
 
   const {
-    data
-  } = useAsyncQuery(query);
+    result
+  } = useQuery(categoryBooks);
 
-  /*
-  const { getItems } = useDirectusItems()
+/*import { ref, onMounted } from 'vue';
+import { getCategoryById } from '@/composables/commerce/categories/getCategories.js';
 
-  const products = await getItems({ collection: "products"});
-  const departments = await getItems({ collection: "departments", params: {filter: {name: {_eq: "Yardsale"}}}, limit: 6 });*/
+const category = ref({});
+const description = ref('');
+const image = ref('');
+
+const findCustomAttribute = (attributes, code) => {
+  return attributes.find(attr => attr.attribute_code === code)?.value || '';
+};
+
+onMounted(async () => {
+  // Fetch the category result by ID
+  category.value = await getCategoryById(41);
+  
+  // Access custom attributes like description and image
+  if (category.value?.custom_attributes) {
+    description.value = findCustomAttribute(category.value.custom_attributes, 'description');
+    image.value = findCustomAttribute(category.value.custom_attributes, 'image');
+  }
+});*/
 </script>

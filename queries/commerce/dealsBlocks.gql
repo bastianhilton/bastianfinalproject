@@ -1,0 +1,10 @@
+
+ query GetDealsBlocks{
+  cmsBlocks (identifiers: "deals") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

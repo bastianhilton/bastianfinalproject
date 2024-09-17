@@ -1,0 +1,10 @@
+
+ query GetFeaturedBlock{
+  cmsBlocks (identifiers: "featured-block") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

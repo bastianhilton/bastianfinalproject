@@ -1,40 +1,33 @@
 <template>
-  <div>
-    <h5 class="menuh5">{{ topmenu?.name }}</h5>
-    <v-list v-for="item in topmenu?.menus" :key="item">
-      <v-list-item :title="item?.name" :value="item?.name" :prepend-icon="item?.icon" :href="item?.url"></v-list-item>
+  <div v-for="item in result?.menus?.nodes" :key="item">
+    <h5 class="menuh5">{{ item?.name }}</h5>
+    <v-list v-for="item in item?.menuItems?.nodes" :key="item">
+      <v-list-item :title="item?.label" :value="item?.label" :prepend-icon="item?.icon" :href="item?.path"></v-list-item>
     </v-list>
   </div>
 </template>
 
 <script setup>
-const { $directus, $readItem } = useNuxtApp()
-const route = useRoute()
+import { ref } from 'vue'
+import { useQuery } from '@vue/apollo-composable'
+import topmenu from '~/graphql/cms/queries/menus/topmenu'
 
-const { data: topmenu } = await useAsyncData('topmenu', () => {
-  return $directus.request($readItem('navigation', '5'))
+const { result } = useQuery(topmenu, null, {
+  context: {
+    clientName: 'secondary' // This will use the secondary endpoint
+  }
 })
-/*import { useNavigation } from '@/composables/cms/content/useNavigation';
-
-// Pass the specific navigation name you want to fetch
-const { navigation, fetchNavigation } = useNavigation();
-
-onMounted(() => {
-fetchNavigation('Trending'); // Replace 'Main Menu' with the actual name of the navigation
-});
-
-  import topmenu from '~/composables/graphql/cms/queries/menus/topmenu'
-
-const {
-    data
-} = useAsyncQuery(topmenu);
+/* const {
+      data
+  } = useAsyncQuery(bottomsidebarmenu);
+  const {
+    $directus,
+    $readItem
+  } = useNuxtApp()
 
   const {
-    getItemById
-  } = useDirectusItems()
-
-  const nav = await getItemById({
-    collection: "navigation",
-    id: 5
-  });*/
+    data: trending
+  } = await useAsyncData('trending', () => {
+    return $directus.request($readItem('navigation', '5'))
+  })*/
 </script>

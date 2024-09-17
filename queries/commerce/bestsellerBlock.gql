@@ -1,0 +1,11 @@
+
+
+ query GetBestsellerBlock{
+  cmsBlocks (identifiers: "bestsellers") {
+    items {
+      title
+      content
+    }
+  }
+}
+`;

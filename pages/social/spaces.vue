@@ -1,119 +1,106 @@
 <template>
     <div class="contentPage">
         <!--<profilebar />-->
-        <v-card elevation="0" min-height="100vh">
-            <v-toolbar title="Spaces" color="transparent">
-                <v-dialog min-width="500">
-                    <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn v-bind="activatorProps" prepend-icon="fas fa-plus" title="Create a Space" variant="flat">
-                            Create a Space
-                        </v-btn>
-                    </template>
+        <v-card elevation="0" style="min-height: 100vh !important;">
+            <v-layout>
+                <v-app-bar color="transparent" prominent>
+                    <!-- <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon> Filters-->
 
-                    <template v-slot:default="{ isActive }">
-                        <createspace />
-                    </template>
-                </v-dialog>
-            </v-toolbar>
-            <v-tabs v-model="tab" bg-color="transparent">
-                <v-tab value="one">All Spaces</v-tab>
-                <v-tab value="two">Audio</v-tab>
-                <v-tab value="three">Video</v-tab>
-                <v-tab value="four">Joined</v-tab>
-                <v-tab value="five">My Spaces</v-tab>
-            </v-tabs>
+                    <v-spacer></v-spacer>
+                    <v-toolbar title="Spaces" color="transparent">
+                        <v-dialog min-width="500">
+                            <template v-slot:activator="{ props: activatorProps }">
+                                <v-btn v-bind="activatorProps" prepend-icon="fas fa-plus" title="Create a Space"
+                                    variant="flat">
+                                    Create a Space
+                                </v-btn>
+                            </template>
 
-            <v-card-text>
-                <v-tabs-window v-model="tab">
-                    <v-tabs-window-item value="one">
-                        <v-row>
-                            <v-col cols="4" v-for="(spaces, index) in groups" :key="index">
-                                <spaces :space="spaces" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
+                            <template v-slot:default="{ isActive }">
+                                <createspace />
+                            </template>
+                        </v-dialog>
+                    </v-toolbar>
 
-                    <v-tabs-window-item value="two">
-                        <v-row>
-                            <v-col cols="4" v-for="(spaces, index) in audiogroup" :key="index">
-                                <spaces :space="spaces" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
+                    <v-spacer></v-spacer>
+                </v-app-bar>
 
-                    <v-tabs-window-item value="three">
-                        <v-row>
-                            <v-col cols="4" v-for="(spaces, index) in videogroup" :key="index">
-                                <spaces :space="spaces" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
 
-                    <v-tabs-window-item value="four">
-                        <v-row>
-                            <v-col cols="4" v-for="(spaces, index) in groups" :key="index">
-                                <spaces :space="spaces" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
+                <!--<v-navigation-drawer class="filtersPanel" v-model="drawer"
+                    :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>
+                    <filters />
+                </v-navigation-drawer>-->
 
-                    <v-tabs-window-item value="five">
-                        <v-row>
-                            <v-col cols="4" v-for="(spaces, index) in groups" :key="index">
-                                <spaces :space="spaces" />
-                            </v-col>
-                        </v-row>
-                    </v-tabs-window-item>
-                </v-tabs-window>
-            </v-card-text>
+                <v-main>
+                    <v-tabs class="searchSection" center-active v-model="tab" bg-color="transparent">
+                        <v-tab value="one">All Spaces</v-tab>
+                        <v-tab value="two">Audio Spaces</v-tab>
+                        <v-tab value="three">Video Spaces</v-tab>
+                        <!---->
+                    </v-tabs>
+
+                    <v-card-text>
+                        <v-tabs-window v-model="tab">
+                            <v-tabs-window-item value="one">
+                                <v-row>
+                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                        <spaces :space="result" />
+                                    </v-col>
+                                </v-row>
+                            </v-tabs-window-item>
+
+                            <v-tabs-window-item value="two">
+                                <v-row>
+                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                        <spaces :space="result" />
+                                    </v-col>
+                                </v-row>
+                            </v-tabs-window-item>
+
+                            <v-tabs-window-item value="three">
+                                <v-row>
+                                    <v-col cols="3" v-for="(result, index) in data?.groups?.nodes" :key="index">
+                                        <spaces :space="result" />
+                                    </v-col>
+                                </v-row>
+                            </v-tabs-window-item>
+                        </v-tabs-window>
+                    </v-card-text>
+                </v-main>
+            </v-layout>
         </v-card>
     </div>
 </template>
 
 <script setup>
-    //import profilebar from '../../components/menus/profilebar.vue'
-    import { ref } from 'vue'
+    import {
+        ref,
+        onMounted,
+        watch
+    } from 'vue';
     import spaces from '~/components/cms/related/spaces.vue'
-    import createspace from '~/components/cms/create/social/createspace'
+    import createspace from '~/components/cms/create/social/createspace.vue'
+    import group from '~/graphql/cms/queries/groups'
+    //import { getGroups } from '~/composables/cms/social/getGroups.js'; // Import the composable function
+  
 
     const tab = ref(null);
-    const dialog = ref(false)
-    
-    const {
-        $directus,
-        $readItems,
-    } = useNuxtApp()
-    const route = useRoute()
+    const drawer = ref(false);
+   /* const groups = ref([]); 
 
-    const {
-        data: groups
-    } = await useAsyncData('groups', () => {
-        return $directus.request($readItems('spaces'))
-    })
+    onMounted(async () => {
+        groups.value = await getGroups();
+    }); */
 
-    const {
-        data: audiogroup
-    } = await useAsyncData('audiogroup', () => {
-        return $directus.request($readItems('spaces', {
-            filter: {
-                type: {
-                    _eq: "Audio"
-                }
-            }
-        }))
-    })
+    const { data } = useAsyncQuery(group);
 
-    const {
-        data: videogroup
-    } = await useAsyncData('videogroup', () => {
-        return $directus.request($readItems('spaces', {
-            filter: {
-                type: {
-                    _eq: "Video"
-                }
-            }
-        }))
-    })
+    /* const {
+         getItems
+       } = useDirectusItems()
+
+       const spaces = await getItems({
+         collection: "Space"
+       });*/
 
     useHead({
         title: 'Spaces',

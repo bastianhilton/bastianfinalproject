@@ -1,0 +1,14 @@
+
+
+query {
+  activities {
+    nodes {
+      id
+      date
+      status
+      title
+      type
+    }
+  }
+}
+

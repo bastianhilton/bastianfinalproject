@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card class="mx-auto" max-width="400" style="max-height: 550px !important;">
-            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${space?.avatar_url}`" cover />
+            <img class="align-end text-white" style="max-height: 550px !important;" :src="`${space?.avatar_url?.full}`" cover />
                 <v-card-title>{{ space?.name }}</v-card-title>
 
             <v-card-subtitle class="pt-4">
@@ -15,7 +15,7 @@
             <v-card-text>
                 <div>Status: {{space?.status}}</div>
 
-                <div v-html="space?.description"></div>
+                <div v-html="space?.description?.raw"></div>
             </v-card-text>
 
             <v-card-actions>

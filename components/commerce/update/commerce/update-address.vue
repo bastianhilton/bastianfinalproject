@@ -111,7 +111,7 @@
         useRoute,
         useRouter
     } from 'vue-router';
-    import { UPDATE_ADDRESS, DELETE_ADDRESS } from '~/composables/graphql/commerce/queries/address'
+    import { UPDATE_ADDRESS, DELETE_ADDRESS } from '~/graphql/commerce/queries/address'
 
     const route = useRoute();
     const router = useRouter();
