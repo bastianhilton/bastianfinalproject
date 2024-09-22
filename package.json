@@ -17,6 +17,10 @@
   "scripts": {
     "m-commit": "git add . && git commit -m \"ready for update\"",
     "m-update": "git pull \"https://github.com/Meeovi/meeovi-frontend\"",
+    "prisma:inline": "cp ./node_modules/.prisma/client/*.js ./node_modules/@prisma/client",
+    "prisma:migrate": "prisma migrate deploy && npm run prisma:inline",
+    "prisma:migrate:dev": "prisma migrate dev && npm run prisma:inline",
+    "prisma:generate": "prisma generate && npm run prisma:inline",
     "build": "nuxt build",
     "dev": "nuxt dev --host 127.0.0.1 --port 3011",
     "ts-node": "ts-node -r tsconfig-paths/register --compiler-options '{\"module\":\"CommonJS\"}'",

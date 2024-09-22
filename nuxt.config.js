@@ -217,11 +217,6 @@ export default defineNuxtConfig({
     define: {
       'process.env.DEBUG': false,
     },
-    resolve: {
-      alias: {
-        ".prisma/client/index-browser": prismaClientPath.replace("@prisma/client/default.js", ".prisma/client/index-browser.js"),
-      },
-    },
     plugins: [
       {
         name: 'graphql-loader',
