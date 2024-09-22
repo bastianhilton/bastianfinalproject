@@ -1,57 +1,28 @@
 <template>
-    <div id="app">
-      <reactive-base
-        :enable-appbase="true"
-        app="earthquakes"
-        url="https://a03a1cb71321:75b6603d-9456-4a5a-af6b-a487b309eb61@appbase-demo-ansible-abxiydt-arc.searchbase.io"
-      >
-        <div class="row">
-          <div class="col">
-            <single-list
-              :size="50"
-              title="Places"
-              component-id="places"
-              data-field="place.keyword"
-              show-search
-            />
-          </div>
-  
-          <div class="col">
-            <selected-filters />
-            <reactive-google-map
-              :size="50"
-              :style="{ height: '90vh', minWidth: '300px' }"
-              :react="{ and: 'places' }"
-              :default-zoom="3"
-              :show-marker-clusters="true"
-              component-id="map"
-              data-field="location"
-            >
-              <div
-                slot="renderItem"
-                slot-scope="{ magnitude }"
-                :style="{
-                  background: 'dodgerblue',
-                  color: '#fff',
-                  paddingLeft: '5px',
-                  paddingRight: '5px',
-                  borderRadius: '3px',
-                  padding: '10px',
-                }"
-              >
-                <i class="fas fa-globe-europe" />
-                &nbsp;{{ magnitude }}
-              </div>
-            </reactive-google-map>
-          </div>
-        </div>
-      </reactive-base>
-    </div>
-  </template>
+  <div>
+    <v-row>
+      <v-col cols="4">
+        <v-card class="mx-auto" prepend-icon="$vuetify" subtitle="Meeovi" width="400">
+          <template v-slot:title>
+            <span class="font-weight-black">Meeovi</span>
+          </template>
+
+          <v-card-text class="bg-surface-light pt-4">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore
+            voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum
+            unde voluptatem!
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="8">
+
+      </v-col>
+    </v-row>
+  </div>
+</template>
 
 <script setup>
-
-useHead({
+  useHead({
     title: 'Pickup Locations',
-    })
+  })
 </script>

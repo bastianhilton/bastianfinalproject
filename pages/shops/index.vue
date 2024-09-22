@@ -23,27 +23,15 @@
   </div>
 </template>
 
-<script>
-  import followButton from '../../components/social/followButton.vue'
-
-  export default {
-    components: {
-      followButton
-    },
-    data: () => ({
-      url: process.env.DIRECTUS_URL,
-    })
-  }
-</script>
-
 <script setup>
   import {
     ref,
     onMounted
   } from 'vue';
+  import followButton from '~/components/cms/social/followButton.vue'
   import {
     getShops
-  } from '~/composables/read/getShops';
+  } from '~/composables/commerce/read/getShops';
 
   const shops = ref([]);
 

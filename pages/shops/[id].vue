@@ -86,18 +86,18 @@
 
 <script setup>
   import { ref } from 'vue'
-  import showcases from '../../components/related/relatedshowcases.vue'
-  import productCard from '../../components/commerce/product/productCard.vue'
-import { useShopById } from '~/composables/read/getShops';
+  import showcases from '~/components/related/relatedshowcases.vue'
+  import productCard from '~/components/commerce/product/productCard.vue'
+  import { useShopById } from '~/composables/commerce/read/getShops';
 
-const rating = ref(null);
-const shop = ref(null);
-const route = useRoute();
+  const rating = ref(null);
+  const shop = ref(null);
+  const route = useRoute();
 
-onMounted(async () => {
-  const id = route.params.id;
-  shop.value = await useShopById(id);
-});
+  onMounted(async () => {
+    const id = route.params.id;
+    shop.value = await useShopById(id);
+  });
 
   /*const {
       getItemById
