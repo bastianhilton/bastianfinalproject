@@ -1,6 +1,6 @@
 <template>
     <div class="contentPage">
-        <v-toolbar :style="`background-color: ${data?.chart?.color}`" :title="data?.chart?.name"></v-toolbar>
+        <v-toolbar :style="`background-color: ${result?.chart?.color}`" :title="result?.chart?.name"></v-toolbar>
         <v-table class="charttable">
             <thead>
                 <tr>
@@ -28,9 +28,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(products, index) in data?.chart?.products?.items" :key="index">
+                <tr v-for="(products, index) in result?.chart?.products?.items" :key="index">
                     <td class="chartnumber">
-                        <h1>{{ data?.chart?.thisWeek }}</h1>
+                        <h1>{{ result?.chart?.thisWeek }}</h1>
                     </td>
                     <td>
                         <v-avatar :image="products?.image?.sourceUrl" rounded="0" size="130"></v-avatar>
@@ -46,16 +46,16 @@
                         </v-list>
                     </td>
                     <td>
-                        <v-avatar icon="fas fa-star" :style="`color: ${data?.chart?.award}`"></v-avatar>
+                        <v-avatar icon="fas fa-star" :style="`color: ${result?.chart?.award}`"></v-avatar>
                     </td>
                     <td>
-                        <h5>{{ data?.chart?.lastWeek }}</h5>
+                        <h5>{{ result?.chart?.lastWeek }}</h5>
                     </td>
                     <td>
-                        <h5>{{ data?.chart?.peakPosition }}</h5>
+                        <h5>{{ result?.chart?.peakPosition }}</h5>
                     </td>
                     <td>
-                        <h5>{{ data?.chart?.weeksOnChart }}</h5>
+                        <h5>{{ result?.chart?.weeksOnChart }}</h5>
                     </td>
                     <td>
                         <v-btn href="" icon="fas fa-shopping-cart"></v-btn>
@@ -70,16 +70,19 @@
 </template>
 
 <script setup>
-    import relatedchart from '../../../components/related/relatedcharts.vue'
-    import relatedproducts from '../../../components/related/relatedproducts.vue'
-    import recentlyviewed from '../../../components/related/recentlyviewed.vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+    import relatedchart from '~/components/commerce/related/relatedcharts.vue'
+    import relatedproducts from '~/components/commerce/related/relatedproducts.vue'
+    import recentlyviewed from '~/components/commerce/related/recentlyviewed.vue'
+    import products from '~/graphql/commerce/products'
 
-
-  const {
-    data
-  } = useAsyncQuery(query, {
-    id: route.params.id
-  });
+    const {
+        result
+    } = useQuery(products, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    });
 
 /*const {
     getItemById
@@ -92,6 +95,6 @@
   }); */
 
   useHead({
-    title: data?.chart?.name,
+    title: result?.chart?.name,
   })
 </script>

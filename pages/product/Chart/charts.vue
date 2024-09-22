@@ -39,11 +39,18 @@
 </template>
 
 <script setup>
-  import charts from '../../../queries/commerce/queries/charts'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import charts from '~/queries/commerce/queries/charts'
 
-const {
-  data
-} = useAsyncQuery(charts);
+  const {
+    result
+  } = useQuery(charts, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
 
 /*const {
         getItems

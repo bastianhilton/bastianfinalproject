@@ -74,11 +74,14 @@
 
 <script setup>
   import { ref } from 'vue'
-  import recentlyviewed from '../../../components/related/recentlyviewed.vue'
-  import relatedproducts from '../../../components/related/relatedproducts.vue'
-  //import editor from '../../../components/Editors/editor.vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import recentlyviewed from '~/components/commerce/related/recentlyviewed.vue'
+  import relatedproducts from '~/components/commerce/related/relatedproducts.vue'
+  //import editor from '~/components/Editors/editor.vue'
   import disqus from '~/components/partials/disqus.vue'
-  import share from '../../../components/social/share.vue'
+  import share from '~/components/cms/social/share.vue'
   import gql from 'graphql-tag'
 
 const route = useRoute();
@@ -118,7 +121,7 @@ query NewQuery ($id: ID!) {
 
   const {
     data
-  } = useAsyncQuery(query, { id: route.params.id });
+  } = useQuery(query, { id: route.params.id });
 
 /*import { createDirectus, rest, readItem } from '@directus/sdk';
 const route = useRoute()

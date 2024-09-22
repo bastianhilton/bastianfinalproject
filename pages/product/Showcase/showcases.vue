@@ -15,7 +15,7 @@
     </v-toolbar>
 
     <v-row style="padding-top: 10px;">
-      <v-col cols="4" v-for="showcase in data?.products?.items" :key="showcases">
+      <v-col cols="4" v-for="showcase in result?.products?.items" :key="showcases">
         <a :href="`/product/showcase/${showcase?.uid}`">
           <v-card class="mx-auto" max-width="500" :title="showcase?.name">
             <v-list lines="one">
@@ -41,14 +41,17 @@
 </template>
 
 <script setup>
-  import profilebar from '../../../components/menus/profilebar.vue'
-  import createshowcase from '../../../components/cms/create/social/createshowcase.vue'
-  import bookmark from '../../../components/social/bookmark.vue'
-  import showcases from '../../../queries/commerce/queries/showcases'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import profilebar from '~/components/menus/profilebar.vue'
+  import createshowcase from '~/components/cms/create/social/createshowcase.vue'
+  import bookmark from '~/components/cms/social/bookmark.vue'
+  import showcases from '~/queries/commerce/queries/showcases'
 
   const {
-    data
-  } = useAsyncQuery(showcases);
+    result
+  } = useQuery(showcases);
 
   /*const { getItems } = useDirectusItems()
 
