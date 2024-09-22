@@ -25,7 +25,7 @@
                             <template v-slot:activator="{ props }">
                                 <div class="avatarBorder">
                                     <v-avatar v-bind="props" size="60">
-                                        <img src="~/../assets/images/face6.jpg" alt="video?.title" cover />
+                                        <img src="~/assets/images/face6.jpg" alt="video?.title" cover />
                                     </v-avatar>
                                 </div>
                             </template>

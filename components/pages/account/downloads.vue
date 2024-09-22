@@ -48,7 +48,7 @@
     import {
         ref
     } from 'vue'
-    //import profilebar from '~/../components/menus/profilebar.vue'
+    //import profilebar from '~/components/menus/profilebar.vue'
     import {
         useQuery
     } from '@vue/apollo-composable'

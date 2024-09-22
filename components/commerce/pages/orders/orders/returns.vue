@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-  import profilebar from '~/../components/menus/profilebar.vue'
+  import profilebar from '~/components/menus/profilebar.vue'
   import { ref } from 'vue'
 
   const tab = ref(null)

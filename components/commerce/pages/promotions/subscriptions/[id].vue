@@ -105,8 +105,8 @@
 </template>
 
 <script>
-import productCard from '~/../components/commerce/product/productCard.vue'
-import profilebar from '~/../components/menus/profilebar.vue'
+import productCard from '~/components/commerce/product/productCard.vue'
+import profilebar from '~/components/menus/profilebar.vue'
 
     export default {
         components: { productCard, profilebar},

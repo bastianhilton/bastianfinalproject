@@ -138,7 +138,7 @@ import { ref } from 'vue';
 import { useApolloClient } from '@vue/apollo-composable';
 import { useRoute, useRouter } from 'vue-router';
 import {CREATE_ACTIVITY} from '~/graphql/cms/mutations/activities'
-    //import video from '~/../components/partials/videojs'
+    //import video from '~/components/partials/videojs'
 
 const dialog = ref(false)
 const location = ref('bottom');

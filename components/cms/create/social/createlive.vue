@@ -60,7 +60,7 @@
 
 <script>
     import video from '~/components/media/video/videojs.vue'
-    //import { CREATE_SHORT_ITEM } from "~/../apollo/Mutations/shorts";
+    //import { CREATE_SHORT_ITEM } from "~/apollo/Mutations/shorts";
 
     export default {
         components: {
