@@ -82,7 +82,7 @@
   import {
     useQuery
   } from '@vue/apollo-composable'
-  import productCard from '~/components/commerce/product/productCard.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   import profilebar from '~/components/menus/profilebar.vue'
   import updateshowcase from '~/components/cms/update/social/updateshowcase.vue'
   import showcase from '~/graphql/commerce/queries/id/showcase'
