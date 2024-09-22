@@ -1,9 +1,9 @@
 <template>
     <div class="contentPage">
-      <profilebar /><!---->
+      <!--<profilebar />-->
         <v-toolbar title="My Network" color="transparent"></v-toolbar>
         <v-row style="padding-top: 10px; padding-bottom: 10px;">
-            <v-col cols="3" v-for="(customers, index) in data?.members?.nodes" :key="index">
+            <v-col cols="3" v-for="(customers, index) in result?.members?.nodes" :key="index">
                 <v-card class="mx-auto" max-width="300">
                     <img class="align-end text-white" height="200" :src="`${customers?.avatar?.url}`" :alt="customers?.username" cover />
 
@@ -31,12 +31,21 @@
 </template>
 
 <script setup>
-import profilebar from '../../components/menus/profilebar.vue'
-import followButton from '../../components/social/followButton.vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+import profilebar from '~/components/menus/profilebar.vue'
+import followButton from '~/components/cms/social/followButton.vue'
 import members from '~/graphql/cms/queries/members'
 import { ref } from 'vue'
 
-const { data } = useAsyncQuery(members);
+const {
+    result
+  } = useQuery(members, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
 
 const model = ref(null);
 
@@ -66,4 +75,4 @@ const page = await client.request(readItem('pages', route.params.id, {
 useHead({
     title: 'My Network'
 })
-</script>~/graphql/cms/queries/members
+</script>
