@@ -85,7 +85,7 @@
   import {
     useQuery
   } from '@vue/apollo-composable'
-  import lists from '~/graphql/commerce/lists'
+  import lists from '~/graphql/commerce/queries/lists'
 
   const route = useRoute();
   const {
