@@ -7,30 +7,30 @@
         <div class="row main align-items-center">
           <div class="col-md-6 image-element align-self-stretch">
             <div class="img-wrap" style="width: 80%; height: 80%;">
-              <img :src="`${result?.list?.lists?.image?.node?.sourceUrl}`" :alt="result?.list?.title">
+              <img :src="`${result?.lists?.lists?.image?.node?.sourceUrl}`" :alt="result?.lists?.title">
             </div>
           </div>
           <div class="col-md-6 text-element">
             <div class="text-content">
               <h2 class="mbr-title pt-2 mbr-fonts-style align-left display-2">
-                {{result?.list?.title}}
+                {{result?.lists?.title}}
               </h2>
 
               <p class="mbr-title pt-2 mbr-fonts-style align-left display-7">
-                Created: {{ new Date(result?.list?.date).toLocaleDateString() }}
+                Created: {{ new Date(result?.lists?.date).toLocaleDateString() }}
               </p>
 
               <div>Type: <p style="display: inline-block;" class="mbr-title pt-2 mbr-fonts-style align-left display-7"
-                  v-html="result?.list?.lists?.type"></p>
+                  v-html="result?.lists?.lists?.type"></p>
               </div>
 
               <p class="mbr-title pt-2 mbr-fonts-style align-left display-7">
-                Public: {{result?.list?.lists?.isPublic}}
+                Public: {{result?.lists?.lists?.isPublic}}
               </p>
 
               <div class="mbr-section-text">
                 <p class="mbr-text pt-3 mbr-light mbr-fonts-style align-left display-7">
-                  {{result?.list?.lists?.description}}</p>
+                  {{result?.lists?.lists?.description}}</p>
               </div>
 
               <v-row>
@@ -63,30 +63,17 @@
   </div>
 </template>
 
-<script>
-  import productCard from '~/components/commerce/commerce/product/productCard.vue'
-  import profilebar from '~/components/menus/profilebar.vue'
-  import updatelist from '~/components/update/commerce/updatelist.vue'
-
-  export default {
-    components: {
-      productCard,
-      profilebar,
-      updatelist
-    },
-    data: () => ({
-      model: null,
-      //url: process.env.DIRECTUS_URL,
-    }),
-  }
-</script>
-
 <script setup>
+  import {ref } from 'vue'
   import {
     useQuery
   } from '@vue/apollo-composable'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import profilebar from '~/components/menus/profilebar.vue'
+  import updatelist from '~/components/commerce/update/commerce/updatelist.vue'
   import lists from '~/graphql/commerce/queries/lists'
 
+  const model = ref(null)
   const route = useRoute();
   const {
         result
@@ -104,7 +91,7 @@
    });*/
 
   useHead({
-    title: result?.list?.title,
+    title: result?.lists?.title,
   })
   definePageMeta({
     middleware: ['auth'],
