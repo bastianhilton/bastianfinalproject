@@ -81,7 +81,7 @@
   import relatedproducts from '~/components/commerce/related/relatedproducts.vue'
   //import editor from '~/components/Editors/editor.vue'
   import disqus from '~/components/partials/disqus.vue'
-  import share from '~/components/cms/social/share.vue'
+  import share from '~/components/partials/share.vue'
   import gql from 'graphql-tag'
 
 const route = useRoute();
