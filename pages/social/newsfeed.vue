@@ -94,7 +94,7 @@
   } from '@vue/apollo-composable'
   //import profilebar from '~/components/menus/profilebar.vue';
   import activity from '~/components/cms/related/posts.vue'
-  import activities from '~/graphql/cms/queries/activities'
+  import {activities} from '~/graphql/cms/queries/activities'
   //import { getActivity } from '~/composables/cms/social/getActivity'; // Import the composable
 
 

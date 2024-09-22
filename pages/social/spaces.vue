@@ -81,7 +81,7 @@
   } from '@vue/apollo-composable'
     import spaces from '~/components/cms/related/spaces.vue'
     import createspace from '~/components/cms/create/social/createspace.vue'
-    import groups from '~/graphql/cms/queries/groups'
+    import {groups} from '~/graphql/cms/queries/groups'
     //import { getGroups } from '~/composables/cms/social/getGroups.js'; // Import the composable function
   
 

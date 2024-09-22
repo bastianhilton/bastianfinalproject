@@ -32,7 +32,7 @@
 
 <script setup>
 import blogbar from '~/components/menus/blogbar.vue'
-import posts from '~/graphql/cms/queries/posts'
+import {posts} from '~/graphql/cms/queries/posts'
 import {
     useQuery
   } from '@vue/apollo-composable'

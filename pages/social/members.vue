@@ -36,7 +36,7 @@
   } from '@vue/apollo-composable'
 import profilebar from '~/components/menus/profilebar.vue'
 import followButton from '~/components/cms/social/followButton.vue'
-import members from '~/graphql/cms/queries/members'
+import {members} from '~/graphql/cms/queries/members'
 import { ref } from 'vue'
 
 const {
