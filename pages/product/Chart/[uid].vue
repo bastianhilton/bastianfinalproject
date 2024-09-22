@@ -76,7 +76,7 @@
     import relatedchart from '~/components/commerce/related/relatedcharts.vue'
     import relatedproducts from '~/components/commerce/related/relatedproducts.vue'
     import recentlyviewed from '~/components/commerce/related/recentlyviewed.vue'
-    import products from '~/graphql/commerce/products'
+    import products from '~/graphql/commerce/queries/products'
 
     const {
         result
