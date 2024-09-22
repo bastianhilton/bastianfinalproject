@@ -29,7 +29,7 @@
     useQuery
   } from '@vue/apollo-composable'
   import latestproducts from '~/components/commerce/related/latestproducts.vue'
-  import error from '~/graphql/cms/error'
+  import error from '~/graphql/cms/queries/error'
 
   useHead({
     title: 'Error',
