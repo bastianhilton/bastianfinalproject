@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="page in data?.pages?.nodes" :key="page">
+    <div v-for="page in result?.pages?.nodes" :key="page">
       <section data-bs-version="5.1" class="header4 cid-u48BYncuPn mbr-fullscreen" id="header4-87"
         data-sortbtn="btn-primary" :style="`background: url(${page?.menu?.image?.node?.sourceUrl})`">
         <div class="container">
@@ -25,33 +25,21 @@
 </template>
 
 <script setup>
-  import latestproducts from '../components/related/latestproducts.vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import latestproducts from '~/components/commerce/related/latestproducts.vue'
+  import error from '~/graphql/cms/error'
 
   useHead({
     title: 'Error',
   })
 
-  //const route = useRoute();
-  const query = gql `
-query MyQuery {
-  pages(where: {name: "Oops, 404"}) {
-    nodes {
-      title
-      content
-      id
-      menu {
-        image {
-          node {
-            sourceUrl
-          }
-        }
-      }
+const {
+    result
+  } = useQuery(error, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
     }
-  }
-}
-`
-
-  const {
-    data
-  } = useAsyncQuery(query);
+  })
 </script>
