@@ -3,7 +3,7 @@
     <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
       <h4>Related Products</h4>
       <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-        <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="products in data?.products?.items" :key="products.id">
+        <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="(products, index) in result?.products?.items" :key="index">
           <productCard :product="products" :class="['ma-4', selectedClass]" @click="toggle" />
 
           <div class="d-flex fill-height align-center justify-center">
@@ -18,7 +18,17 @@
 </template>
 
 <script setup>
-   import {
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import { ref } from 'vue'
+  import {
+    useQuery
+    } from '@vue/apollo-composable'
+  import products from '~/graphql/commerce/queries/products'
+
+  const {
+    result
+    } = useQuery(products)
+ /*  import {
         getPage
     } from '@/composables/commerce/content/getPage.js';
 
@@ -27,5 +37,5 @@
 
     onMounted(async () => {
         products.value = await getPage(27);
-    });
+    }); */
 </script>

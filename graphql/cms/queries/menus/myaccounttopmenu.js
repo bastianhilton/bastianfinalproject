@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const AccountCommerce = gql`
 query AccountCommerce {
-  menus(where: {slug: "account-shop-menu"}) {
+  menus(where: {slug: "shop"}) {
     nodes {
       menuItems {
         nodes {
@@ -20,7 +20,7 @@ query AccountCommerce {
 
 export const AccountSocial = gql`
 query AccountCommerce {
-  menus(where: {slug: "account-social-menu"}) {
+  menus(where: {slug: "social"}) {
     nodes {
       menuItems {
         nodes {

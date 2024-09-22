@@ -1,5 +1,5 @@
 {
-  "name": "m-template",
+  "name": "mmeeovi",
   "type": "module",
   "version": "0.0.6",
   "description": "This is a storefront for Magento with Prisma and Elasticsearch.",
@@ -7,16 +7,16 @@
   "homepage": "https://template.meeovi.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Meeovi/m-template"
+    "url": "git+https://github.com/Meeovi/meeovi-frontend"
   },
   "bugs": {
-    "url": "https://github.com/Meeovi/m-template/issues"
+    "url": "https://github.com/Meeovi/meeovi-frontend/issues"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
     "m-commit": "git add . && git commit -m \"ready for update\"",
-    "m-update": "git pull \"https://github.com/Meeovi/m-template\"",
+    "m-update": "git pull \"https://github.com/Meeovi/meeovi-frontend\"",
     "build": "nuxt build",
     "dev": "nuxt dev --host 127.0.0.1 --port 3011",
     "ts-node": "ts-node -r tsconfig-paths/register --compiler-options '{\"module\":\"CommonJS\"}'",
@@ -38,6 +38,7 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.4",
     "@prisma/nuxt": "^0.0.35",
+    "@stripe/connect-js": "^3.3.13",
     "@videojs/http-streaming": "^3.13.1",
     "@videojs/themes": "^1.0.1",
     "@vue/apollo-composable": "^4.2.1",
@@ -48,6 +49,7 @@
     "datatables.net-vue3": "^3.0.2",
     "dotenv": "latest",
     "dotenv-cli": "^7.3.0",
+    "express": "^4.21.0",
     "graphql": "^16.9.0",
     "jquery": "^3.7.1",
     "jsonwebtoken": "^9.0.2",
@@ -72,7 +74,7 @@
     "@nuxtjs/turnstile": "^0.7.1",
     "@prisma/client": "^5.18.0",
     "@storefront-ui/nuxt": "^2.5.2",
-    "@stripe/stripe-js": "2.1.7",
+    "@stripe/stripe-js": "^2.1.7",
     "@tinymce/tinymce-vue": "latest",
     "@types/graphql": "^14.5.0",
     "@types/node": "^20.11.13",

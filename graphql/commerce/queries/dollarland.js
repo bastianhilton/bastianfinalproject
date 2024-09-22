@@ -1,6 +1,8 @@
+import gql from 'graphql-tag';
 
- query GetDeals{
-  products (filter: {price: {to: "20"}}) {
+const dollarland = gql`
+query {
+  products (filter: {price: {from: "0", to: "1"}}) {
     items {
       uid
       name
@@ -25,4 +27,6 @@
       }
     }
   }
- }
+ }`
+
+export default dollarland;

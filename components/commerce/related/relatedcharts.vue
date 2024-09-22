@@ -40,7 +40,7 @@
     onMounted(async () => {
         products.value = await useProductsByCategory(73);
     });
-/*  import productCard from '../commerce/product/productCard.vue'
+/*  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import charts from '~/graphql/commerce/queries/charts'
 
   const model = ref(null);

@@ -3,7 +3,7 @@
         <!--<profilebar />-->
         <v-card elevation="0" style="min-height: 100vh !important;">
             <v-layout>
-                <v-app-bar color="transparent" prominent>
+                <v-app-bar color="transparent" prominent elevation="0">
                     <!-- <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon> Filters-->
 
                     <v-spacer></v-spacer>

@@ -31,9 +31,10 @@ export default defineNuxtConfig({
       script: [{
           src: '//platform-api.sharethis.com/js/sharethis.js#property=#{property?._id}&product=custom-share-buttons&source=platform',
         },
-        /* {
-           src: 'https://js.stripe.com/v3/',
-         }*/
+         {
+           src: 'https://www.paypal.com/sdk/js?client-id=AVd8oZZ4CzkBDwsDNc5-KO21w2-ebavRSw0NZme7laFfoa-mUY_DyscyNkVRJJMH_9fmca43WlytIta3&buyer-country=US&currency=USD&components=buttons,card-fields&enable-funding=venmo',
+           async: true
+         },
       ],
     },
   },
@@ -175,6 +176,7 @@ export default defineNuxtConfig({
 
       // Magento 
       commerceUrl: process.env.MAGE_STORE_URL,
+      commerceGraphql: process.env.MAGE_MAGENTO_GRAPHQL_URL,
       commerceApiToken: process.env.WEBSITE_TOKEN,
 
       // Directus
@@ -196,6 +198,8 @@ export default defineNuxtConfig({
       // Stripe
       stripePk: process.env.STRIPE_PUBLIC_KEY,
     },
+    // Stripe
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_XXXXXXXXXXXXXXXXXXXXXXXX', // Replace with your secret key
   },
 
   build: {

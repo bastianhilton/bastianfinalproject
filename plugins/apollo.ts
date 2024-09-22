@@ -8,7 +8,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
 
   const primaryHttpLink = createHttpLink({
-    uri: config.public.websiteURL,
+    uri: config.public.commerceGraphql,
   })
 
   const secondaryHttpLink = createHttpLink({
@@ -19,7 +19,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     return {
       headers: {
         ...headers,
-        'x-hasura-admin-secret': config.public.websiteToken,
+        'x-hasura-admin-secret': config.public.commerceApiToken,
       }
     }
   })

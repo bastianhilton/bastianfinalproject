@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const socialmenu = gql`
 query AccountCommerce {
-  menus(where: {slug: "account-social-menu"}) {
+  menus(where: {slug: "social"}) {
     nodes {
       menuItems {
         nodes {

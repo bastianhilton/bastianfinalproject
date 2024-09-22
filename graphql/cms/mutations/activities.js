@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const CREATE_ACTIVITY = gql`
+const CREATE_ACTIVITY = gql`
   mutation CREATE_ACTIVITY($content: String!) {
     createActivity(input: {content: $content, type: ACTIVITY_UPDATE}) {
     activity {
@@ -13,7 +13,7 @@ export const CREATE_ACTIVITY = gql`
   }
 }`
 
-export const UPDATE_ACTIVITY = gql`
+const UPDATE_ACTIVITY = gql`
   mutation UPDATE_ACTIVITY($content: String!, $id: ID!) {
     updateActivity(input: {content: $content, type: ACTIVITY_UPDATE, id: $id}) {
       activity {
@@ -27,7 +27,7 @@ export const UPDATE_ACTIVITY = gql`
     }
   }`
 
-export const DELETE_ACTIVITY = gql`
+const DELETE_ACTIVITY = gql`
   mutation DELETE_ACTIVITY($id: ID!) {
     deleteActivity(input: {id: $id}) {
       activity {
@@ -36,4 +36,4 @@ export const DELETE_ACTIVITY = gql`
     }
   }`
 
-//export default { CREATE_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY }
+export default { CREATE_ACTIVITY, UPDATE_ACTIVITY, DELETE_ACTIVITY }

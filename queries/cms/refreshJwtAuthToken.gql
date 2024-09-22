@@ -1,8 +1,0 @@
-
-
-mutation refreshJwtAuthToken($jwtRefreshToken: String!) {
-  refreshJwtAuthToken(input: {jwtRefreshToken: $jwtRefreshToken}) {
-    authToken
-  }
-}
-

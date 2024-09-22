@@ -2,7 +2,7 @@
     <div>
         <v-card :class="['ma-4', selectedClass]" @click="toggle" max-width="300"
             :href="`/account/${customers?.id}`">
-            <img class="align-end text-white" style="height: 250px;" :src="`${customers?.avatar?.url}`"
+            <img class="align-end text-white" style="height: 250px;" src="../../../assets/images/face6.jpg"
                 :alt="customers?.username" cover />
 
             <v-card-title>@{{ customers?.username }}</v-card-title>

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const bottomsidebarmenu = gql`query AccountCommerce {
-  menus(where: {slug: "sidebar-bottom-menu"}) {
+  menus(where: {slug: "try-something-new"}) {
     nodes {
       menuItems {
         nodes {

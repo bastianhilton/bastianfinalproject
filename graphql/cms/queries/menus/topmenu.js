@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const topmenu = gql`
 query AccountCommerce {
-  menus(where: {slug: "sidebar-top-menu"}) {
+  menus(where: {slug: "trending"}) {
     nodes {
       menuItems {
         nodes {

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const CREATE_GROUP = gql`
+const CREATE_GROUP = gql`
 mutation CREATE_GROUP($description: String!, $name: String!) {
   createGroup(
     input: {types: DEFAULT, name: $name, description: $description, status: PUBLIC}
@@ -13,7 +13,7 @@ mutation CREATE_GROUP($description: String!, $name: String!) {
   }
 }`
 
-export const UPDATE_GROUP = gql`
+const UPDATE_GROUP = gql`
   mutation UPDATE_GROUP($description: String!, $name: String!, $id: ID!) {
     updateGroup(
       input: {types: DEFAULT, name: $name, description: $description, status: PUBLIC, id: $id}
@@ -27,7 +27,7 @@ export const UPDATE_GROUP = gql`
   }
 }`
 
-export const DELETE_GROUP = gql`
+const DELETE_GROUP = gql`
   mutation DELETE_GROUP($id: ID!) {
     deleteGroup(input: {id: $id}) {
       group {
@@ -36,4 +36,4 @@ export const DELETE_GROUP = gql`
     }
   }`
 
-//export default { CREATE_GROUP, UPDATE_GROUP, DELETE_GROUP }
+export { CREATE_GROUP, UPDATE_GROUP, DELETE_GROUP };

@@ -163,7 +163,7 @@
         useRoute,
         useRouter
     } from 'vue-router';
-    //import CREATE_VIDEO from '~/graphql/cms/queries/videos'
+    import CREATE_VIDEO from '~/graphql/cms/queries/videos'
 
     const route = useRoute();
     const router = useRouter();

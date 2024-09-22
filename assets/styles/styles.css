@@ -44,6 +44,11 @@ body {
     z-index: 99999;
 }
 
+.myaccounttopmenu {
+    left: -15px;
+    position: relative;
+}
+
 .ais-Hits {
  width: 100%;
  position: absolute;

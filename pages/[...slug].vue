@@ -8,9 +8,12 @@
 <script setup>
     import page from '~/graphql/cms/queries/id/page'
     import { ref } from 'vue'
+    import {
+    useQuery
+  } from '@vue/apollo-composable'
 
     const route = useRoute();
-    const { data } = useAsyncQuery(page, {
+    const { data } = useQuery(page, {
         id: route.params.id
     });
 

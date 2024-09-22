@@ -10,7 +10,7 @@
                                     v-bind="props"></v-avatar>
                             </template>
                             <v-card>
-                                <video />
+                                <video src="" controls></video>
                                 <v-card-actions>
                                     <v-btn color="info" block @click="createdialog = false">Close</v-btn>
                                 </v-card-actions>
@@ -23,16 +23,16 @@
                     <div class="text-center">
                         <v-dialog v-model="dialog" width="auto" transition="dialog-bottom-transition" fullscreen>
                             <template v-slot:activator="{ props }">
-                                <div class="avatarBorder" v-for="video in videos" :key="video.id">
+                                <div class="avatarBorder">
                                     <v-avatar v-bind="props" size="60">
-                                        <img :src="`${video?.featuredImage?.node?.sourceUrl}`" :alt="video?.title" cover />
+                                        <img src="../../../assets/images/face6.jpg" alt="video?.title" cover />
                                     </v-avatar>
                                 </div>
                             </template>
 
                             <v-card min-height="75%" min-width="75%">
                                 <v-row>
-                                    <v-col cols="6"><video class="liveVideo" :src="videoid?.video?.videoFields?.videoFile?.node?.sourceUrl" autoplay controls></video></v-col>
+                                    <v-col cols="6"><video class="liveVideo" src="//vjs.zencdn.net/v/oceans.mp4" autoplay controls></video></v-col>
                                     <v-col cols="6">
                                       <p>{{ videoid?.video?.title }}</p>
                                         <p>{{ videoid?.video?.content }}</p>

@@ -126,4 +126,4 @@ const createShowcaseAndRefresh = async () => {
   await createShowcase();
   router.go(0);  // Refresh the current route
 };
-</script>~/graphql/cms/queries/showcases
+</script>

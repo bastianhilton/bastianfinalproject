@@ -28,7 +28,7 @@
     onMounted(async () => {
         products.value = await getPage(34);
     });
-/*  import productCard from '../commerce/product/productCard.vue'
+/*  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import recentlyreviewed from '~/graphql/commerce/queries/recentlyviewed'
 
   const model = ref(null);

@@ -39,9 +39,7 @@
         </v-col>
 
         <v-col class="shoppingCart">
-          <a variant="flat" href="/commerce/checkout">
-            <v-icon class="shopping-cart" start icon="fas fa-shopping-cart"></v-icon>
-          </a>
+          <cart />
         </v-col>
       </div>
     </v-app-bar>
@@ -126,6 +124,7 @@
   import bottomsidebarmenu from '~/components/menus/sidebar/bottomsidebarmenu.vue'
   import BottomFooter from '~/components/BottomFooter'
   import FooterNav from '~/components/FooterNav'
+  import cart from '~/components/menus/topmenu/cart.vue'
   import {
     ref
   } from 'vue';
