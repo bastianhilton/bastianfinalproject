@@ -1,36 +1,36 @@
 <template>
   <div class="contentPage">
-    <profilebar />
+    <!--<profilebar />-->
     <section data-bs-version="5.1" class="features16 cid-twc33vqs90" id="features16-1i" data-sortbtn="btn-primary"
       style="padding-top: 10px;">
       <div class="container-fluid">
         <div class="row main align-items-center">
           <div class="col-md-6 image-element align-self-stretch">
             <div class="img-wrap" style="width: 80%; height: 80%;">
-              <img :src="`${data?.list?.lists?.image?.node?.sourceUrl}`" :alt="data?.list?.title">
+              <img :src="`${result?.list?.lists?.image?.node?.sourceUrl}`" :alt="result?.list?.title">
             </div>
           </div>
           <div class="col-md-6 text-element">
             <div class="text-content">
               <h2 class="mbr-title pt-2 mbr-fonts-style align-left display-2">
-                {{data?.list?.title}}
+                {{result?.list?.title}}
               </h2>
 
               <p class="mbr-title pt-2 mbr-fonts-style align-left display-7">
-                Created: {{ new Date(data?.list?.date).toLocaleDateString() }}
+                Created: {{ new Date(result?.list?.date).toLocaleDateString() }}
               </p>
 
               <div>Type: <p style="display: inline-block;" class="mbr-title pt-2 mbr-fonts-style align-left display-7"
-                  v-html="data?.list?.lists?.type"></p>
+                  v-html="result?.list?.lists?.type"></p>
               </div>
 
               <p class="mbr-title pt-2 mbr-fonts-style align-left display-7">
-                Public: {{data?.list?.lists?.isPublic}}
+                Public: {{result?.list?.lists?.isPublic}}
               </p>
 
               <div class="mbr-section-text">
                 <p class="mbr-text pt-3 mbr-light mbr-fonts-style align-left display-7">
-                  {{data?.list?.lists?.description}}</p>
+                  {{result?.list?.lists?.description}}</p>
               </div>
 
               <v-row>
@@ -64,9 +64,9 @@
 </template>
 
 <script>
-  import productCard from '../../../components/commerce/product/productCard.vue'
-  import profilebar from '../../../components/menus/profilebar.vue'
-  import updatelist from '../../../components/update/commerce/updatelist.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import profilebar from '~/components/menus/profilebar.vue'
+  import updatelist from '~/components/update/commerce/updatelist.vue'
 
   export default {
     components: {
@@ -82,48 +82,17 @@
 </script>
 
 <script setup>
-  const route = useRoute();
-  const query = gql `
-query NewQuery ($id: ID!) {
-  list(id: $id) {
-    date
-    title
-    id
-    lists {
-      description
-      ispublic
-      type
-      image {
-        node {
-          sourceUrl
-        }
-      }
-      products {
-        items {
-          date
-          id
-          ... on SimpleProduct {
-            id
-            name
-            image {
-              sourceUrl
-            }
-            price
-            sku
-            type
-          }
-        }
-      }
-    }
-  }
-}
-`
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
+  import lists from '~/graphql/commerce/lists'
 
+  const route = useRoute();
   const {
-    data
-  } = useAsyncQuery(query, {
-    id: route.params.id
-  });
+        result
+    } = useQuery(lists, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    });
   /* const {
        getItemById
    } = useDirectusItems()
@@ -135,7 +104,7 @@ query NewQuery ($id: ID!) {
    });*/
 
   useHead({
-    title: data?.list?.title,
+    title: result?.list?.title,
   })
   definePageMeta({
     middleware: ['auth'],
