@@ -19,4 +19,4 @@ query NewQuery {
   }
 }`
 
-export default members;
+export {members};

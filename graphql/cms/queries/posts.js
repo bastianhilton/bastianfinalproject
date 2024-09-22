@@ -24,4 +24,4 @@ query NewQuery {
   }
 }`
 
-export default posts;
+export {posts};

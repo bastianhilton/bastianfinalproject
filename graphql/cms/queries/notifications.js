@@ -13,4 +13,4 @@ query NewQuery {
   }
 }`
 
-export default notifications;
+export {notifications};

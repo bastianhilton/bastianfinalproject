@@ -25,4 +25,4 @@ groups(where: {status: PUBLIC, type: ACTIVE}) {
   }
 }`
 
-export default groups
+export {groups}
