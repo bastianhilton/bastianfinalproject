@@ -86,8 +86,8 @@
 
 <script setup>
   import { ref } from 'vue'
-  import showcases from '~/components/related/relatedshowcases.vue'
-  import productCard from '~/components/commerce/product/productCard.vue'
+  import showcases from '~/components/commerce/related/relatedshowcases.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   import { useShopById } from '~/composables/commerce/read/getShops';
 
   const rating = ref(null);
