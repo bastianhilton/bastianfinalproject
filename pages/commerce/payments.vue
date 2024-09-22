@@ -37,7 +37,7 @@
 <script setup>
     import addPayment from '~/components/commerce/create/add-payment.vue'
     import profilebar from '~/components/menus/profilebar.vue'
-    import payments from '~/graphql/commerce/payments'
+    import payments from '~/graphql/commerce/queries/payments'
     import {
     useQuery
   } from '@vue/apollo-composable'
