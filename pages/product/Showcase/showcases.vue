@@ -47,7 +47,7 @@
   import profilebar from '~/components/menus/profilebar.vue'
   import createshowcase from '~/components/cms/create/social/createshowcase.vue'
   import bookmark from '~/components/cms/social/bookmark.vue'
-  import showcases from '~/queries/commerce/queries/showcases'
+  import showcases from '~/graphql/commerce/queries/showcases'
 
   const {
     result

@@ -42,7 +42,7 @@
   import {
     useQuery
   } from '@vue/apollo-composable'
-  import charts from '~/queries/commerce/queries/charts'
+  import charts from '~/graphql/commerce/queries/charts'
 
   const {
     result
