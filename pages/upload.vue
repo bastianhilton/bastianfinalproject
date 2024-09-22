@@ -53,8 +53,8 @@
     import {
         ref
     } from 'vue'
-    import createproduct from '~/components/commerce/create/commerce/createproduct.vue'
-    import createlist from '~/components/commerce/create/commerce/createlist.vue'
+    import createproduct from '~/components/commerce/create/createproduct.vue'
+    import createlist from '~/components/commerce/create/createlist.vue'
     import bookmarkvideo from '~/components/cms/create/social/bookmarkvideo.vue'
 
     useHead({
