@@ -16,9 +16,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
-import profilemenu from '~/graphql/cms/queries/menus/profilemenu'
+import profilebar from '~/graphql/cms/queries/menus/profilebar'
 
-const { result } = useQuery(profilemenu, null, {
+const { result } = useQuery(profilebar, null, {
   context: {
     clientName: 'secondary' // This will use the secondary endpoint
   }
