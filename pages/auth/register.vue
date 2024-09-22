@@ -26,10 +26,10 @@
           </div>
           <div class="col-12 col-lg-6">
             <div class="image-wrapper">
-              <img class="image_1" src="../../assets/images/mbr-500x750.jpg" alt="">
-              <img class="image_2" src="../../assets/images/mbr-600x593.jpg" alt="">
-              <img class="image_3" src="../../assets/images/mbr-500x333.jpg" alt="">
-              <img class="image_4" src="../../assets/images/mbr-560x747.jpg" alt="">
+              <img class="image_1" src="~/assets/images/mbr-500x750.jpg" alt="">
+              <img class="image_2" src="~/assets/images/mbr-600x593.jpg" alt="">
+              <img class="image_3" src="~/assets/images/mbr-500x333.jpg" alt="">
+              <img class="image_4" src="~/assets/images/mbr-560x747.jpg" alt="">
             </div>
           </div>
         </div>

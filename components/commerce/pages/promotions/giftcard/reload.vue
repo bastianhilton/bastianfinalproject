@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <img src="../../../assets/images/mbr-1076x585.png" class="top" alt="">
+                        <img src="~/../assets/images/mbr-1076x585.png" class="top" alt="">
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="right">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-    import profilebar from '../../../components/menus/profilebar.vue'
+    import profilebar from '~/../components/menus/profilebar.vue'
 
     export default {
         components: {

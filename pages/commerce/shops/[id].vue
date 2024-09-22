@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    //import videobar from '../../components/menus/videobar.vue'
+    //import videobar from '~/components/menus/videobar.vue'
 
     export default {
         components: {

@@ -53,8 +53,8 @@
 </template>
 
 <script>
-  import createcomment from '../../components/cms/create/social/createcomment.vue'
-  import ratingoverview from '../../components/user/comments/ratingoverview.vue'
+  import createcomment from '~/components/cms/create/social/createcomment.vue'
+  import ratingoverview from '~/components/user/comments/ratingoverview.vue'
 
   export default {
     components: {

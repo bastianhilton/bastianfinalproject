@@ -37,13 +37,13 @@
                     </div>
                 </div>
             </div>
-            <img src="../../../../assets/images/background2.jpg" alt="Transactions">
+            <img src="~/~/assets/images/background2.jpg" alt="Transactions">
         </section>
     </div>
 </template>
 
 <script>
-    import profilebar from '../../components/menus/profilebar.vue'
+    import profilebar from '~/components/menus/profilebar.vue'
 
     export default {
         components: {

@@ -56,7 +56,7 @@
 
 <script>
  /*   import gql from "graphql-tag";
-    import findManyCategories from "../../graphql/query/findManyCategories"
+    import findManyCategories from "~/graphql/query/findManyCategories"
 
     const ADD_CATEGORIES = gql `
     mutation createOneCategories($name: String!, $content: String, $image: String, $meta_title: String, $meta_keywords: String, $meta_description:String){
@@ -133,7 +133,7 @@
                     }
                 }).then((_data) => {
                     this.$router.push({
-                        path: '../../content/categories'
+                        path: '~/content/categories'
                     })
                 }).catch(error => console.error(error));
                 this.name = ' ';

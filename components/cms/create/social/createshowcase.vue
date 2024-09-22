@@ -74,25 +74,18 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data: () => ({
-            dialog: false,
-            includeFiles: true,
-            enabled: false,
-        }),
-    }
-</script>
-
 <script setup>
 import { ref } from 'vue';
 
 import { useRoute, useRouter } from 'vue-router';
-import CREATE_SHOWCASE from '~/graphql/cms/queries/showcases'
+import {CREATE_SHOWCASE} from '~/graphql/cms/queries/showcases'
 
 const route = useRoute();
 const router = useRouter();
 
+const dialog = ref(false)
+const includeFiles = ref(true)
+const enabled = ref(false)
 const title = ref('');
 const type = ref('');
 const description = ref('');

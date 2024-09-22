@@ -16,7 +16,7 @@
           <div class="col content-wrap">
             <div class="mbr-section-head">
               <img
-                src="../../assets/images/logo512alpha-128x128.png"
+                src="~/assets/images/logo512alpha-128x128.png"
                 alt="Meeovi Logo"
                 class="authLogo"
               />

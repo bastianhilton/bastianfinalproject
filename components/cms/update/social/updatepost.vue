@@ -140,7 +140,7 @@ import { ref } from 'vue';
 import { useApolloClient } from '@vue/apollo-composable';
 import { useRoute, useRouter } from 'vue-router';
 import { UPDATE_ACTIVITY, DELETE_ACTIVITY } from '~/graphql/cms/mutations/activities'
-    //import video from '../../../components/partials/videojs'
+    //import video from '~/../components/partials/videojs'
 
 const location = ref('bottom');
 const route = useRoute();

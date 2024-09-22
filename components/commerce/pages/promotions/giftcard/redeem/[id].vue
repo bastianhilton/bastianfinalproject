@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import profilebar from '../../../components/menus/profilebar.vue'
+    import profilebar from '~/../components/menus/profilebar.vue'
 
     export default {
         components: {

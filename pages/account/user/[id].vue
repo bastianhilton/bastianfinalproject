@@ -80,13 +80,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import profilebar from '../../../components/menus/profilebar.vue'
-import posts from '../../../components/pages/profile/posts.vue'
-import followersfollowing from '../../../components/pages/profile/followersfollowing.vue'
-import products from '../../../components/pages/profile/products.vue'
-import replies from '../../../components/pages/profile/replies.vue'
-import media from '../../../components/pages/profile/media.vue'
-import likes from '../../../components/pages/profile/likes.vue'
+import profilebar from '~/../components/menus/profilebar.vue'
+import posts from '~/../components/pages/profile/posts.vue'
+import followersfollowing from '~/../components/pages/profile/followersfollowing.vue'
+import products from '~/../components/pages/profile/products.vue'
+import replies from '~/../components/pages/profile/replies.vue'
+import media from '~/../components/pages/profile/media.vue'
+import likes from '~/../components/pages/profile/likes.vue'
 
 //const user = useLogtoUser();
 

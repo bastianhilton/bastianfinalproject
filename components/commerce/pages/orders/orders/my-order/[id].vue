@@ -113,7 +113,7 @@
                   </div>
               </div>
           </div>
-          <img src="../../../../assets/images/background2.jpg" alt="Orders">
+          <img src="~/~/assets/images/background2.jpg" alt="Orders">
       </section>
 
       <v-card title="Order Items" flat>
@@ -259,7 +259,7 @@
 </template>
 
 <script>
-  import profilebar from '../../components/menus/profilebar.vue'
+  import profilebar from '~/components/menus/profilebar.vue'
 
   export default {
       components: {

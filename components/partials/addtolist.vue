@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import createlist from '../create/commerce/createlist.vue'
+import createlist from '~/components/commerce/create/createlist.vue'
 import {ref} from 'vue';
 
 const tab = ref(null);

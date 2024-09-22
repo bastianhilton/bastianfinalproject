@@ -59,21 +59,6 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                dialog: false,
-                notifications: false,
-                sound: true,
-                widgets: false,
-                apiUrl: process.env.API_URL,
-                wordpressToken: process.env.WORDPRESS_TOKEN
-            }
-        }
-    }
-</script>
-
 <script setup>
     import {
         ref
@@ -85,12 +70,18 @@
         useRoute,
         useRouter
     } from 'vue-router';
-    import CREATE_GROUP from '~/graphql/cms/mutations/groups'
+    import {CREATE_GROUP} from '~/graphql/cms/mutations/groups'
 
     const route = useRoute();
     const router = useRouter();
     //const id = ref('');
 
+    const dialog = ref(false);
+    const includeFiles = ref(true);
+    const enabled = ref(false);
+    const notifications = ref(false);
+    const sound = ref(true);
+    const widgets = ref(false)
     const content = ref('');
     const name = ref('');
     const image = ref('');

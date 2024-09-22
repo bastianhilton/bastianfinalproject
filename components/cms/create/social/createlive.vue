@@ -59,8 +59,8 @@
 </template>
 
 <script>
-    import video from '../../apps/media/videojs.vue'
-    //import { CREATE_SHORT_ITEM } from "../../../apollo/Mutations/shorts";
+    import video from '~/components/media/video/videojs.vue'
+    //import { CREATE_SHORT_ITEM } from "~/../apollo/Mutations/shorts";
 
     export default {
         components: {

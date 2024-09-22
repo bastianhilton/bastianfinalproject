@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-  import blogbar from '../../components/menus/blogbar.vue'
+  import blogbar from '~/components/menus/blogbar.vue'
   import blogCategory from '~/graphql/cms/queries/id/blogCategory'
   import { ref } from 'vue'
   import {

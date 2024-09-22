@@ -160,7 +160,7 @@
 </template>
 
 <script setup>
-    import editor from '../../partials/editor.vue'
+    import editor from '~/partials/editor.vue'
 
     useHead({
         title: 'Upload Product',
