@@ -74,16 +74,6 @@
     </div>
 </template>
 
-<script>
-    export default {
-        data: () => ({
-            dialog: false,
-            includeFiles: true,
-            enabled: false,
-        }),
-    }
-</script>
-
 <script setup>
 import { ref } from 'vue';
 
@@ -94,6 +84,9 @@ const route = useRoute();
 const router = useRouter();
 const id = route.params.id;
 
+const dialog = ref(false)
+const includeFiles = ref(true)
+const enabled = ref(false)
 const name = ref('');
 const title = ref('');
 const color = ref('');

@@ -75,4 +75,4 @@ const DELETE_SHOWCASE = gql`
     }
   }`
 
-export default { showcase, CREATE_SHOWCASE, UPDATE_SHOWCASE, DELETE_SHOWCASE }
+export { showcase, CREATE_SHOWCASE, UPDATE_SHOWCASE, DELETE_SHOWCASE }
