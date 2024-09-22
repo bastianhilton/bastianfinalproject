@@ -3,9 +3,9 @@
         <blogbar />
         <section class="features3 cid-so8Ntjy8wX" id="features3-29">
             <div class="container">
-                <h1 style="text-align: center; padding: 10px;">{{ data?.category?.name }}</h1>
+                <h1 style="text-align: center; padding: 10px;">{{ result?.category?.name }}</h1>
                 <div class="row mt-4">
-                    <div v-for="post in data?.category?.posts?.nodes" :key="post.id" class="item features-image сol-12 col-md-6 col-lg-4">
+                    <div v-for="post in result?.category?.posts?.nodes" :key="post.id" class="item features-image сol-12 col-md-6 col-lg-4">
                         <div class="item-wrapper">
                             <div class="item-img">
                                 <img :src="`${post?.featuredImage?.node?.sourceUrl}`" :alt="post?.title" cover />
@@ -37,13 +37,22 @@
   import blogbar from '../../components/menus/blogbar.vue'
   import blogCategory from '~/graphql/cms/queries/id/blogCategory'
   import { ref } from 'vue'
+  import {
+    useQuery
+  } from '@vue/apollo-composable'
 
   const tab = ref(null);
   const route = useRoute();
 
   const {
-    data
-  } = useAsyncQuery(blogCategory, { id: route.params.id });
+        result,
+    } = useQuery(blogCategory, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    }, {
+        context: {
+            clientName: 'secondary' // This will use the secondary endpoint
+        }
+    });
 
 /*    const {
         getItemById
@@ -57,6 +66,6 @@
     }); */
 
     useHead({
-        title: data?.category?.name,
+        title: result?.category?.name,
     })
-</script>~/graphql/cms/queries/id/blogCategory
+</script>

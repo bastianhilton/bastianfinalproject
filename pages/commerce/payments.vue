@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(payment, index) in data?.customer?.availablePaymentMethods" :key="index">
+                <tr v-for="(payment, index) in result?.customer?.availablePaymentMethods" :key="index">
                     <td><img :src="payment?.gateway?.icon" :alt="payment?.gateway?.title"></td>
                     <td>{{ payment?.gateway?.title }}</td>
                     <td>{{ payment?.type }}</td>
@@ -32,56 +32,20 @@
             </tbody>
         </v-table>
     </div>
-
 </template>
 
-<script>
-    import addPayment from '../../../components/commerce/create/commerce/add-payment.vue'
-    import profilebar from '../../../components/menus/profilebar.vue'
-
-    export default {
-        components: {
-            profilebar,
-            addPayment
-        },
-        data() {
-            return {
-
-            }
-        },
-    }
-</script>
-
 <script setup>
+    import addPayment from '~/components/commerce/create/add-payment.vue'
+    import profilebar from '~/components/menus/profilebar.vue'
+    import payments from '~/graphql/commerce/payments'
+    import {
+    useQuery
+  } from '@vue/apollo-composable'
 const route = useRoute();
-import gql from 'graphql-tag'
-
-const query = gql`
-query NewQuery {
-  customer {
-    displayName
-    id
-    username
-    role
-    date
-    availablePaymentMethods {
-      id
-      isDefault
-      type
-      gateway {
-        description
-        icon
-        id
-        title
-      }
-    }
-  }
-}
-`
 
 const {
-        data
-    } = useAsyncQuery(query, {
+        result
+    } = useQuery(payments, {
         id: route.params.id
     });
 

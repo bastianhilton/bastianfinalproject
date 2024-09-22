@@ -4,7 +4,7 @@
         <section class="features3 cid-so8Ntjy8wX" id="features3-29">
             <div class="container">
                 <div class="row mt-4">
-                    <div class="item features-image сol-12 col-md-6 col-lg-4" v-for="posts in data?.posts?.nodes" :key="posts.id">
+                    <div class="item features-image сol-12 col-md-6 col-lg-4" v-for="posts in result?.posts?.nodes" :key="posts.id">
                         <div class="item-wrapper">
                             <div class="item-img">
                                 <img :src="posts?.featuredImage?.node?.sourceUrl" :alt="posts?.title" cover />
@@ -16,7 +16,7 @@
                                 <h6 class="item-subtitle mbr-fonts-style mt-1 display-7">
                                     <em>Published: {{ new Date(posts?.date).toLocaleDateString() }}</em>
                                 </h6>
-                                <h6 class="item-subtitle mbr-fonts-style mt-1 display-7" v-for="posts in data?.posts?.nodes" :key="posts.id">
+                                <h6 class="item-subtitle mbr-fonts-style mt-1 display-7" v-for="posts in result?.posts?.nodes" :key="posts.id">
                                     <em>Author: {{ posts?.author?.node?.username }}</em>
                                 </h6>
                                 <p class="mbr-text mbr-fonts-style mt-3 display-7" v-html="posts?.excerpt"></p>
@@ -31,13 +31,22 @@
 </template>
 
 <script setup>
-import blogbar from '../../components/menus/blogbar.vue'
+import blogbar from '~/components/menus/blogbar.vue'
 import posts from '~/graphql/cms/queries/posts'
+import {
+    useQuery
+  } from '@vue/apollo-composable'
 import { ref } from 'vue'
 
 const tab = ref(null);
 
-const { data } = useAsyncQuery(posts);
+const {
+    result
+  } = useQuery(posts, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
 
 /*const {
     getItems

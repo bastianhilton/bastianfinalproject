@@ -4,16 +4,16 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-6 image-wrapper">
-                        <img class="w-100" :src="`${data?.post?.featuredImage?.node?.sourceUrl}`" :alt="data?.post?.title">
+                        <img class="w-100" :src="`${result?.post?.featuredImage?.node?.sourceUrl}`" :alt="result?.post?.title">
                     </div>
                     <div class="col-12 col-md">
                         <div class="text-wrapper text-center">
                             <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1">
-                                <strong>{{data?.post?.title}}</strong></h1>
+                                <strong>{{result?.post?.title}}</strong></h1>
                             <p class="mbr-text mbr-fonts-style display-7">
-                              Published: {{ new Date(data?.post?.date).toLocaleDateString() }}</p>
+                              Published: {{ new Date(result?.post?.date).toLocaleDateString() }}</p>
                             <p class="mbr-text mbr-fonts-style display-7">
-                              Author: {{data?.post?.author?.node?.username}}</p>
+                              Author: {{result?.post?.author?.node?.username}}</p>
                         </div>
                     </div>
                 </div>
@@ -25,8 +25,8 @@
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-12">
                         <blockquote>
-                            <h5 class="mbr-section-title mbr-fonts-style mb-2 display-7" v-for="tag in data?.post?.tags?.nodes" :key="tag.name">{{tag?.name}}</h5>
-                            <p class="mbr-text mbr-fonts-style display-4" v-html="data?.post?.content"></p>
+                            <h5 class="mbr-section-title mbr-fonts-style mb-2 display-7" v-for="tag in result?.post?.tags?.nodes" :key="tag.name">{{tag?.name}}</h5>
+                            <p class="mbr-text mbr-fonts-style display-4" v-html="result?.post?.content"></p>
                         </blockquote>
                     </div>
                 </div>
@@ -41,13 +41,22 @@
 </template>
 
 <script setup>
-import relatedpost from '../../components/pages/homepage/blogposts.vue'
+import relatedpost from '~/components/pages/homepage/blogposts.vue'
 import post from '~/graphql/cms/queries/id/post'
+import {
+    useQuery
+  } from '@vue/apollo-composable'
 const route = useRoute();
 
-  const {
-    data
-  } = useAsyncQuery(post, { id: route.params.id });
+const {
+        result,
+    } = useQuery(post, {
+        id: route.params.id // Pass variables inside the 'variables' object
+    }, {
+        context: {
+            clientName: 'secondary' // This will use the secondary endpoint
+        }
+    });
 
 /*    const {
         getItemById
@@ -60,7 +69,7 @@ const route = useRoute();
     }); */
 
     useHead({
-        title: route.params.title,
+        title: route?.params?.title,
     })
 
-</script>~/graphql/cms/queries/id/post
+</script>
