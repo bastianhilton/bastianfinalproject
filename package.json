@@ -23,6 +23,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "analyze": "nuxi analyze",
+    "postinstall": "nuxt prepare && prisma generate",
     "all": "npm-run-all --parallel dev start"
   },
   "dependencies": {

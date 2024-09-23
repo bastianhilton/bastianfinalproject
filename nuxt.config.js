@@ -85,7 +85,7 @@ export default defineNuxtConfig({
     "nuxt-disqus",
     '@pinia/nuxt',
     "@storefront-ui/nuxt",
-    "@prisma/nuxt",
+    //"@prisma/nuxt",
     '@nuxtjs/seo',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -98,14 +98,14 @@ export default defineNuxtConfig({
   ],
 
   // https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/prisma-nuxt-module#configuration
-  prisma: {
+ /* prisma: {
     installCli: false,
     installClient: false,
     generateClient: false,
     formatSchema: false,
     installStudio: false,
     autoSetupPrisma: true
-  },
+  },*/
 
   // https://nuxtseo.com/robots
   robots: {
