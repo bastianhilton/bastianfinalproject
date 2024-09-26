@@ -1,7 +1,7 @@
 <template>
     <div>
-        <v-card class="mx-auto" max-width="400" style="max-height: 650px !important;">
-            <img class="align-end text-white" style="max-height: 550px !important;" src="~/assets/images/mystery-group-50.png" cover />
+        <v-card class="mx-auto" max-width="400" max-height="650" min-height="650">
+            <img class="align-end text-white" style="max-height: 350px !important; min-height: 350px;" src="~/assets/images/mystery-group-50.png" cover />
                 <v-card-title>{{ space?.name }}</v-card-title>
 
             <v-card-subtitle class="pt-4">

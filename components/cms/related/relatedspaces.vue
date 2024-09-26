@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
+    <v-sheet class="mx-auto row align-items-stretch items-row">
       <h4>Related Spaces</h4>
       <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
         <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="(result, index) in result?.groups?.nodes" :key="index">
-          <spaces :space="result" />
+          <spaces style="margin: 10px;" :space="result" />
         </v-slide-group-item>
       </v-slide-group>
     </v-sheet>
