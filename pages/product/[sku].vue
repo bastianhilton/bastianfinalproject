@@ -164,8 +164,8 @@
             <h4>This product goes great together with...</h4>
           <!--Crossell Products-->
             <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-              <v-slide-group-item v-for="(crossSell, index) in result?.products?.items[0]?.crosssell_products" :key="index">
-                <productCard :product="crossSell" class="ma-4" />
+              <v-slide-group-item v-for="(crossSell, index) in result?.products?.items[0]?.crosssell_products" :key="index" v-slot="{ isSelected, toggle, selectedClass }">
+                <productCard :product="crossSell"  :class="['ma-4', selectedClass]" @click="toggle" />
                 <div class="d-flex fill-height align-center justify-center">
                   <v-scale-transition>
                     <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
@@ -180,8 +180,8 @@
           <h4>Related Products</h4>
           <div v-if="result?.products?.items[0]?.related_products?.length > 0">
             <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-              <v-slide-group-item v-for="(relatedProduct, index) in result?.products?.items[0]?.related_products" :key="index">
-                <productCard :product="relatedProduct" class="ma-4" />
+              <v-slide-group-item v-for="(relatedProduct, index) in result?.products?.items[0]?.related_products" :key="index" v-slot="{ isSelected, toggle, selectedClass }">
+                <productCard :product="relatedProduct" :class="['ma-4', selectedClass]" @click="toggle" />
                 <div class="d-flex fill-height align-center justify-center">
                   <v-scale-transition>
                     <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>

@@ -3,8 +3,8 @@
     <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
       <h4>Related Spaces</h4>
       <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
-        <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="(spaces, index) in spaces" :key="index">
-          <space :space="spaces" />
+        <v-slide-group-item v-slot="{ isSelected, toggle, selectedClass }" v-for="(result, index) in result?.groups?.nodes" :key="index">
+          <spaces :space="result" />
         </v-slide-group-item>
       </v-slide-group>
     </v-sheet>
@@ -12,20 +12,30 @@
 </template>
 
 <script setup>
-  import {
-    ref
-  } from 'vue'
-  import space from '~/components/cms/related/spaces.vue'
+    import {
+        ref,
+    } from 'vue';
+    import {
+    useQuery
+  } from '@vue/apollo-composable'
+    import spaces from '~/components/cms/related/spaces.vue'
+    import createspace from '~/components/cms/create/social/createspace.vue'
+    import {groups} from '~/graphql/cms/queries/groups'
+    //import { getGroups } from '~/composables/cms/social/getGroups.js'; // Import the composable function
+  
 
-  const model = ref(null)
-  const {
-        $directus,
-        $readItems,
-    } = useNuxtApp()
+    const tab = ref(null);
+   /* const groups = ref([]); 
+
+    onMounted(async () => {
+        groups.value = await getGroups();
+    }); */
 
     const {
-        data: spaces
-    } = await useAsyncData('spaces', () => {
-        return $directus.request($readItems('spaces'))
-    })
+    result
+  } = useQuery(groups, null, {
+    context: {
+      clientName: 'secondary' // This will use the secondary endpoint
+    }
+  })
 </script>

@@ -45,7 +45,7 @@
           </v-col>
           <v-col cols="12">
             <p class="mbr-text mb-0 mbr-fonts-style display-7" style="width: 100%; text-align: center;">
-              @ 2017 - {{ new Date().getFullYear() }}&nbsp;<a href="/">{{ siteoverview?.site_name }}&nbsp;&nbsp;</a>All
+              @ 2017 - {{ new Date().getFullYear() }}&nbsp;<a href="/">Meeovi&nbsp;&nbsp;</a>All
               Rights Reserved.
             </p>
           </v-col>
