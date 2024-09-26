@@ -23,8 +23,9 @@
   import {
     useQuery
     } from '@vue/apollo-composable'
-  import deals from '~/graphql/commerce/queries/deals'
-
+  import {deals} from '~/graphql/commerce/queries/deals'
+  
+  const model = ref(null);
   const {
     result
     } = useQuery(deals)
@@ -43,7 +44,7 @@
  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import deals from '~/graphql/commerce/queries/deals'
 
-  const model = ref(null);
+
 
   const {
     data

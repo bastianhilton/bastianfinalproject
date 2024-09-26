@@ -15,7 +15,7 @@
         <bestsellers />
         <recentlyviewed />
         <blogcallout />
-      <!--  
+      <!--  <latestproducts />
         <intro />
         <pixanomycallout />
         <yardsale />
@@ -26,6 +26,7 @@
 
 <script setup>
     import headerslider from '~/components/pages/homepage/headerslider.vue'
+    //import latestproducts from '~/components/builderio/latestproducts.vue'
     //import intro from '~/components/pages/homepage/intro.vue'
     //import pixanomycallout from '~/components/pages/homepage/pixanomycallout.vue'
     import bookcallout from '~/components/pages/homepage/bookcallout.vue'

@@ -30,7 +30,7 @@
                 <div v-if="results.length">
                   <v-row>
                     <v-col cols="3" v-for="(result, index) in results" :key="index">
-                      <productCard :products="result" />
+                      <productCard :product="result" />
                     </v-col>
                   </v-row>
                 </div>

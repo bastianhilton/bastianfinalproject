@@ -4,7 +4,7 @@
       <v-col>
         <div class="border border-neutral-200 rounded-md hover:shadow-lg max-w-[300px]">
           <div class="relative">
-            <SfLink :href="`/product/${product?.uid}`" class="block">
+            <SfLink :href="`/product/${product?.sku}`" class="block">
               <img :src="`${product?.image?.url}`" :alt="product?.name" class="block object-cover h-auto rounded-md aspect-square" width="300"
                 height="300" />
             </SfLink>
@@ -15,11 +15,11 @@
             </SfButton>
           </div>
           <div class="p-4 border-t border-neutral-200">
-            <SfLink :href="`/product/${product?.uid}`" variant="secondary" class="no-underline">{{product?.name}}</SfLink>
+            <SfLink :href="`/product/${product?.sku}`" variant="secondary" class="no-underline">{{product?.name}}</SfLink>
             <div class="flex items-center pt-1">
               <SfRating size="xs" :value="5" :max="5" />
 
-              <SfLink :href="`/product/${product?.uid}`" variant="secondary" class="pl-1 no-underline">
+              <SfLink :href="`/product/${product?.sku}`" variant="secondary" class="pl-1 no-underline">
                 <SfCounter size="xs">123</SfCounter>
               </SfLink>
             </div>

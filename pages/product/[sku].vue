@@ -1,25 +1,38 @@
 <template>
   <div class="contentPage">
+  <div v-if="loading">Loading...</div>
+  <div v-else-if="error">Error: {{ error.message }}</div>
+  <div v-else-if="result?.products?.items?.length > 0">
     <v-row>
       <v-col cols="12">
         <v-row>
-          <v-col cols="6"><productGallery :product="product" /></v-col>
+          <v-col cols="6">
+            <v-carousel>
+              <v-carousel-item :src="result?.products?.items[0]?.image?.url" cover>
+              </v-carousel-item>
+            </v-carousel>
+          </v-col>
           <v-col cols="6">
             <section class="md:max-w-[640px]">
-              <h1 class="mb-1 font-bold typography-headline-4">{{ product?.name }}</h1>
+              <h1 class="mb-1 font-bold typography-headline-4">{{ result?.products?.items[0]?.name }}</h1>
               <div class="headline-2">
-                By: 
+                By:
               </div>
-              <strong class="block font-bold typography-headline-3">{{ product?.price_range?.minimum_price?.regular_price?.currency }} {{ product?.price }}</strong>
+              <strong
+                class="block font-bold typography-headline-3">{{ result?.products?.items[0]?.price_range?.minimum_price?.regular_price?.currency }}
+                {{ result?.products?.items[0]?.price_range?.minimum_price?.regular_price?.value }}</strong>
               <div class="inline-flex items-center mt-4 mb-2">
-                <SfRating size="xs" :value="3" :max="5" />
-                <SfCounter class="ml-1" size="xs">123</SfCounter>
-                <SfLink href="#" variant="secondary" class="ml-2 text-xs text-neutral-500"> 123 reviews </SfLink>
+                <SfRating size="xs" :value="result?.products?.items[0]?.rating_summary" :max="5" half-increment />
+                <SfCounter class="ml-1" size="xs">{{result?.products?.items[0]?.review_count}}</SfCounter>
+                <SfLink href="#" variant="secondary" class="ml-2 text-xs text-neutral-500"> {{result?.products?.items[0]?.review_count}} reviews </SfLink>
               </div>
               <ul class="mb-4 font-normal typography-text-sm">
-                <li>Category: {{ product?.categories?.name }}</li>
-                <li>Format: {{ product?.format }}</li>
-                <li>Sku: {{ product?.sku }}</li>
+                <strong>Category: </strong><li style="display: inline-block; padding-right: 5px;" v-for="(category, index) in result?.products?.items[0]?.categories" :key="index">
+                  {{ category.name }}
+                </li>
+
+                <li><strong>Format: </strong>{{ result?.products?.items?.format }}</li>
+                <li><strong>Sku: </strong>{{ result?.products?.items[0]?.sku }}</li>
                 <li></li>
               </ul>
               <div class="py-4 mb-4 border-gray-200 border-y">
@@ -44,7 +57,8 @@
                       </SfButton>
                     </div>
                     <p class="self-center mt-1 mb-4 text-xs text-neutral-500 xs:mb-0">
-                      <strong class="text-neutral-900">{{ product?.only_x_left_in_stock }}</strong> in stock
+                      <strong class="text-neutral-900">{{ result?.products?.items[0]?.only_x_left_in_stock }}</strong> in
+                      stock
                     </p>
                   </div>
                   <SfButton size="lg" class="w-full xs:ml-4">
@@ -96,11 +110,11 @@
 
       <v-col cols="12">
         <v-card elevation="0">
-          <v-tabs v-model="tab" bg-color="primary">
+          <v-tabs v-model="tab" bg-color="info">
             <v-tab value="one">Description</v-tab>
             <v-tab value="two">Reviews</v-tab>
             <v-tab value="three">Specifications</v-tab>
-           <!-- <v-tab value="four">FAQS</v-tab>
+            <!-- <v-tab value="four">FAQS</v-tab>
             <v-tab value="five">Compare</v-tab>-->
           </v-tabs>
 
@@ -109,25 +123,27 @@
               <!--Product Description-->
               <v-window-item value="one">
                 <v-card variant="text">
-                  <v-card-text>{{product?.description?.html}}</v-card-text>
+                  <v-card-text style="font-size: 20px;" v-html="result?.products?.items[0]?.description?.html"></v-card-text>
                 </v-card>
               </v-window-item>
 
               <!--Product Reviews-->
               <v-window-item value="two">
-                <DisqusCount identifier="/blog/1" />
-
-                <DisqusComments identifier="/blog/1" />
+                <div v-if="result?.products?.items[0]?.reviews?.items?.length > 0">
+                  <div v-for="(review, index) in result?.products?.items[0]?.reviews?.items" :key="index">
+                    <productReviews :review="review" />
+                  </div>
+                </div>
               </v-window-item>
 
               <!--Product Specifications-->
               <v-window-item value="three">
-                <productSpecs :product="product" />
+                <productSpecs :product="result?.products?.items[0]" />
               </v-window-item>
 
               <!--Product FAQs-->
               <v-window-item value="four">
-                <v-expansion-panels v-for="(faqs, index) in product?.faqs?.faqs_id" :key="index">
+                <v-expansion-panels v-for="(faqs, index) in result?.products?.items[0]?.faqs?.faqs_id" :key="index">
                   <v-expansion-panel :title="faqs.question" :text="faqs.answer">
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -141,30 +157,57 @@
           </v-card-text>
         </v-card>
       </v-col>
+
+      <v-col cols="12">
+        <!--Crossell Products-->
+          <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
+            <h4>This product goes great together with...</h4>
+          <!--Crossell Products-->
+            <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+              <v-slide-group-item v-for="(crossSell, index) in result?.products?.items[0]?.crosssell_products" :key="index">
+                <productCard :product="crossSell" class="ma-4" />
+                <div class="d-flex fill-height align-center justify-center">
+                  <v-scale-transition>
+                    <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
+                  </v-scale-transition>
+                </div>
+              </v-slide-group-item>
+            </v-slide-group>
+        </v-sheet>
+
+        <!--Related Products-->
+        <v-sheet class="mx-auto sliderProducts row align-items-stretch items-row justify-content-center">
+          <h4>Related Products</h4>
+          <div v-if="result?.products?.items[0]?.related_products?.length > 0">
+            <v-slide-group v-model="model" class="pa-4" selected-class="bg-success" show-arrows>
+              <v-slide-group-item v-for="(relatedProduct, index) in result?.products?.items[0]?.related_products" :key="index">
+                <productCard :product="relatedProduct" class="ma-4" />
+                <div class="d-flex fill-height align-center justify-center">
+                  <v-scale-transition>
+                    <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48"></v-icon>
+                  </v-scale-transition>
+                </div>
+              </v-slide-group-item>
+            </v-slide-group>
+          </div>
+          <div v-else>
+            <p>No related products available.</p>
+          </div>
+        </v-sheet>
+      </v-col>
     </v-row>
+  </div>
+  <div v-else>No product found</div>
   </div>
 </template>
 
 <script setup lang="ts">
-  /*  import {
-    addToCart
-  } from '~/utils/addToCart'
   import {
-    buyNow
-  } from '~/utils/buyNow'
+    ref
+  } from 'vue'
   import {
-    addToList
-  } from '~/utils/addToList'
-  import {
-    bookmark
-  } from '~/utils/bookmark' */
-  import disqus from '~/components/partials/disqus.vue'
-  import productSpecs from '~/components/commerce/commerce/product/productSpecs.vue'
-  import productGallery from '~/components/commerce/commerce/product/productGallery.vue'
-  import productCompare from '~/components/commerce/commerce/product/productCompare.vue'
-  import addtolist from '~/components/commerce/partials/addtolist.vue'
-  //import product from '~/graphql/commerce/queries/id/product.js'
-  import { ref } from 'vue'
+    useQuery
+  } from '@vue/apollo-composable'
   import {
     SfButton,
     SfCounter,
@@ -182,32 +225,77 @@
     useId,
     SfIconShoppingCartCheckout,
   } from '@storefront-ui/vue';
-  import { clamp } from '@storefront-ui/shared';
-  import { useCounter } from '@vueuse/core';
-  import { getProductById } from '~/composables/commerce/products/products';
+  import {
+    clamp
+  } from '@storefront-ui/shared';
+  import {
+    useCounter
+  } from '@vueuse/core';
+  import {
+    getProductById
+  } from '~/composables/commerce/products/products';
 
-  const inputId = useId();
-  const min = ref(1);
-  const max = ref(999);
-  const { count, inc, dec, set } = useCounter(1, { min: min.value, max: max.value });
-  function handleOnChange(event: Event) {
-    const currentValue = (event.target as HTMLInputElement)?.value;
-    const nextValue = parseFloat(currentValue);
-    set(clamp(nextValue, min.value, max.value));
-  }
-
-  const tab = ref(null);
+  import {
+    product
+  } from '~/graphql/commerce/queries/id/product'
+  /*  import {
+    addToCart
+  } from '~/utils/addToCart'
+  import {
+    buyNow
+  } from '~/utils/buyNow'
+  import {
+    addToList
+  } from '~/utils/addToList'
+  import {
+    bookmark
+  } from '~/utils/bookmark' */
+  import disqus from '~/components/partials/disqus.vue'
+  import productSpecs from '~/components/commerce/commerce/product/productSpecs.vue'
+  import productReviews from '~/components/commerce/commerce/product/productReviews.vue'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import productCompare from '~/components/commerce/commerce/product/productCompare.vue'
+  import addtolist from '~/components/commerce/partials/addtolist.vue'
+  //import product from '~/graphql/commerce/queries/id/product.js'
+  const tab = ref(null);  
+  const model = ref(null);
   const route = useRoute();
-
-  const product = ref(null);
-
-  const productId = route.params.sku
-
-  onMounted(async () => {
-    product.value = await getProductById(productId);
+  const { result, loading, error } = useQuery(product, {
+    sku: route.params.sku
   });
 
+   const inputId = useId();
+   const min = ref(1);
+   const max = ref(999);
+   const { count, inc, dec, set } = useCounter(1, { min: min.value, max: max.value });
+   function handleOnChange(event: Event) {
+     const currentValue = (event.target as HTMLInputElement)?.value;
+     const nextValue = parseFloat(currentValue);
+     set(clamp(nextValue, min.value, max.value));
+   }
+
+   watch(() => result.value, (newResult) => {
+    if (newResult?.products?.items?.length > 0) {
+      console.log('Product Data:', newResult.products.items[0]);
+    } else {
+      console.error('No product data found for SKU:', route.params.sku);
+    }
+  }, { immediate: true });
+
+
+  console.log('Route SKU:', route.params.sku);
+
+  /* const route = useRoute();
+
+   const product = ref(null);
+
+   const productId = route.params.sku
+
+   onMounted(async () => {
+     product.value = await getProductById(productId);
+   }); */
+
   useHead({
-    title: product?.value?.name,
+    title: result?.products?.items[0]?.name,
   })
 </script>

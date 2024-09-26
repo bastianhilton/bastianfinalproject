@@ -29,4 +29,4 @@ const deals = gql`
   }
  }`
 
-export default deals;
+export { deals };

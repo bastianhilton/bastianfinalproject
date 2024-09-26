@@ -758,6 +758,12 @@ body {
 
 /*************** Search *****************/
 
+.reviewBox {
+    margin-bottom: 10px;
+}
+
+/*************** Search *****************/
+
 #search {
     max-width: 40%;
     min-width: 20%;
