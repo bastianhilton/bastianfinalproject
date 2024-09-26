@@ -42,7 +42,7 @@
     import dashboard from '~/components/commerce/pages/promotions/dashboard.vue'
     import coupons from '~/components/commerce/pages/promotions/coupons.vue'
     import giftcards from '~/components/commerce/pages/promotions/giftcards.vue'
-    import { deals } from '~/components/commerce/pages/promotions/deals.vue'
+    import deals from '~/components/commerce/pages/promotions/deals.vue'
     import subscriptions from '~/components/commerce/pages/promotions/subscriptions.vue'
     //import creditmemos from '~/components/commerce/pages/promotions/creditmemos.vue'
 
