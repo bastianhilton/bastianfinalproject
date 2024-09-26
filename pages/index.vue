@@ -39,7 +39,7 @@
     import relatedspaces from '~/components/cms/related/relatedspaces.vue'
     import bestsellers from '~/components/commerce/related/bestsellers.vue'
     import exclusives from '~/components/commerce/related/exclusives.vue'
-    import deals from '~/components/commerce/related/deals.vue'
+    import { deals } from '~/components/commerce/related/deals.vue'
     import recentlyviewed from '~/components/commerce/related/recentlyviewed.vue'
     //import relatedcreators from '~/components/related/relatedcreators.vue'
     //import yardsale from '~/components/pages/homepage/yardsale.vue'

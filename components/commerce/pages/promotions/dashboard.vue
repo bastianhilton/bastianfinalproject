@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="contentPage" v-for="cmspage in data?.pages?.nodes" :key="cmspage">
+        <div class="contentPage" v-for="cmspage in result?.pages?.nodes" :key="cmspage">
             <div v-html="cmspage.content"></div>
             <productCard />
         </div>
@@ -9,8 +9,11 @@
 </template>
 
 <script setup>
-import productCard from '~/components/commerce/commerce/product/productCard.vue'
-  import deals from '~/graphql/commerce/queries/deals'
+  import {
+        useQuery
+    } from '@vue/apollo-composable'
+  import productCard from '~/components/commerce/commerce/product/productCard.vue'
+  import {deals} from '~/graphql/commerce/queries/deals'
 
     useHead({
         title: 'Promotions Dashboard',
@@ -19,8 +22,8 @@ import productCard from '~/components/commerce/commerce/product/productCard.vue'
 const model = ref(null);
 
 const {
-  data
-} = useAsyncQuery(deals);
+  result
+} = useQuery(deals);
 
 definePageMeta({
     //middleware: ['auth'],

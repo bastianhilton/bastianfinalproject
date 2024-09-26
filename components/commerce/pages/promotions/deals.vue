@@ -1,28 +1,31 @@
 <template>
-    <div>
-        <div class="contentPage" v-for="cmspage in data?.pages?.nodes" :key="cmspage">
-            <div v-html="cmspage.content"></div>
-            <productCard />
-        </div>
-        <!---->
-    </div>
+  <div>
+      <div class="contentPage" v-for="cmspage in result?.pages?.nodes" :key="cmspage">
+          <div v-html="cmspage.content"></div>
+          <productCard />
+      </div>
+      <!---->
+  </div>
 </template>
 
 <script setup>
+import {
+      useQuery
+  } from '@vue/apollo-composable'
 import productCard from '~/components/commerce/commerce/product/productCard.vue'
-  import deals from '~/graphql/commerce/queries/deals'
+import {deals} from '~/graphql/commerce/queries/deals'
 
-    useHead({
-        title: 'Deals',
-    })
+  useHead({
+      title: 'Deals',
+  })
 
 const model = ref(null);
 
 const {
-  data
-} = useAsyncQuery(deals);
+result
+} = useQuery(deals);
 
 definePageMeta({
-    //middleware: ['auth'],
-  })
+  //middleware: ['auth'],
+})
 </script>

@@ -10,7 +10,7 @@
 
 <script setup>
 import productCard from '~/components/commerce/commerce/product/productCard.vue'
-  //import deals from '~/graphql/commerce/queries/deals'
+  //import { deals } from '~/graphql/commerce/queries/deals'
 
     useHead({
         title: 'Orders Dashboard',
