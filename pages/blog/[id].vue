@@ -58,16 +58,6 @@ const {
         }
     });
 
-/*    const {
-        getItemById
-    } = useDirectusItems()
-    const route = useRoute();
-
-    const article = await getItemById({
-        collection: "articles",
-        id: route.params.id
-    }); */
-
     useHead({
         title: route?.params?.title,
     })

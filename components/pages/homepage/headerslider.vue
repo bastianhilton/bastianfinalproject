@@ -20,43 +20,5 @@
     onMounted(async () => {
         block.value = await getBlockById(31);
     });
-/*//import { cmsBlocks } from '~/graphql/commerce/queries/blocks/homepagesliderBlock';
 
-const { data } = useAsyncQuery(cmsBlocks);
-  const {
-    $directus,
-    $readItem,
-    $readSingleton
-  } = useNuxtApp()
-  const route = useRoute()
-
-  const {
-    data: homepage
-  } = await useAsyncData('homepage', () => {
-    return $directus.request($readItem('pages', '28'))
-  })
-
-const query = gql`
-query {
-    pages (search: "homepage slider") {
-      id
-      status
-      sort
-      name
-      content
-      link
-      image {
-        filename_disk
-      }
-      list
-      type
-      date_created
-    }
-  }
-`
-const { data } = await useAsyncQuery(query)
-
-const { getItems } = useDirectusItems()
-
-const pages = await getItems({ collection: "pages", params: {filter: {name: {_eq: "Homepage Slider"}} }}); */
 </script>

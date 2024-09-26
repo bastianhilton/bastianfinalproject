@@ -42,45 +42,5 @@
 </script>
 
 <script setup>
-/*const query = gql`
-query NewQuery {
-  posts {
-    nodes {
-      author {
-        node {
-          username
-        }
-      }
-      content
-      date
-      excerpt
-      id
-      title
-      slug
-      featuredImage {
-        node {
-          sourceUrl
-        }
-      }
-    }
-  }
-}
-`
 
-  const {
-    data
-  } = useAsyncQuery(query);
-
-const {
-  getItems
-} = useDirectusItems()
-
-const articles = await getItems({
-  collection: "articles",
-  filter: {
-    type: {
-      _eq: "Blog"
-    }
-  }
-}); */
 </script>

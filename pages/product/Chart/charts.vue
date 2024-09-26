@@ -52,14 +52,6 @@
     }
   })
 
-/*const {
-        getItems
-    } = useDirectusItems()
-
-    const charts = await getItems({
-        collection: "musicchart"
-    });*/
-
   useHead({
     title: 'Meeovi Charts',
   })

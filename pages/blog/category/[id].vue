@@ -54,17 +54,6 @@
         }
     });
 
-/*    const {
-        getItemById
-    } = useDirectusItems()
-
-    const route = useRoute();
-
-    const tags = await getItemById({
-        collection: "tags",
-        id: route.params.id
-    }); */
-
     useHead({
         title: result?.category?.name,
     })

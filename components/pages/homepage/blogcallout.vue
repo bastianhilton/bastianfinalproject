@@ -1,64 +1,37 @@
 <template>
-    <div>
-        <section data-bs-version="5.1" class="info3 cid-skeBLZoXmf" id="info3-7" v-for="callout in pages" :key="callout">
-            <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(68, 121, 217);">
+  <div>
+    <section data-bs-version="5.1" class="info3 cid-skeBLZoXmf" id="info3-7">
+
+
+
+      <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(68, 121, 217);">
+      </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="card col-12 col-lg-10">
+            <div class="card-wrapper">
+              <div class="card-box align-center">
+                <h4 class="card-title mbr-fonts-style align-center mb-4 display-1">
+                  <strong>Check out our Blog</strong></h4>
+                <p class="mbr-text mbr-fonts-style mb-4 display-7">Our blog follows our adventure as a growing
+                  marketplace. But we don’t want to be the only ones telling a story so we opened our blog to posts by
+                  users and sellers alike sharing their stories and latest news about their products.&nbsp;<br></p>
+                <div class="mbr-section-btn mt-3"><a class="btn btn-warning display-4" href="/blog">Our Blog</a></div>
+              </div>
             </div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="card col-12 col-lg-10">
-                        <div class="card-wrapper">
-                            <div class="card-box align-center">
-                                <h4 class="card-title mbr-fonts-style align-center mb-4 display-1">
-                                    <strong>{{ callout?.title }}</strong></h4>
-                                <h4 class="mbr-text mbr-fonts-style mb-4 display-4" v-html="callout?.content"></h4>
-                                <div class="mbr-section-btn mt-3"><a class="btn btn-warning display-4" :href="`/blog`">Read on</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-    export default {
+  export default {
 
-    }
+  }
 </script>
 
 <script setup>
-  const {
-    $directus,
-    $readItem,
-    $readSingleton
-  } = useNuxtApp()
-  const route = useRoute()
 
-  const {
-    pages
-  } = await useAsyncData('Blog', () => {
-    return $directus.request($readSingleton('pages'))
-  })
-
-/*const query = gql`
-query NewQuery {
-  pages(where: {name: "Blog Callout"}) {
-    nodes {
-      id
-      title
-      content
-    }
-  }
-}
-`
-
-  const {
-    data
-  } = useAsyncQuery(query);
-
-  const { getItems } = useDirectusItems()
-
-  //const products = await getItems({ collection: "products"});
-  const categories = await getItems({ collection: "categories", params: {filter: {name: {_eq: "Notes"}}} });*/
 </script>

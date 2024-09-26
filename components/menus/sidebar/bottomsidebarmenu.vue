@@ -17,17 +17,4 @@ const { result } = useQuery(bottomsidebarmenu, null, {
     clientName: 'secondary' // This will use the secondary endpoint
   }
 })
-/* const {
-      data
-  } = useAsyncQuery(bottomsidebarmenu);
-  const {
-    $directus,
-    $readItem
-  } = useNuxtApp()
-
-  const {
-    data: bottomnav
-  } = await useAsyncData('bottomnav', () => {
-    return $directus.request($readItem('navigation', '6'))
-  })*/
 </script>

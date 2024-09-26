@@ -99,25 +99,6 @@
     shop.value = await useShopById(id);
   });
 
-  /*const {
-      getItemById
-    } = useDirectusItems()
-    const route = useRoute();
-
-    const meeovistores = await getItemById({
-      collection: "meeovistores",
-      id: route.params.id,
-      filter: {
-        products: {
-          products_id: {
-            visibility: {
-              _eq: true,
-            }
-          }
-        }
-      }
-    });*/
-
   definePageMeta({
     layout: 'nolive',
   });

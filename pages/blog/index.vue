@@ -48,20 +48,7 @@ const {
     }
   })
 
-/*const {
-    getItems
-  } = useDirectusItems()
-
-  const articles = await getItems({
-    collection: "articles",
-    filter: {
-      type: {
-        _eq: "Blog"
-      }
-    }
-  }); */
-
     useHead({
         title: 'Blog',
     })
-</script>~/graphql/cms/queries/posts
+</script>

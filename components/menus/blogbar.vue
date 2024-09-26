@@ -34,39 +34,11 @@
 <script setup>
    import {
         ref
-    } from 'vue'
-    //import blogbar from '~/graphql/cms/queries/menus/blogbar'
-  
+    } from 'vue'  
 
 const {
     data
 } = useAsyncQuery(blogbar);/**/
 
 const tab = ref(null);
-
-/*  const {
-    getItems
-  } = useDirectusItems()
-
-  const {
-    getItemById
-  } = useDirectusItems()
-
-  const page = await getItemById({
-    collection: "pages",
-    id: 29
-  });
-
-  const tags = await getItems({
-    collection: "tags",
-    filter: {
-      categories: {
-        categories_id: {
-          name: {
-            _eq: "Notes"
-          }
-        }
-      }
-    }
-  }); */
-</script>~/graphql/cms/queries/menus/blogbar
+</script>

@@ -17,19 +17,6 @@
         id: route.params.id
     });
 
-/*const {
-       getItems
-   } = useDirectusItems()
-
-   const page = await getItems({
-       collection: "pages",
-       filter: {
-        slug: {
-          _eq: route.params.slug
-        }
-       }
-   });*/
-
 useHead({
     title: page?.name,
     })

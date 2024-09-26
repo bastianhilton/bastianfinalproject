@@ -69,23 +69,6 @@
     console.error('GraphQL Error:', errorData);
   }
 
-  /*  const {
-    getItemById, getItems
-  } = useDirectusItems()
-  const route = useRoute();
-
-  const department = await getItemById({
-    collection: "departments",
-    id: route.params.id,
-    filter: {
-      categories: {
-        categories_id: {
-          _eq: route.params.id
-        }
-      }
-    }
-  });
-*/
   useHead({
     title: result?.categories?.items?.name
   });

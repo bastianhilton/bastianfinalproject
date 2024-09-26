@@ -136,17 +136,6 @@ const location = ref('bottom');
 const loaded = ref(false);
 const loading = ref(false);
 
-//const {  logout  } = useAuth()
-
-  /*const {
-          getItems
-      } = useDirectusItems()
-
-      const { getSingletonItem } = useDirectusItems();
-
-      const siteoverview = await getSingletonItem({
-          collection: "siteoverview"
-      });*/
 
   const theme = ref('light')
 

@@ -90,24 +90,4 @@
     onMounted(async () => {
         category.value = await getCategoryById(67);
     });
-/*  const query = gql `
-query {
-  categories (filters: {name: {match: "Yardsale"}}) {
-    items {
-      uid
-      name
-      image
-      description
-    }
-  }
-}
-`
-
-  const {
-    data
-  } = useAsyncQuery(query);
-  const { getItems } = useDirectusItems()
-
-  //const products = await getItems({ collection: "products"});
-  const departments = await getItems({ collection: "departments", params: {filter: {name: {_eq: "Yardsale"}}} });*/
 </script>

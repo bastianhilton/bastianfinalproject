@@ -122,16 +122,7 @@ query NewQuery ($id: ID!) {
   const {
     data
   } = useQuery(query, { id: route.params.id });
-
-/*import { createDirectus, rest, readItem } from '@directus/sdk';
-const route = useRoute()
-
-const client = createDirectus(process.env.DIRECTUS_URL).with(rest());
-
-const short = await client.request(readItem('shorts', route.params.id, {
-  fields: ['*'],
-}));*/
-
+  
   useHead({
     title: shorts?.name,
   })

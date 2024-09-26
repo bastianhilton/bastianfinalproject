@@ -31,25 +31,5 @@
 
   onMounted(async () => {
      activities.value = await getActivity(); // Fetch activity data on component mount
-   }); 
- /*  import notifications from '~/graphql/cms/queries/notifications'
-
-  const { data } = await useAsyncQuery(notifications);*/
-
-  /*   const {
-       getItems
-     } = useDirectusItems()
-
-     const notifications = await getItems({
-       collection: "notifications",
-     });
-
-     const navigation = await getItems({
-       collection: "navigation",
-       filter: {
-         type: {
-           _eq: "All Notifications"
-         }
-       }
-     });*/
+   });
 </script>

@@ -110,24 +110,6 @@
     console.error('GraphQL Error:', errorData || errorBest || errorLatest);
   }
 
-  /*  const {
-    getItemById, getItems
-  } = useDirectusItems()
-  const route = useRoute();
-
-  const department = await getItemById({
-    collection: "departments",
-    id: route.params.id,
-    filter: {
-      categories: {
-        categories_id: {
-          _eq: route.params.id
-        }
-      }
-    }
-  });
-*/
-
 definePageMeta({
     layout: 'nolive',
   });

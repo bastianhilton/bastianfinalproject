@@ -123,10 +123,4 @@ query {
   const {
     data
   } = await useAsyncQuery(query)
-
-  /*
-  const { getItems } = useDirectusItems()
-
-  const products = await getItems({ collection: "products"});
-  const departments = await getItems({ collection: "departments", params: {filter: {name: {_eq: "Yardsale"}}}, limit: 6 });*/
 </script>

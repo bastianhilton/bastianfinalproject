@@ -84,22 +84,4 @@
     const sound = ref(true);
     const widgets = ref(false)
     const route = useRoute();
-
-    const {
-    $directus,
-    $readItem,
-    $readSingleton
-  } = useNuxtApp()
-
-  const {
-    videos
-  } = await useAsyncData('videos', () => {
-    return $directus.request($readSingleton('videos'))
-  })
-
-  const {
-    videoId
-  } = await useAsyncData('videoId', () => {
-    return $directus.request($readSingleton('videos', route.params.id ))
-  })
 </script>

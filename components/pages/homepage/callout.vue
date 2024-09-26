@@ -58,55 +58,6 @@
   </div>
 </template>
 
-<script>
-  export default {
-    data: () => ({
-      url: process.env.DIRECTUS_URL,
-    }),
-  }
-</script>
-
 <script setup>
-/*const query = gql`
-query MyQuery {
-  products(filter: {price: {from: "0"}}) {
-    items {
-      categories {
-        name
-        image
-      }
-      format
-      id
-      is_featured
-      name
-      only_x_left_in_stock
-      price {
-        regularPrice {
-          amount {
-            currency
-            value
-          }
-        }
-      }
-      sale
-      sku
-      image {
-        url
-      }
-      manufacturer
-      special_price
-      size
-    }
-  }
-}
-`
-  const {
-    data
-  } = await useAsyncQuery(query)
 
-  
-  const { getItems } = useDirectusItems()
-
-  const products = await getItems({ collection: "products"});
-  const departments = await getItems({ collection: "departments", params: {filter: {name: {_eq: "Yardsale"}}}, limit: 6 });*/
 </script>

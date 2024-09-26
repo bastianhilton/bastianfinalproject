@@ -44,25 +44,4 @@ import categoryTheater from '~/graphql/commerce/queries/theater.js'
   const {
     result
   } = useQuery(categoryTheater);
-/*import { ref, onMounted } from 'vue';
-import { getCategoryById } from '@/composables/commerce/categories/getCategories.js';
-
-const category = ref({});
-const description = ref('');
-const image = ref('');
-
-const findCustomAttribute = (attributes, code) => {
-  return attributes.find(attr => attr.attribute_code === code)?.value || '';
-};
-
-onMounted(async () => {
-  // Fetch the category data by ID
-  category.value = await getCategoryById(44);
-  
-  // Access custom attributes like description and image
-  if (category.value?.custom_attributes) {
-    description.value = findCustomAttribute(category.value.custom_attributes, 'description');
-    image.value = findCustomAttribute(category.value.custom_attributes, 'image');
-  }
-});*/
 </script>

@@ -23,19 +23,4 @@ const { result } = useQuery(profilebar, null, {
     clientName: 'secondary' // This will use the secondary endpoint
   }
 })
-
- /* import profilebar from '~/graphql/cms/queries/menus/profilebar'
-
-const {
-    data
-} = useAsyncQuery(profilebar);*/
-
-  /* const {
-     getItemById
-   } = useDirectusItems()
-
-   const nav = await getItemById({
-     collection: "navigation",
-     id: 1
-   });*/
 </script>

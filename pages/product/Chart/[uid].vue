@@ -84,16 +84,6 @@
         id: route.params.id // Pass variables inside the 'variables' object
     });
 
-/*const {
-    getItemById
-  } = useDirectusItems()
-  const route = useRoute();
-
-  const chart = await getItemById({
-    collection: "musicchart",
-    id: route.params.id,
-  }); */
-
   useHead({
     title: result?.chart?.name,
   })

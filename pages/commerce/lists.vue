@@ -48,13 +48,6 @@
         data
     } = useQuery(wishlists); /**/
 
-    /*const {
-        getItems
-      } = useDirectusItems()
-
-      const lists = await getItems({
-        collection: "lists",
-      }); */
 
     useHead({
         title: 'Meeovi Lists',

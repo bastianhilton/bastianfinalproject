@@ -53,12 +53,6 @@
     result
   } = useQuery(showcases);
 
-  /*const { getItems } = useDirectusItems()
-
-      const showcases = await getItems({
-        collection: "showcases"
-      });*/
-
   useHead({
     title: 'Showcases',
   })

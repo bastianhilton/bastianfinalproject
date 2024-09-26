@@ -1,6 +1,6 @@
 <template>
     <div>
-       <!-- <section data-bs-version="5.1" class="content2 cid-skeBU2vAkT" id="content2-8">
+       <section data-bs-version="5.1" class="content2 cid-skeBU2vAkT" id="content2-8">
             <div class="container-fluid">
                 <div class="mbr-section-head">
                     <h4 class="mbr-section-title mbr-fonts-style align-left mb-0 display-2" style="color: rgb(var(--v-theme-primary))!important;">
@@ -62,10 +62,10 @@
 
                 </div>
             </div>
-        </section>-->
-        <div v-for="page in ataglance" :key="page">
+        </section>
+       <!--  <div v-for="page in ataglance" :key="page">
           <div v-html="page?.content"></div>  
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -76,39 +76,5 @@
 </script>
 
 <script setup>
-  const {
-    $directus,
-    $readItem
-  } = useNuxtApp()
-  const route = useRoute()
 
-  const {
-    data: ataglance
-  } = await useAsyncData('ataglance', () => {
-    return $directus.request($readItem('pages', '31'))
-  })
-/*const query = gql`
-query NewQuery {
-  pages(where: {name: "At A Glance"}) {
-    nodes {
-      id
-      title
-      content
-    }
-  }
-}
-`
-
-  const {
-    data
-  } = useAsyncQuery(query);
-
-    const {
-        getItemById
-    } = useDirectusItems()
-
-    const page = await getItemById({
-        collection: "pages",
-        id: 31
-    });*/
 </script>

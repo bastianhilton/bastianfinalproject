@@ -80,15 +80,6 @@
     } = useQuery(lists, {
         id: route.params.id // Pass variables inside the 'variables' object
     });
-  /* const {
-       getItemById
-   } = useDirectusItems()
-   const route = useRoute();
-
-   const list = await getItemById({
-       collection: "lists",
-       id: route.params.id,
-   });*/
 
   useHead({
     title: result?.lists?.title,

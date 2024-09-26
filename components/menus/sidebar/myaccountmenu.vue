@@ -31,17 +31,4 @@
       clientName: 'secondary' // This will use the secondary endpoint
     }
   })
-  /* const {
-       data
-   } = useAsyncQuery(bottomsidebarmenu);
-   const {
-     $directus,
-     $readItem
-   } = useNuxtApp()
-
-   const {
-     data: account
-   } = await useAsyncData('account', () => {
-     return $directus.request($readItem('navigation', '2'))
-   })*/
 </script>
