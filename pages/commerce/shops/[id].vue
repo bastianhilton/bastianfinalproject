@@ -34,30 +34,8 @@
     </div>
 </template>
 
-<script>
-    //import videobar from '~/components/menus/videobar.vue'
-
-    export default {
-        components: {
-          //videobar,
-        },
-        data() {
-            return {
-                url: process.env.DIRECTUS_URL,
-            }
-        },
-    }
-</script>
-
 <script setup>
-import { createDirectus, rest, readItems, readItem } from '@directus/sdk';
-const route = useRoute()
 
-const client = createDirectus(process.env.DIRECTUS_URL).with(rest());
-
-const shop = await client.request(readItem('shops', route.params.id, {
-  fields: ['*'],
-}));
 
   definePageMeta({
     layout: 'nolive',

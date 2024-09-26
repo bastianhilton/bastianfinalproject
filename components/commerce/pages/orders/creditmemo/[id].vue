@@ -296,13 +296,7 @@
     onMounted(async () => {
         memo.value = await getCreditMemoById();
     });
-    /*  const {
-        getItems
-      } = useDirectusItems()
 
-      const coupons = await getItems({
-        collection: "coupons",
-      });*/
 
     useHead({
         title: 'Credit Memos',

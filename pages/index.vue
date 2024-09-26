@@ -10,7 +10,7 @@
         <theatercallout />
         <featuredproducts />
         
-        <div v-for="spaces in spaces" :key="spaces"><relatedspaces :spaces="spaces" /></div>
+        <relatedspaces />
         
         <bestsellers />
         <recentlyviewed />
@@ -44,18 +44,6 @@
     //import relatedcreators from '~/components/related/relatedcreators.vue'
     //import yardsale from '~/components/pages/homepage/yardsale.vue'
     import blogcallout from '~/components/pages/homepage/blogcallout.vue'
-
-    const {
-    $directus,
-    $readItems,
-  } = useNuxtApp()
-  const route = useRoute()
-
-  const {
-    spaces
-  } = await useAsyncData('spaces', () => {
-    return $directus.request($readItems('Space'))
-  })
 
     useHead({
         title: 'Meeovi',

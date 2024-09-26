@@ -100,8 +100,5 @@
 </script>
 
 <script setup>
-  const { getItems } = useDirectusItems()
 
-  //const products = await getItems({ collection: "products"});
-  const meeovistores = await getItems({ collection: "meeovistores", params: {filter: {name: {_eq: "Pixanomy"}}}});/**/
 </script>

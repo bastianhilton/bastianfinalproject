@@ -55,13 +55,4 @@ import { SfRating, SfCounter, SfLink, SfButton, SfIconShoppingCart, SfIconFavori
   const {
     product
   } = props;
-
-  /*  const {
-      getItems
-    } = useDirectusItems()
-    const route = useRoute();
-
-    const products = await getItems({
-      collection: "products",
-    }); */
 </script>

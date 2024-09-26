@@ -83,41 +83,4 @@ const { result: copyright } = useQuery(copyrightQuery, null, {
     clientName: 'secondary' // This will use the secondary endpoint
   }
 })
-
- /* const {
-    $directus,
-    $readItem,
-    $readSingleton
-  } = useNuxtApp()
-  const route = useRoute()
-
-  const {
-    siteoverview
-  } = await useAsyncData('siteoverview', () => {
-    return $directus.request($readSingleton('siteoverview'))
-  })
-
-  const {
-    data: about
-  } = await useAsyncData('about', () => {
-    return $directus.request($readItem('navigation', '7'))
-  })
-
-  const {
-    data: legal
-  } = await useAsyncData('legal', () => {
-    return $directus.request($readItem('navigation', '8'))
-  })
-
-  const {
-    data: company
-  } = await useAsyncData('company', () => {
-    return $directus.request($readItem('navigation', '9'))
-  })
-
-  const {
-    data: copyright
-  } = await useAsyncData('copyright', () => {
-    return $directus.request($readItem('navigation', '10'))
-  })*/
 </script>

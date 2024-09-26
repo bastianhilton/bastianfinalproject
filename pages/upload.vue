@@ -1,10 +1,8 @@
 <template>
     <div class="contentPage">
         <v-row>
-            <v-col cols="12">
-                <p class="uploadHeader">{{ page.name }}</p>
-
-                <p class="uploadDescription" v-html="page.content"></p>
+            <v-col cols="12" v-for="page in result?.cmsPage" :key="page">
+                <p class="uploadHeader" v-html="page.content"></p>
             </v-col>
 
             <v-col cols="12">
@@ -36,26 +34,17 @@
     </div>
 </template>
 
-<script>
-    export default {
-        components: {
-            createproduct,
-            createlist,
-            bookmarkvideo
-        },
-        data: () => ({
-            tab: null,
-        }),
-    }
-</script>
-
 <script setup>
     import {
         ref
     } from 'vue'
+    import {
+    useQuery
+  } from '@vue/apollo-composable'
     import createproduct from '~/components/commerce/create/createproduct.vue'
     import createlist from '~/components/commerce/create/createlist.vue'
     import bookmarkvideo from '~/components/cms/create/social/bookmarkvideo.vue'
+    import { uploadPage } from '~/graphql/commerce/queries/pages/upload'
 
     useHead({
         title: 'Upload Center',
@@ -64,15 +53,8 @@
     const tab = ref(null)
 
     const {
-    $directus,
-    $readItem,
-  } = useNuxtApp()
-
-    const {
-        data: page
-    } = await useAsyncData('page', () => {
-        return $directus.request($readItem('pages', '20'))
-    })
+    result
+  } = useQuery(uploadPage)
 
     definePageMeta({
         middleware: ['auth'],

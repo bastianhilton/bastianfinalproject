@@ -42,44 +42,22 @@
     </div>
 </template>
 
-<script>
-    import profilebar from '~/components/menus/profilebar.vue'
-
-    export default {
-        components: {
-            profilebar
-        },
-        data: () => ({
-            model: null,
-            //url: process.env.DIRECTUS_URL,
-        }),
-        setup() {
-            return {}
-        },
-    }
-</script>
-
 <script setup>
     import {
         ref,
         onMounted
     } from 'vue';
+    import profilebar from '~/components/menus/profilebar.vue'
     import {
         getInvoices
     } from '~/composables/commerce/sales/getInvoices';
 
+    const model = ref(null)
     const invoices = ref([]);
 
     onMounted(async () => {
         invoices.value = await getInvoices();
     });
-    /*  const {
-        getItems
-      } = useDirectusItems()
-
-      const coupons = await getItems({
-        collection: "coupons",
-      });*/
 
     useHead({
         title: 'Invoices',

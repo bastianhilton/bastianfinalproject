@@ -52,16 +52,4 @@
 <script setup>
   import disqus from '~/components/partials/disqus.vue'
 
- /* const {
-    getItems
-  } = useDirectusItems()
-
-  const comments = await getItems({
-    collection: "comments",
-    filter: {
-      type: {
-        _eq: "Blog"
-      }
-    }
-  });*/
 </script>

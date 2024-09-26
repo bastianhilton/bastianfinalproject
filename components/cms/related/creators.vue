@@ -54,31 +54,4 @@
     const {
         customers
     } = props;
-
-    /* import query from '~/apollo/Custom/Queries/relatedcreators'
-
-  const {
-    data
-  } = useAsyncQuery(query)
-    //const { data } = await useAsyncQuery(customers)
-
-    const {
-        getItems
-    } = useDirectusItems()
-
-    const customers = await getItems({
-        collection: "customers",
-        limit: 6,
-        params: {
-            filter: {
-                tags: {
-                    tags_id: {
-                        name: {
-                            _eq: "Seller"
-                        }
-                    }
-                }
-            }
-        }
-    });*/
 </script>
