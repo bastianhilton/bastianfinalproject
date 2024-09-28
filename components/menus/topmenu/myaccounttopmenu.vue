@@ -32,9 +32,8 @@
           </v-col>
 
           <v-col cols="12">
-            <!--<v-list-item prepend-icon="fas fa-clock-rotate-left" :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }}</v-list-item>-->
-            <v-list-item @click="logout" prepend-icon="fas fa-clock-rotate-left" title="Logoff" href="/logoff">
-            </v-list-item>
+            <v-list-item prepend-icon="fas fa-clock-rotate-left" :href="`/sign-${ user ? 'out' : 'in' }`"> Sign {{ user ? 'out' : 'in' }}</v-list-item><!--
+            <logout />-->
           </v-col>
         </v-row>
       </v-list>
@@ -44,6 +43,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import logout from '~/components/authentication/logout.vue'
 import { useQuery } from '@vue/apollo-composable'
 import { AccountCommerce, AccountSocial } from '~/graphql/cms/queries/menus/myaccounttopmenu'
 

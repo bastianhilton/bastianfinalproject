@@ -28,7 +28,7 @@
   const {
     result
     } = useQuery(featuredproducts)
-
+  const model = ref(null);
 /*  import {
         getFeaturedProducts
     } from '@/composables/commerce/products/getFeaturedProducts.js';
@@ -42,7 +42,7 @@
   import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import featuredproducts from '~/graphql/commerce/queries/featuredproducts'
 
-  const model = ref(null);
+  
 
   const {
     data

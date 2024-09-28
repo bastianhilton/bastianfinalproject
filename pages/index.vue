@@ -1,6 +1,6 @@
 <template>
    <div class="contentPage">
-        <headerslider />
+        <intro />
         <ataglance />
         <exclusives />
         <bookcallout />
@@ -16,7 +16,7 @@
         <recentlyviewed />
         <blogcallout />
       <!--  <latestproducts />
-        <intro />
+        <headerslider />
         <pixanomycallout />
         <yardsale />
         <relatedcreators />
@@ -25,9 +25,9 @@
 </template>
 
 <script setup>
-    import headerslider from '~/components/pages/homepage/headerslider.vue'
+    //import headerslider from '~/components/pages/homepage/headerslider.vue'
     //import latestproducts from '~/components/builderio/latestproducts.vue'
-    //import intro from '~/components/pages/homepage/intro.vue'
+    import intro from '~/components/pages/homepage/intro.vue'
     //import pixanomycallout from '~/components/pages/homepage/pixanomycallout.vue'
     import bookcallout from '~/components/pages/homepage/bookcallout.vue'
     import musiccallout from '~/components/pages/homepage/musiccallout.vue'

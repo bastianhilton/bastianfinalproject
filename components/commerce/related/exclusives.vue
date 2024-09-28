@@ -25,6 +25,7 @@
     } from '@vue/apollo-composable'
   import exclusives from '~/graphql/commerce/queries/exclusives'
 
+  const model = ref(null);  
   const {
     result
     } = useQuery(exclusives)
@@ -41,7 +42,7 @@
  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import exclusives from '~/graphql/commerce/queries/exclusives'
 
-  const model = ref(null);
+  
 
   const {
     data

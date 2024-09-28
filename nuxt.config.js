@@ -54,29 +54,14 @@ export default defineNuxtConfig({
     'assets/theme/css/style.css',
     'assets/gallery/style.css',
     'assets/mobirise/css/mbr-additional.css',
-    'assets/css/base.css',
-    'assets/css/button.css',
-    'assets/css/input.css',
-    'assets/css/search.css',
-    'assets/css/shadow.css',
-    'assets/css/spacing.css',
-    'assets/css/typography.css',
-    'assets/css/utilities.css',
-    'assets/css/components/home.css',
-    'assets/css/components/rating-filter.css',
-    'assets/css/components/results-grid.css',
     'vuetify/lib/styles/main.sass',
     //'@mdi/font/css/materialdesignicons.min.css',
     '@fortawesome/fontawesome-svg-core/styles.css',
     'assets/styles/mobile.css',
     'assets/styles/styles.css',
-    'assets/styles/App.css',
-    'assets/styles/App.mobile.css',
-    'assets/styles/Theme.css',
     'assets/styles/sellerDashboard.css',
     'assets/styles/PriceSlider.css',
     'assets/styles/searchTheme.css',
-    'vuetify/styles',
   ],
 
   modules: [
@@ -85,6 +70,7 @@ export default defineNuxtConfig({
     "nuxt-disqus",
     '@pinia/nuxt',
     "@storefront-ui/nuxt",
+    //'@logto/nuxt',
     //"@prisma/nuxt",
     '@nuxtjs/seo',
     (_options, nuxt) => {
@@ -153,10 +139,22 @@ export default defineNuxtConfig({
       // environment variable.
       secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY,
     },
+    /*logto: {
+      endpoint: process.env.NUXT_LOGTO_ENDPOINT,
+      appId: process.env.NUXT_LOGTO_APP_ID,
+      appSecret: process.env.NUXT_LOGTO_APP_SECRET,
+      cookieEncryptionKey: process.env.NUXT_LOGTO_COOKIE_ENCRYPTION_KEY,
+      customRedirectBaseUrl: process.env.NUXT_LOGTO_REDIRECT_URL
+    },*/
     public: {
       // Hasura
       websiteURL: process.env.GRAPHQL_HOST,
       websiteToken: process.env.GRAPHQL_TOKEN,
+
+      //WorkOS
+      workosApiKey: process.env.WORKOS_API_KEY,
+      workosClientId: process.env.WORKOS_CLIENT_ID,
+      workosRedirectUri: process.env.WORKOS_REDIRECT_URI,
 
       //websiteURL: process.env.GQL_HOST,
       //websiteToken: process.env.WEBSITE_TOKEN,

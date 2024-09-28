@@ -25,6 +25,7 @@
     } from '@vue/apollo-composable'
   import products from '~/graphql/commerce/queries/products'
 
+  const model = ref(null);
   const {
     result
     } = useQuery(products)

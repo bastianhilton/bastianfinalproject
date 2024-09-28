@@ -36,14 +36,15 @@
 
     // Pass the specific products name you want to fetch
     const products = ref([]); 
-
+    const model = ref(null);
+    
     onMounted(async () => {
         products.value = await useProductsByCategory(73);
     });
 /*  import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import charts from '~/graphql/commerce/queries/charts'
 
-  const model = ref(null);
+
 
   const {
     data

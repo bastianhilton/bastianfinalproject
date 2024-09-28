@@ -28,7 +28,7 @@
   const {
     result
     } = useQuery(bestsellers)
-    
+    const model = ref(null);
 /*  import {
         getProducts
     } from '@/composables/commerce/products/products.js';
@@ -42,7 +42,7 @@
 
   //
 
-  const model = ref(null);
+  
 
     const {
       data

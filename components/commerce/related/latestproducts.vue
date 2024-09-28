@@ -24,6 +24,8 @@
     useQuery
     } from '@vue/apollo-composable'
   import latestproducts from '~/graphql/commerce/queries/latestproducts'
+  
+  const model = ref(null);
 
   const {
     result
@@ -41,7 +43,7 @@
   import productCard from '~/components/commerce/commerce/product/productCard.vue'
   //import latestproducts from '~/graphql/commerce/queries/latestproducts'
 
-  const model = ref(null);
+
 
   const {
     data

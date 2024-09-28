@@ -25,6 +25,7 @@
   
 
     const tab = ref(null);
+    const model = ref(null);
    /* const groups = ref([]); 
 
     onMounted(async () => {
